@@ -13,7 +13,7 @@ Os componentes são os mesmos em todo lugar. O que muda de uma marca para outra 
 ## Como usar
 
 ```bash
-npm install "git+ssh://git@github.com/<org>/ark-design-system.git#v0.1.0"
+npm install "git+ssh://git@github.com/<org>/ark-design-system.git#v0.2.0"
 ```
 
 Na raiz do app, uma vez:
