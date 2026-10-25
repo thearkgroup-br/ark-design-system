@@ -66,6 +66,8 @@ export { ProfessionalRow } from './components/ProfessionalRow';
 export type { ProfessionalRowProps } from './components/ProfessionalRow';
 export { EstablishmentCard } from './components/EstablishmentCard';
 export type { EstablishmentCardProps } from './components/EstablishmentCard';
+export { Table } from './components/Table';
+export type { TableColumn, TableProps } from './components/Table';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';
