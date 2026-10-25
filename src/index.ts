@@ -8,6 +8,8 @@ export { ThemeToggle } from './components/ThemeToggle';
 export type { ThemeToggleProps } from './components/ThemeToggle';
 export { SearchField } from './components/SearchField';
 export type { SearchFieldProps } from './components/SearchField';
+export { Select } from './components/Select';
+export type { SelectOption, SelectProps } from './components/Select';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';
