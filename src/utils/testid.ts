@@ -1,7 +1,7 @@
-/** Sufixos de tipo do padrão de data-testid (skill padrao-data-testid). */
+/** Sufixos de tipo do padrão de data-testid: a tabela "Elemento" da skill padrao-data-testid (0.3.1). */
 const SUFIXOS_DE_TIPO = [
-  'input', 'select', 'checkbox', 'radio', 'switch', 'button', 'link', 'tab', 'item', 'list',
-  'card', 'dialog', 'sheet', 'alert', 'toast', 'group', 'nav', 'header', 'footer', 'table',
+  'button', 'input', 'link', 'select', 'checkbox', 'radio', 'switch', 'tab', 'item', 'list', 'card',
+  'dialog', 'sheet', 'error', 'toast', 'alert', 'tabbar', 'header', 'footer', 'nav', 'group', 'table',
 ];
 const SUFIXO = new RegExp(`-(${SUFIXOS_DE_TIPO.join('|')})$`);
 
