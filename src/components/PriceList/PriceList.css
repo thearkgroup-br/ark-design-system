@@ -1,0 +1,6 @@
+.ak-pricelist { list-style: none; margin: 0; padding: 0; container-type: inline-size; border-top: 1px solid var(--ink); font-family: var(--font-sans); }
+.ak-price-row { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(0, 1.6fr) auto; gap: 8px 24px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid var(--line); color: var(--ink); }
+.ak-price-name { font-size: 18px; overflow-wrap: break-word; }
+.ak-price-val { font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ak-pricelist .ak-li-sub { font-size: 15px; line-height: 22px; }
+@container (max-width: 560px) { .ak-price-row { grid-template-columns: 1fr; } .ak-price-val { white-space: normal; } }

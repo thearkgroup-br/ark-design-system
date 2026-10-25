@@ -1,0 +1,14 @@
+.ak-plan { font-family: var(--font-sans); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-xl); padding: 28px; display: flex; flex-direction: column; gap: 14px; color: var(--ink); min-width: 0; }
+.ak-plan-hi { border: 2px solid var(--brand); }
+.ak-plan-soon { background: var(--surface-sunken); border-color: transparent; }
+.ak-plan-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
+.ak-plan-name { font-size: 20px; }
+.ak-plan-price { overflow-wrap: anywhere; }
+.ak-plan-price b { font-size: 44px; line-height: 1; font-weight: 800; letter-spacing: -0.02em; }
+.ak-plan-price span { color: var(--ink-muted); }
+.ak-plan-soonlbl { font-size: 22px; font-weight: 800; }
+.ak-plan-feat { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 15px; }
+.ak-plan-feat li { display: flex; gap: 10px; align-items: flex-start; }
+.ak-plan-feat li > span:first-child { color: var(--brand); padding-top: 3px; display: flex; }
+.ak-plan-feat svg { display: block; }
+.ak-plan-cta { margin-top: auto; }

@@ -59,7 +59,7 @@ describe('CSS dos componentes', () => {
     expect(faltando).toEqual([]);
   });
 
-  it('componentes .tsx não escrevem cor em hex (exceção: cores fixas do desenho do Logo)', () => {
+  it('componentes .tsx não escrevem cor em hex (exceções: desenho do Logo e texto branco sobre a cor do negócio)', () => {
     const tsx = (pasta: string): string[] =>
       readdirSync(pasta).flatMap((nome) => {
         const caminho = join(pasta, nome);
@@ -67,7 +67,7 @@ describe('CSS dos componentes', () => {
         return /\.tsx?$/.test(nome) && !/\.test\.tsx?$/.test(nome) ? [caminho] : [];
       });
     const comCor = tsx(resolve(SRC, 'components'))
-      .filter((f) => !f.endsWith(join('Logo', 'Logo.tsx')))
+      .filter((f) => !f.endsWith(join('Logo', 'Logo.tsx')) && !f.endsWith(join('EstablishmentCard', 'EstablishmentCard.tsx')))
       .filter((f) => /['"`]#[0-9a-f]{3,8}['"`]/i.test(readFileSync(f, 'utf8')))
       .map((f) => relative(SRC, f));
     expect(comCor).toEqual([]);

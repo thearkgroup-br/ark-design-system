@@ -1,0 +1,2 @@
+.ak-fav[aria-pressed="true"] { color: var(--danger); }
+.ak-fav[aria-pressed="false"] { color: var(--ink-muted); }
