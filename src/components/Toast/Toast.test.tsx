@@ -30,6 +30,15 @@ describe('Toast', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
+  it('o pai redesenhar não reinicia a contagem', () => {
+    const onClose = vi.fn();
+    const { rerender } = render(<Toast onClose={onClose}><b>Salvo</b></Toast>);
+    act(() => vi.advanceTimersByTime(3000));
+    rerender(<Toast onClose={onClose}><b>Salvo</b></Toast>);
+    act(() => vi.advanceTimersByTime(1000));
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
   it('ao sair da tela antes do tempo, não chama onClose', () => {
     const onClose = vi.fn();
     const { unmount } = render(<Toast onClose={onClose}>Salvo</Toast>);

@@ -92,6 +92,30 @@ describe('BottomSheet', () => {
     expect(onClose).not.toHaveBeenCalled();
   });
 
+  it('fechar no meio do arraste não deixa o painel deslocado ao reabrir', () => {
+    const { rerender } = render(<BottomSheet id="r" title="Oi" onClose={() => {}} data-testid={ID} />);
+    const alca = screen.getByTestId('iris-booking-limit-grabber');
+    fireEvent.pointerDown(alca, { clientY: 0, pointerId: 1 });
+    fireEvent.pointerMove(alca, { clientY: 40, pointerId: 1 });
+    rerender(<BottomSheet id="r" title="Oi" open={false} onClose={() => {}} data-testid={ID} />);
+    rerender(<BottomSheet id="r" title="Oi" onClose={() => {}} data-testid={ID} />);
+    expect(screen.getByTestId(ID).style.transform).toBe('');
+  });
+
+  it('com um Dialog aberto por cima, o Esc fecha só o de cima', async () => {
+    const fecharSheet = vi.fn();
+    const fecharDialogo = vi.fn();
+    render(
+      <>
+        <BottomSheet id="s" title="Embaixo" onClose={fecharSheet} />
+        <BottomSheet id="d" title="Em cima" onClose={fecharDialogo} />
+      </>,
+    );
+    await userEvent.keyboard('{Escape}');
+    expect(fecharDialogo).toHaveBeenCalledTimes(1);
+    expect(fecharSheet).not.toHaveBeenCalled();
+  });
+
   it('open={false} não desenha; hostHeight é prévia no lugar', () => {
     const { container, rerender } = render(<BottomSheet id="x" title="Oi" open={false} />);
     expect(container).toBeEmptyDOMElement();

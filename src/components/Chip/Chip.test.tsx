@@ -30,6 +30,11 @@ describe('Chip', () => {
     expect(screen.getByRole('button', { name: 'Filtros' }).querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
   });
 
+  it('só com onClick é um botão comum, sem aria-pressed', () => {
+    render(<Chip onClick={() => {}}>Ver todos</Chip>);
+    expect(screen.getByRole('button', { name: 'Ver todos' })).not.toHaveAttribute('aria-pressed');
+  });
+
   it('filtro funciona pelo teclado', async () => {
     const onClick = vi.fn();
     render(<Chip onClick={onClick}>Hoje</Chip>);

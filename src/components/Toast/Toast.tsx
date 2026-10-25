@@ -11,7 +11,7 @@ export interface ToastProps extends TestIdProps {
   children: ReactNode;
   /** Chamado quando o tempo acaba: quem usa tira o toast da tela. */
   onClose?: () => void;
-  /** Tempo até sumir, em ms. Padrão 4000; 0 não some sozinho. */
+  /** Tempo até sumir, em ms. Padrão 4000; 0 não some sozinho. Para recomeçar a contagem com outra mensagem, troque a `key`. */
   duration?: number;
 }
 
@@ -28,7 +28,7 @@ export function Toast({ tone = 'success', children, onClose, duration = TOAST_DU
     if (!duration) return;
     const t = setTimeout(() => fechar.current?.(), duration);
     return () => clearTimeout(t);
-  }, [duration, children]);
+  }, [duration]);
 
   return (
     <div className={`ak-toast ak-toast-${tone}`} role="status" data-testid={testId}>

@@ -27,7 +27,8 @@ const STATUS: Record<BadgeStatus, [Tom, string]> = {
 
 /** Selo curto de status ou destaque, sempre com texto. O data-testid vai no selo. */
 export function Badge({ tone, status, children, 'data-testid': testId }: BadgeProps) {
-  const [cor, texto] = status ? STATUS[status] : [tone ?? 'neutral', ''];
+  // Status fora da lista (dado da API, JS sem tipo) não quebra: vira selo neutro com o próprio texto.
+  const [cor, texto] = status ? (STATUS[status] ?? ['neutral', String(status)]) : [tone ?? 'neutral', ''];
   return (
     <span className={`ak-badge ak-badge-${cor}`} data-testid={testId}>
       {children ?? texto}

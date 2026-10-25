@@ -36,6 +36,11 @@ describe('Badge', () => {
     expect(screen.getByText('Aguardando')).toHaveClass('ak-badge-warning');
   });
 
+  it('status fora da lista não quebra: vira selo neutro com o próprio texto', () => {
+    render(<Badge status={'remarcado' as BadgeStatus} />);
+    expect(screen.getByText('remarcado')).toHaveClass('ak-badge-neutral');
+  });
+
   it('StatusBadge é o mesmo componente', () => {
     expect(StatusBadge).toBe(Badge);
   });

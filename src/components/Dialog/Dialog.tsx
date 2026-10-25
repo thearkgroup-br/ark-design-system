@@ -17,6 +17,8 @@ export function Dialog(props: DialogProps) {
   const previa = hostHeight !== undefined;
   useOverlay({ ativo: open && !previa, painel, onClose, fecharComEsc: true });
   if (!open) return null;
+  // Sem DOM (render no servidor) não há onde abrir o portal.
+  if (!previa && typeof document === 'undefined') return null;
 
   const caixa = (
     <div

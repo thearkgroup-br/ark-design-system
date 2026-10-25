@@ -6,7 +6,7 @@ export interface ChipProps extends TestIdProps {
   /** 1 a 3 palavras. */
   children: ReactNode;
   icon?: IconName;
-  /** Com `onClick` ou `selected` vira filtro com aria-pressed; sem eles é só etiqueta. */
+  /** Com `selected` vira filtro com aria-pressed; só com `onClick` é um botão comum; sem os dois é só etiqueta. */
   selected?: boolean;
   onClick?: () => void;
 }
@@ -27,7 +27,7 @@ export function Chip({ children, icon, selected, onClick, 'data-testid': testId 
     );
   }
   return (
-    <button type="button" className="ak-chip ak-chip-btn" aria-pressed={selected ? 'true' : 'false'} onClick={onClick} data-testid={testId}>
+    <button type="button" className="ak-chip ak-chip-btn" aria-pressed={selected === undefined ? undefined : selected} onClick={onClick} data-testid={testId}>
       {conteudo}
     </button>
   );

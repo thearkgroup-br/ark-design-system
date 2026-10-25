@@ -1,6 +1,6 @@
 import { useRef, useState, type PointerEvent } from 'react';
 import { createPortal } from 'react-dom';
-import { testIdParte, useOverlay } from '../../utils';
+import { cx, testIdParte, useOverlay } from '../../utils';
 import { OverlayBody, type OverlayProps } from '../Dialog/OverlayBody';
 import { IconButton } from '../IconButton/IconButton';
 
@@ -15,35 +15,53 @@ export const ARRASTE_PARA_FECHAR = 80;
  * Com `alert` (bloqueio) só fecha pelas ações. O data-testid vai no painel; o X ganha `{base}-close-button`.
  */
 export function BottomSheet(props: BottomSheetProps) {
-  const { id, text, alert, hostHeight, open = true, onClose, 'data-testid': testId } = props;
+  // Fechado não desenha nada; o painel aberto é outro componente para o estado do arraste não sobrar ao reabrir.
+  if (props.open === false) return null;
+  if (props.hostHeight === undefined && typeof document === 'undefined') return null;
+  return <SheetAberto {...props} />;
+}
+
+function SheetAberto(props: BottomSheetProps) {
+  const { id, text, alert, hostHeight, onClose, 'data-testid': testId } = props;
   const painel = useRef<HTMLDivElement>(null);
   const inicio = useRef<number | null>(null);
+  const distancia = useRef(0);
   const [arraste, setArraste] = useState(0);
   const previa = hostHeight !== undefined;
   const fechavel = Boolean(onClose) && !alert;
-  useOverlay({ ativo: open && !previa, painel, onClose, fecharComEsc: fechavel });
-  if (!open) return null;
+  useOverlay({ ativo: !previa, painel, onClose, fecharComEsc: fechavel });
 
+  const mover = (valor: number) => {
+    distancia.current = valor;
+    setArraste(valor);
+  };
   const aoApertar = (e: PointerEvent<HTMLDivElement>) => {
     if (!fechavel) return;
     inicio.current = e.clientY;
     e.currentTarget.setPointerCapture?.(e.pointerId);
   };
-  const aoMover = (e: PointerEvent<HTMLDivElement>) => {
-    if (inicio.current !== null) setArraste(Math.max(0, e.clientY - inicio.current));
-  };
   const aoSoltar = () => {
     if (inicio.current === null) return;
     inicio.current = null;
-    if (arraste > ARRASTE_PARA_FECHAR) onClose?.();
-    setArraste(0);
+    const longe = distancia.current > ARRASTE_PARA_FECHAR;
+    mover(0);
+    if (longe) onClose?.();
+  };
+  const aoMover = (e: PointerEvent<HTMLDivElement>) => {
+    if (inicio.current === null) return;
+    // Sem botão/dedo apertado o arraste acabou (soltou fora da janela).
+    if (e.pointerType === 'mouse' && e.buttons === 0) {
+      aoSoltar();
+      return;
+    }
+    mover(Math.max(0, e.clientY - inicio.current));
   };
 
   const sheet = (
     <div
       ref={painel}
       id={id}
-      className="ak-sheet"
+      className={cx('ak-sheet', arraste > 0 && 'ak-sheet-arrastando')}
       role={alert ? 'alertdialog' : 'dialog'}
       aria-modal="true"
       aria-labelledby={`${id}-title`}
