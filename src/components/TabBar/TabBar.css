@@ -1,0 +1,7 @@
+.ak-tabbar { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); background: var(--surface); border-top: 1px solid var(--line); box-shadow: var(--shadow-sheet);
+  padding: 6px 8px max(18px, env(safe-area-inset-bottom, 0px)); min-height: var(--size-tabbar); font-family: var(--font-sans); }
+.ak-tab { font: inherit; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 56px; min-width: 0; border-radius: 14px; text-decoration: none;
+  font-size: 12px; font-weight: 600; color: var(--ink-muted); background: transparent; border: none; cursor: pointer; padding: 0 4px; overflow-wrap: anywhere; text-align: center; }
+.ak-tab:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.ak-tab svg { display: block; }
+.ak-tab[aria-current="page"] { color: var(--brand); font-weight: 800; }

@@ -24,6 +24,8 @@ export { Logo } from './components/Logo';
 export type { LogoProps, Marca } from './components/Logo';
 export { TopBar } from './components/TopBar';
 export type { TopBarProps } from './components/TopBar';
+export { TabBar } from './components/TabBar';
+export type { NavItem, TabBarProps } from './components/TabBar';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';
