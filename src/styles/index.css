@@ -37,4 +37,7 @@
 @import '../components/SectionHeader/SectionHeader.css';
 @import '../components/NumberedList/NumberedList.css';
 @import '../components/Steps/Steps.css';
+@import '../components/Accordion/Accordion.css';
+@import '../components/Comparison/Comparison.css';
+@import '../components/PlanCard/PlanCard.css';
 @import '../components/PriceList/PriceList.css';
