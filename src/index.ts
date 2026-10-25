@@ -34,6 +34,8 @@ export { Footer } from './components/Footer';
 export type { FooterColumn, FooterProps } from './components/Footer';
 export { Alert } from './components/Alert';
 export type { AlertProps } from './components/Alert';
+export { TOAST_DURACAO_MS, Toast } from './components/Toast';
+export type { ToastProps } from './components/Toast';
 export { Skeleton } from './components/Skeleton';
 export type { SkeletonProps } from './components/Skeleton';
 export { SkeletonCard } from './components/SkeletonCard';
