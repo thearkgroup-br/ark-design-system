@@ -1,3 +1,4 @@
+import { createRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SearchField } from './SearchField';
@@ -22,6 +23,19 @@ describe('SearchField', () => {
   it('sem rótulo, usa o placeholder como nome', () => {
     render(<SearchField placeholder="Buscar serviço ou estabelecimento" />);
     expect(screen.getByRole('searchbox', { name: 'Buscar serviço ou estabelecimento' })).toBeInTheDocument();
+  });
+
+  it('sem rótulo e sem placeholder, o nome é "Buscar"', () => {
+    render(<SearchField />);
+    expect(screen.getByRole('searchbox', { name: 'Buscar' })).toBeInTheDocument();
+  });
+
+  it('repassa o ref para o input, para o formulário levar o foco à busca', () => {
+    const ref = createRef<HTMLInputElement>();
+    render(<SearchField label="Buscar" ref={ref} />);
+    expect(ref.current).toBe(screen.getByRole('searchbox', { name: 'Buscar' }));
+    ref.current?.focus();
+    expect(screen.getByRole('searchbox', { name: 'Buscar' })).toHaveFocus();
   });
 
   it('gera ids diferentes quando há duas buscas sem id na tela', () => {
