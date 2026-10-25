@@ -16,5 +16,6 @@
 @import '../components/SideNav/SideNav.css';
 @import '../components/SiteHeader/SiteHeader.css';
 @import '../components/Footer/Footer.css';
+@import '../components/Alert/Alert.css';
 @import '../components/Badge/Badge.css';
 @import '../components/Chip/Chip.css';
