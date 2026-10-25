@@ -9,4 +9,4 @@ export type { ThemeToggleProps } from './components/ThemeToggle';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';
-export { testIdParte } from './utils';
+export { BUSCA_ATRASO_MS, BUSCA_MAXIMO, BUSCA_MINIMO, buscaEncontra, normalizarBusca, testIdParte, useTermoDeBusca } from './utils';
