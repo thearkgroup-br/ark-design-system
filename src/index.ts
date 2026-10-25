@@ -30,6 +30,8 @@ export { SideNav } from './components/SideNav';
 export type { SideNavProps } from './components/SideNav';
 export { SiteHeader } from './components/SiteHeader';
 export type { SiteHeaderProps, SiteLink } from './components/SiteHeader';
+export { Footer } from './components/Footer';
+export type { FooterColumn, FooterProps } from './components/Footer';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';
