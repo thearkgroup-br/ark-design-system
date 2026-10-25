@@ -12,6 +12,8 @@ export { Select } from './components/Select';
 export type { SelectOption, SelectProps } from './components/Select';
 export { Checkbox } from './components/Checkbox';
 export type { CheckboxProps } from './components/Checkbox';
+export { Switch } from './components/Switch';
+export type { SwitchProps } from './components/Switch';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';

@@ -1,0 +1,9 @@
+.ak-switch-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: var(--size-touch); font-family: var(--font-sans); }
+.ak-switch { position: relative; width: 52px; height: 32px; flex: 0 0 52px; border-radius: 999px; border: 2px solid var(--line-control); background: var(--surface-sunken); cursor: pointer; padding: 0; }
+.ak-switch:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.ak-switch-knob { position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 999px; background: var(--ink-muted); transition: transform .15s, background .15s; }
+.ak-switch[aria-checked="true"] { background: var(--brand); border-color: var(--brand); }
+.ak-switch[aria-checked="true"] .ak-switch-knob { transform: translateX(20px); background: var(--on-brand); }
+.ak-switch:disabled { opacity: .5; cursor: not-allowed; }
+
+@media (prefers-reduced-motion: reduce) { .ak-switch-knob { transition: none; } }
