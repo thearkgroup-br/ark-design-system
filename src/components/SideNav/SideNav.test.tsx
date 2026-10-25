@@ -56,6 +56,16 @@ describe('SideNav', () => {
     expect(screen.getByRole('link', { name: 'Plano' })).toHaveAttribute('href', '/plano');
   });
 
+  it('clique comum num item com href troca o atual e avisa onNavigate', async () => {
+    const onNavigate = vi.fn();
+    render(<SideNav onNavigate={onNavigate} items={[{ id: 'schedule', label: 'Agenda', icon: 'calendar', href: '/agenda' }, { id: 'plan', label: 'Plano', icon: 'chart', href: '/plano' }]} />);
+    const plano = screen.getByRole('link', { name: 'Plano' });
+    plano.addEventListener('click', (e) => e.preventDefault());
+    await userEvent.setup().click(plano);
+    expect(onNavigate).toHaveBeenCalledWith('plan');
+    expect(plano).toHaveAttribute('aria-current', 'page');
+  });
+
   it('não quebra sem itens', () => {
     render(<SideNav items={[]} />);
     expect(screen.getByRole('navigation')).toBeInTheDocument();

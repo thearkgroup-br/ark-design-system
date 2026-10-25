@@ -26,4 +26,6 @@ Vai no `<nav>`. Cada aba: `{id sem sufixo}-{id da aba}-tab`.
 | Barra | `iris-app-tabbar-nav` |
 | Aba `agendamentos` | `iris-app-tabbar-agendamentos-tab` |
 
+`-tabbar` também conta como sufixo, como no exemplo da skill: `iris-app-main-tabbar` → aba `home` = `iris-app-main-home-tab`.
+
 Antes o id era fixo `tabbar-{id}`: quem usava no E2E precisa trocar.
