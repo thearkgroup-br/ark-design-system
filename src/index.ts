@@ -35,4 +35,16 @@ export type { FooterColumn, FooterProps } from './components/Footer';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';
-export { BUSCA_ATRASO_MS, BUSCA_MAXIMO, BUSCA_MINIMO, buscaEncontra, normalizarBusca, testIdParte, useTermoDeBusca } from './utils';
+export {
+  BUSCA_ATRASO_MS,
+  BUSCA_MAXIMO,
+  BUSCA_MINIMO,
+  CARREGAMENTO_ATRASO_MS,
+  CARREGAMENTO_LIMITE_MS,
+  buscaEncontra,
+  normalizarBusca,
+  testIdParte,
+  useEstadoDeCarregamento,
+  useTermoDeBusca,
+} from './utils';
+export type { EstadoDeCarregamento } from './utils';
