@@ -32,6 +32,8 @@ export { SiteHeader } from './components/SiteHeader';
 export type { SiteHeaderProps, SiteLink } from './components/SiteHeader';
 export { Footer } from './components/Footer';
 export type { FooterColumn, FooterProps } from './components/Footer';
+export { Badge, StatusBadge } from './components/Badge';
+export type { BadgeProps, BadgeStatus, Tom } from './components/Badge';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';
