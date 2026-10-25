@@ -7,6 +7,7 @@ Lista de opções nativa (no celular abre a roda do sistema).
 - A última opção "Outro" abre um campo de texto quando fizer sentido.
 - Mesmo rótulo, dica e erro do TextField.
 - Sem `placeholder` e sem valor, começa na primeira opção (é o que o navegador mostra).
+- Controlado com `value=""` precisa de `placeholder`: sem ele nenhuma opção corresponde ao valor e a tela mostra a primeira opção sem ela estar escolhida.
 
 ## API
 

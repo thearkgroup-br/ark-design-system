@@ -53,6 +53,7 @@ describe('Checkbox', () => {
   it('liga a descrição ao campo', () => {
     render(<Checkbox id="encaixe" label="Permitir encaixe" description="O cliente pode marcar entre dois horários." data-testid="iris-settings-fit-in-checkbox" />);
     expect(screen.getByRole('checkbox')).toHaveAccessibleDescription('O cliente pode marcar entre dois horários.');
+    expect(screen.getByRole('checkbox')).toHaveAccessibleName('Permitir encaixe');
     expect(screen.getByTestId('iris-settings-fit-in-description')).toBeInTheDocument();
   });
 

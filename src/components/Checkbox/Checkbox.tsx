@@ -40,6 +40,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
           required={required}
           onChange={(e) => definir(e.target.checked, e)}
           onBlur={onBlur}
+          aria-labelledby={`${id}-label`}
           data-testid={testId}
           {...fieldAria({ id, error }, descricaoId)}
         />
@@ -47,7 +48,9 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
           {marcado ? renderIcon('check', 14) : null}
         </span>
         <span className="ak-check-text">
-          <span className="ak-check-label">{label}</span>
+          <span id={`${id}-label`} className="ak-check-label">
+            {label}
+          </span>
           {description && (
             <span id={descricaoId} className="ak-hint" data-testid={testIdParte(testId, 'description')}>
               {description}

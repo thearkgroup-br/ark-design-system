@@ -21,7 +21,8 @@ describe('useTermoDeBusca', () => {
   afterEach(() => vi.useRealTimers());
 
   it('só devolve o termo 300 ms depois da última tecla', () => {
-    const { result, rerender } = renderHook(({ v }) => useTermoDeBusca(v), { initialProps: { v: 'Sa' } });
+    const { result, rerender } = renderHook(({ v }) => useTermoDeBusca(v), { initialProps: { v: '' } });
+    rerender({ v: 'Sa' });
     act(() => vi.advanceTimersByTime(299));
     expect(result.current).toBe('');
     rerender({ v: 'Salão' });
@@ -38,6 +39,18 @@ describe('useTermoDeBusca', () => {
     rerender({ v: 'jo' });
     act(() => vi.advanceTimersByTime(300));
     expect(result.current).toBe('jo');
+  });
+
+  it('apagar a busca limpa o termo na hora, sem esperar 300 ms', () => {
+    const { result, rerender } = renderHook(({ v }) => useTermoDeBusca(v), { initialProps: { v: 'salao' } });
+    expect(result.current).toBe('salao');
+    rerender({ v: '' });
+    expect(result.current).toBe('');
+  });
+
+  it('valor inicial já válido busca na hora (busca restaurada)', () => {
+    const { result } = renderHook(() => useTermoDeBusca('João'));
+    expect(result.current).toBe('joao');
   });
 
   it('espaços não contam como caractere', () => {

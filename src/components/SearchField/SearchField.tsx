@@ -27,7 +27,7 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(functi
   const campoId = id ?? `ak-busca-${idGerado.replace(/:/g, '')}`;
   const [atual, definir] = useControllable<string>(value, defaultValue ?? '', onChange);
   const input = useRef<HTMLInputElement>(null);
-  useImperativeHandle(ref, () => input.current as HTMLInputElement);
+  useImperativeHandle(ref, () => input.current as HTMLInputElement, []);
 
   return (
     <div className="ak-field">

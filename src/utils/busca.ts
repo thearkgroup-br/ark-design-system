@@ -20,17 +20,22 @@ export function buscaEncontra(texto: string, termo: string): boolean {
   return normalizarBusca(texto).includes(normalizarBusca(termo));
 }
 
+function termoValido(valor: string, minimo: number): string {
+  const normalizado = normalizarBusca(valor);
+  return normalizado.length >= minimo ? normalizado : '';
+}
+
 /**
  * Termo que deve ser buscado: o valor digitado, normalizado, 300 ms depois da última tecla.
- * Com menos de 2 caracteres devolve '' (não buscar).
+ * Com menos de 2 caracteres devolve '' (não buscar) na hora, sem esperar.
  */
 export function useTermoDeBusca(valor: string, { minimo = BUSCA_MINIMO, atrasoMs = BUSCA_ATRASO_MS } = {}): string {
-  const [termo, setTermo] = useState('');
+  // Valor inicial já válido (busca restaurada) busca na hora; apagar também limpa na hora.
+  const [termo, setTermo] = useState(() => termoValido(valor, minimo));
+  const atual = termoValido(valor, minimo);
   useEffect(() => {
-    const normalizado = normalizarBusca(valor);
-    const proximo = normalizado.length >= minimo ? normalizado : '';
-    const t = setTimeout(() => setTermo(proximo), atrasoMs);
+    const t = setTimeout(() => setTermo(atual), atual ? atrasoMs : 0);
     return () => clearTimeout(t);
-  }, [valor, minimo, atrasoMs]);
-  return termo;
+  }, [atual, atrasoMs]);
+  return atual ? termo : '';
 }
