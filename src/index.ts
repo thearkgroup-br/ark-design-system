@@ -36,6 +36,8 @@ export { Alert } from './components/Alert';
 export type { AlertProps } from './components/Alert';
 export { TOAST_DURACAO_MS, Toast } from './components/Toast';
 export type { ToastProps } from './components/Toast';
+export { Dialog } from './components/Dialog';
+export type { DialogProps, OverlayProps } from './components/Dialog';
 export { Skeleton } from './components/Skeleton';
 export type { SkeletonProps } from './components/Skeleton';
 export { SkeletonCard } from './components/SkeletonCard';

@@ -18,6 +18,7 @@
 @import '../components/Footer/Footer.css';
 @import '../components/Alert/Alert.css';
 @import '../components/Toast/Toast.css';
+@import '../components/Dialog/Dialog.css';
 @import '../components/Skeleton/Skeleton.css';
 @import '../components/EmptyState/EmptyState.css';
 @import '../components/Badge/Badge.css';
