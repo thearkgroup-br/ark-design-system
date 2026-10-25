@@ -19,10 +19,14 @@ Tabela de dados para o painel no computador. Em espaço estreito (celular), vira
 
 ## data-testid
 
+A tabela é região (skill `padrao-data-testid` 0.3.2): o id recebido fica inteiro, com o `-table`, e cada parte é acrescentada no fim.
+
 | Parte | Com `iris-schedule-day-table` |
 | --- | --- |
 | Tabela | `iris-schedule-day-table` |
-| Cada linha | `iris-schedule-day-row` |
-| Mensagem de vazio | `iris-schedule-day-empty` |
+| Cada linha | `iris-schedule-day-table-row` |
+| Mensagem de vazio | `iris-schedule-day-table-empty` |
+
+Na versão 0.1.0 o `-table` saía (`iris-schedule-day-row`): quem usa no E2E precisa trocar.
 
 No modo cartão (estreito) alguns leitores de tela deixam de anunciar a tabela como tabela, porque as células viram blocos; o rótulo de cada coluna continua aparecendo (`data-label`). No app do celular, prefira ListItem.

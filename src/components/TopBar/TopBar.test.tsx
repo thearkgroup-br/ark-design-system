@@ -9,8 +9,8 @@ describe('TopBar', () => {
   it('repassa o data-testid para o header e deriva voltar e título', () => {
     render(<TopBar title="Quando fica bom?" data-testid={ID} />);
     expect(screen.getByTestId(ID).tagName).toBe('HEADER');
-    expect(screen.getByTestId('iris-booking-back-button')).toHaveAccessibleName('Voltar');
-    expect(screen.getByTestId('iris-booking-title')).toHaveTextContent('Quando fica bom?');
+    expect(screen.getByTestId('iris-booking-header-back-button')).toHaveAccessibleName('Voltar');
+    expect(screen.getByTestId('iris-booking-header-title')).toHaveTextContent('Quando fica bom?');
   });
 
   it('o voltar é um botão de 44 px que chama onBack', async () => {
@@ -26,7 +26,7 @@ describe('TopBar', () => {
     render(<TopBar title="Serviços" backHref="/inicio" data-testid={ID} />);
     const link = screen.getByRole('link', { name: 'Voltar' });
     expect(link).toHaveAttribute('href', '/inicio');
-    expect(screen.getByTestId('iris-booking-back-link')).toBe(link);
+    expect(screen.getByTestId('iris-booking-header-back-link')).toBe(link);
   });
 
   it('back={false} esconde o voltar', () => {

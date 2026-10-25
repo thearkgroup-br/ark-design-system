@@ -45,7 +45,7 @@ describe('Rating (entrada)', () => {
   it('é um grupo de radios com nome e o data-testid; cada estrela ganha {base}-star', () => {
     render(<Rating editable data-testid={ID} />);
     expect(screen.getByRole('radiogroup', { name: 'Sua nota' })).toBe(screen.getByTestId(ID));
-    expect(screen.getAllByTestId('iris-review-score-star')).toHaveLength(5);
+    expect(screen.getAllByTestId('iris-review-score-group-star')).toHaveLength(5);
   });
 
   it('cada estrela tem 44 px e nome falado ("4 estrelas, Bom")', () => {

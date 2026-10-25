@@ -16,13 +16,13 @@ describe('SiteHeader', () => {
   it('repassa o data-testid para o header e deriva as partes', () => {
     render(<SiteHeader links={LINKS} cta={CTA} data-testid={ID} />);
     expect(screen.getByTestId(ID).tagName).toBe('HEADER');
-    expect(screen.getByTestId('ark-landing-logo-link')).toHaveAttribute('href', '#');
-    expect(screen.getByTestId('ark-landing-audience-link')).toHaveTextContent('Para quem é');
-    expect(screen.getByTestId('ark-landing-nav-link')).toHaveTextContent('Dúvidas');
-    expect(screen.getByTestId('ark-landing-cta-link')).toHaveAttribute('href', '#contato');
-    expect(screen.getByTestId('ark-landing-mobile-cta-link')).toHaveTextContent('Fale com a gente');
-    expect(screen.getByTestId('ark-landing-theme-button')).toBeInTheDocument();
-    expect(screen.getByTestId('ark-landing-menu-button')).toBeInTheDocument();
+    expect(screen.getByTestId('ark-landing-header-logo-link')).toHaveAttribute('href', '#');
+    expect(screen.getByTestId('ark-landing-header-audience-link')).toHaveTextContent('Para quem é');
+    expect(screen.getByTestId('ark-landing-header-nav-link')).toHaveTextContent('Dúvidas');
+    expect(screen.getByTestId('ark-landing-header-cta-link')).toHaveAttribute('href', '#contato');
+    expect(screen.getByTestId('ark-landing-header-mobile-cta-link')).toHaveTextContent('Fale com a gente');
+    expect(screen.getByTestId('ark-landing-header-theme-button')).toBeInTheDocument();
+    expect(screen.getByTestId('ark-landing-header-menu-button')).toBeInTheDocument();
   });
 
   it('o link do logo diz a marca e leva ao início', () => {
@@ -34,15 +34,15 @@ describe('SiteHeader', () => {
     render(<SiteHeader links={LINKS} data-testid={ID} />);
     const botao = screen.getByRole('button', { name: 'Abrir menu' });
     expect(botao).toHaveAttribute('aria-expanded', 'false');
-    expect(screen.queryByTestId('ark-landing-menu')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ark-landing-header-menu')).not.toBeInTheDocument();
     await userEvent.click(botao);
     expect(botao).toHaveAttribute('aria-expanded', 'true');
     expect(botao).toHaveAccessibleName('Fechar menu');
-    const menu = screen.getByTestId('ark-landing-menu');
+    const menu = screen.getByTestId('ark-landing-header-menu');
     expect(botao.getAttribute('aria-controls')).toBe(menu.id);
-    expect(screen.getByTestId('ark-landing-menu-plans-link')).toHaveTextContent('Planos');
+    expect(screen.getByTestId('ark-landing-header-menu-plans-link')).toHaveTextContent('Planos');
     await userEvent.click(botao);
-    expect(screen.queryByTestId('ark-landing-menu')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('ark-landing-header-menu')).not.toBeInTheDocument();
   });
 
   it('Esc fecha o menu e devolve o foco ao botão', async () => {
@@ -56,9 +56,9 @@ describe('SiteHeader', () => {
   it('clicar num link do menu fecha o menu e o foco volta ao botão', async () => {
     render(<SiteHeader links={LINKS} data-testid={ID} />);
     await userEvent.click(screen.getByRole('button', { name: 'Abrir menu' }));
-    await userEvent.click(screen.getByTestId('ark-landing-menu-plans-link'));
-    expect(screen.queryByTestId('ark-landing-menu')).not.toBeInTheDocument();
-    expect(screen.getByTestId('ark-landing-menu-button')).toHaveFocus();
+    await userEvent.click(screen.getByTestId('ark-landing-header-menu-plans-link'));
+    expect(screen.queryByTestId('ark-landing-header-menu')).not.toBeInTheDocument();
+    expect(screen.getByTestId('ark-landing-header-menu-button')).toHaveFocus();
   });
 
   it('Esc que outra camada já tratou não fecha o menu', async () => {
@@ -67,7 +67,7 @@ describe('SiteHeader', () => {
     const evento = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
     evento.preventDefault();
     document.dispatchEvent(evento);
-    expect(screen.getByTestId('ark-landing-menu')).toBeInTheDocument();
+    expect(screen.getByTestId('ark-landing-header-menu')).toBeInTheDocument();
   });
 
   it('aria-controls só aponta para o menu quando ele existe', async () => {
@@ -81,7 +81,7 @@ describe('SiteHeader', () => {
   it('o botão principal também fica no menu (aparece nele abaixo de 420 px)', async () => {
     render(<SiteHeader links={LINKS} cta={CTA} data-testid={ID} />);
     await userEvent.click(screen.getByRole('button', { name: 'Abrir menu' }));
-    expect(screen.getByTestId('ark-landing-menu-cta-link')).toHaveAttribute('href', '#contato');
+    expect(screen.getByTestId('ark-landing-header-menu-cta-link')).toHaveAttribute('href', '#contato');
   });
 
   it('aceita dois links com o mesmo texto', () => {
@@ -94,10 +94,10 @@ describe('SiteHeader', () => {
   it('o tema do topo e o do menu ficam iguais e avisam onThemeChange', async () => {
     const onThemeChange = vi.fn();
     render(<SiteHeader links={LINKS} onThemeChange={onThemeChange} data-testid={ID} />);
-    await userEvent.click(screen.getByTestId('ark-landing-theme-button'));
+    await userEvent.click(screen.getByTestId('ark-landing-header-theme-button'));
     expect(onThemeChange).toHaveBeenCalledWith(true);
     await userEvent.click(screen.getByRole('button', { name: 'Abrir menu' }));
-    expect(screen.getByTestId('ark-landing-menu-theme-button')).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByTestId('ark-landing-header-menu-theme-button')).toHaveAttribute('aria-pressed', 'true');
   });
 
   it('sem cta não mostra botão; themeToggle={false} tira o tema', () => {

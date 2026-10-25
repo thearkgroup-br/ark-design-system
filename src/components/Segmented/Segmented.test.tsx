@@ -13,8 +13,8 @@ describe('Segmented', () => {
   it('repassa o data-testid para o grupo e deriva um id por opção', () => {
     render(<Segmented options={VISOES} label="Visão da agenda" data-testid={ID} />);
     expect(screen.getByTestId(ID)).toHaveAttribute('role', 'group');
-    expect(screen.getByTestId('iris-schedule-view-day-button')).toHaveTextContent('Dia');
-    expect(screen.getByTestId('iris-schedule-view-week-button')).toHaveTextContent('Semana');
+    expect(screen.getByTestId('iris-schedule-view-group-day-button')).toHaveTextContent('Dia');
+    expect(screen.getByTestId('iris-schedule-view-group-week-button')).toHaveTextContent('Semana');
   });
 
   it('o grupo tem nome e o padrão é "Opções"', () => {

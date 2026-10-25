@@ -20,8 +20,12 @@ Menu lateral do painel no computador (Íris, sistemas do Arca Dev).
 
 ## data-testid
 
+O menu é região (skill `padrao-data-testid` 0.3.2): o id recebido fica inteiro, com o `-nav`, e cada parte é acrescentada no fim.
+
 | Parte | Com `iris-app-side-nav` |
 | --- | --- |
 | Menu | `iris-app-side-nav` |
-| Item `schedule` | `iris-app-side-schedule-link` |
-| Contador do item | `iris-app-side-schedule-count` |
+| Item `schedule` | `iris-app-side-nav-schedule-link` |
+| Contador do item | `iris-app-side-nav-schedule-count` |
+
+Na versão 0.1.0 o `-nav` saía (`iris-app-side-schedule-link`): quem usa no E2E precisa trocar.

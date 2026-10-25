@@ -18,7 +18,7 @@ describe('Table', () => {
   it('repassa o data-testid para a tabela e cada linha ganha {base}-row', () => {
     render(<Table columns={COLUNAS} rows={LINHAS} data-testid={ID} />);
     expect(screen.getByTestId(ID).tagName).toBe('TABLE');
-    expect(screen.getAllByTestId('iris-schedule-day-row')).toHaveLength(2);
+    expect(screen.getAllByTestId('iris-schedule-day-table-row')).toHaveLength(2);
   });
 
   it('tem nome, cabeçalhos de coluna e a primeira coluna identifica a linha', () => {
@@ -38,7 +38,7 @@ describe('Table', () => {
 
   it('sem linhas mostra a frase de vazio', () => {
     render(<Table columns={COLUNAS} rows={[]} empty="Nenhum agendamento hoje." data-testid={ID} />);
-    expect(screen.getByTestId('iris-schedule-day-empty')).toHaveTextContent('Nenhum agendamento hoje.');
+    expect(screen.getByTestId('iris-schedule-day-table-empty')).toHaveTextContent('Nenhum agendamento hoje.');
   });
 
   it('com linhas não mostra a frase de vazio', () => {
