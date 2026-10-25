@@ -1,0 +1,5 @@
+.ak-theme { font: 700 14px/1 var(--font-sans); display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 156px; flex: 0 0 156px;
+  min-height: var(--size-touch); padding: 0 14px; border-radius: var(--radius-full); border: 1px solid var(--line-control); background: transparent; color: var(--ink); cursor: pointer; white-space: nowrap; }
+.ak-theme:hover { background: var(--surface-sunken); }
+.ak-theme:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.ak-theme svg { display: block; }
