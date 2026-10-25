@@ -22,6 +22,8 @@ export { Icon } from './components/Icon';
 export type { IconProps } from './components/Icon';
 export { Logo } from './components/Logo';
 export type { LogoProps, Marca } from './components/Logo';
+export { TopBar } from './components/TopBar';
+export type { TopBarProps } from './components/TopBar';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';

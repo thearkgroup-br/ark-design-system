@@ -1,0 +1,2 @@
+.ak-topbar { display: flex; align-items: center; gap: var(--space-2); min-height: 56px; padding: 6px 12px; font-family: var(--font-sans); color: var(--ink); background: var(--surface); }
+.ak-topbar-title { flex: 1 1 auto; min-width: 0; font-size: 17px; line-height: 22px; font-weight: 800; overflow-wrap: break-word; }
