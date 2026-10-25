@@ -18,9 +18,11 @@ Escolha única entre 2 e 4 opções curtas, lado a lado: Dia/Equipe/Semana, Agen
 
 ## data-testid
 
-O id vai no grupo; cada opção usa o id do grupo sem o sufixo de tipo + o `id` da opção + `-button`. Use ids de opção fixos e em inglês (`day`, `week`), nunca valores do banco.
+O id vai no grupo; cada opção usa o id inteiro do grupo + o `id` da opção + `-button`. O grupo é região (skill `padrao-data-testid` 0.3.2), por isso o `-group` fica. Use ids de opção fixos e em inglês (`day`, `week`), nunca valores do banco.
 
 | Parte | Com `iris-schedule-view-group` |
 | --- | --- |
 | Grupo | `iris-schedule-view-group` |
-| Opção `day` | `iris-schedule-view-day-button` |
+| Opção `day` | `iris-schedule-view-group-day-button` |
+
+Na versão 0.1.0 o `-group` saía (`iris-schedule-view-day-button`): quem usa no E2E precisa trocar.

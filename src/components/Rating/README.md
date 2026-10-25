@@ -22,6 +22,8 @@ Na entrada é um grupo de radios: Tab entra numa estrela só (a escolhida), seta
 | Parte | Com `iris-review-score-group` |
 | --- | --- |
 | Grupo (entrada) | `iris-review-score-group` |
-| Cada estrela | `iris-review-score-star` (o teste filtra pelo nome "4 estrelas, Bom") |
+| Cada estrela | `iris-review-score-group-star` (o teste filtra pelo nome "4 estrelas, Bom") |
+
+Na entrada o id termina em `-group`, que é região (skill `padrao-data-testid` 0.3.2): fica inteiro e a estrela é acrescentada no fim. Na versão 0.1.0 o `-group` saía (`iris-review-score-star`): quem usa no E2E precisa trocar.
 
 Na exibição o id vai no elemento `role="img"` (ex.: `iris-business-rating`).

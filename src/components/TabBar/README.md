@@ -19,13 +19,11 @@ Aba com `href` é link; sem `href` é botão que só avisa `onNavigate` (antes e
 
 ## data-testid
 
-Vai no `<nav>`. Cada aba: `{id sem sufixo}-{id da aba}-tab`.
+Vai no `<nav>`. Cada aba: `{id inteiro}-{id da aba}-tab`. A tab bar é região (skill `padrao-data-testid` 0.3.2): o id recebido fica inteiro, com o sufixo, e a aba é acrescentada no fim. Use ids de aba fixos e em inglês (`home`, `appointments`).
 
-| Parte | Com `iris-app-tabbar-nav` |
+| Parte | Com `iris-app-main-tabbar` |
 | --- | --- |
-| Barra | `iris-app-tabbar-nav` |
-| Aba `agendamentos` | `iris-app-tabbar-agendamentos-tab` |
+| Barra | `iris-app-main-tabbar` |
+| Aba `home` | `iris-app-main-tabbar-home-tab` |
 
-`-tabbar` também conta como sufixo, como no exemplo da skill: `iris-app-main-tabbar` → aba `home` = `iris-app-main-home-tab`.
-
-Antes o id era fixo `tabbar-{id}`: quem usava no E2E precisa trocar.
+Na versão 0.1.0 o sufixo saía (`iris-app-main-home-tab`); na referência (`bundle.js`) o id era fixo `tabbar-{id}`. Quem usa no E2E precisa trocar.

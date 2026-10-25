@@ -22,8 +22,10 @@ Cabeçalho de tela interna do app: voltar, título e uma ação opcional.
 | Parte | Com `iris-booking-header` |
 | --- | --- |
 | Cabeçalho | `iris-booking-header` |
-| Voltar (botão) | `iris-booking-back-button` |
-| Voltar (com `backHref`) | `iris-booking-back-link` |
-| Título | `iris-booking-title` |
+| Voltar (botão) | `iris-booking-header-back-button` |
+| Voltar (com `backHref`) | `iris-booking-header-back-link` |
+| Título | `iris-booking-header-title` |
 
-Antes (`bundle.js`) o voltar tinha o id fixo `topbar-voltar`: quem usava esse id no E2E precisa trocar.
+O cabeçalho é região (skill `padrao-data-testid` 0.3.2): o id recebido fica inteiro, com o `-header`, e cada parte é acrescentada no fim.
+
+Na versão 0.1.0 o `-header` saía (`iris-booking-back-button`); antes disso (`bundle.js`) o voltar tinha o id fixo `topbar-voltar`. Quem usa no E2E precisa trocar.
