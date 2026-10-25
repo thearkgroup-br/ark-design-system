@@ -1,0 +1,5 @@
+.ak-search { position: relative; }
+.ak-search .ak-input { padding-left: 44px; padding-right: 48px; }
+.ak-search .ak-input::-webkit-search-cancel-button { appearance: none; }
+.ak-search-ico { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--ink-muted); pointer-events: none; display: flex; }
+.ak-search-clear { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); }

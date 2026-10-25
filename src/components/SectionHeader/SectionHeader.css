@@ -1,0 +1,11 @@
+.ak-sechead { display: flex; flex-direction: column; gap: 12px; max-width: 760px; font-family: var(--font-sans); container-type: inline-size; }
+.ak-sechead.ak-center { align-items: center; text-align: center; margin-inline: auto; }
+.ak-sechead-title { margin: 0; font-size: 44px; line-height: 48px; font-weight: 800; letter-spacing: -0.025em; color: var(--ink); text-wrap: balance; overflow-wrap: break-word; }
+.ak-hero-title { font-size: 64px; line-height: 66px; letter-spacing: -0.03em; }
+.ak-sechead-text { margin: 0; font-size: 17px; line-height: 27px; color: var(--ink-muted); max-width: 620px; }
+.ak-lead { font-size: 19px; line-height: 30px; }
+.ak-sechead-actions { margin-top: 8px; }
+@container (max-width: 560px) {
+  .ak-sechead-title { font-size: 30px; line-height: 34px; letter-spacing: -0.02em; }
+  .ak-hero-title { font-size: 40px; line-height: 44px; }
+}

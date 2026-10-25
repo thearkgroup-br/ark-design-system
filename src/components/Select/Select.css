@@ -1,0 +1,4 @@
+.ak-select { position: relative; }
+.ak-select .ak-input { padding-right: 44px; cursor: pointer; }
+.ak-select .ak-input:disabled { cursor: not-allowed; }
+.ak-select-ico { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--ink-muted); pointer-events: none; display: flex; }

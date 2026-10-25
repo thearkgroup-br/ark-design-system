@@ -1,0 +1,11 @@
+.ak-footer { container-type: inline-size; background: var(--bg); border-top: 1px solid var(--line); color: var(--ink-muted); font-family: var(--font-sans); font-size: 15px; }
+.ak-footer a { color: var(--ink-muted); text-decoration: none; border-radius: 4px; }
+.ak-footer a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+.ak-footer a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.ak-footer-grid { max-width: var(--size-container); margin: 0 auto; padding: 48px 16px 24px; display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 28px; }
+.ak-footer-brand { display: flex; flex-direction: column; gap: 12px; }
+.ak-footer-col { display: flex; flex-direction: column; gap: 8px; min-width: 0; overflow-wrap: anywhere; }
+.ak-footer-col b { color: var(--ink); }
+.ak-footer-bottom { max-width: var(--size-container); margin: 0 auto; padding: 18px 16px 28px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; border-top: 1px solid var(--line); font-size: 14px; }
+.ak-footer-links { gap: 18px; }
+@container (max-width: 720px) { .ak-footer-grid { grid-template-columns: 1fr 1fr; } .ak-footer-brand { grid-column: 1 / -1; } }

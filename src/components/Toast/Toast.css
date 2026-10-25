@@ -1,0 +1,5 @@
+.ak-toast { align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; max-width: 100%; border-radius: 14px; padding: 12px 16px; font-size: 14px; font-weight: 600; box-shadow: var(--shadow-pop); font-family: var(--font-sans); }
+.ak-toast svg { display: block; flex: none; }
+.ak-toast-success { background: var(--success-soft); color: var(--success-ink); }
+.ak-toast-danger { background: var(--danger-soft); color: var(--danger-ink); }
+.ak-toast-info { background: var(--ink); color: var(--bg); }

@@ -1,0 +1,2 @@
+.ak-avatar { position: relative; display: inline-flex; align-items: center; justify-content: center; border-radius: var(--radius-full); background: var(--brand-soft); color: var(--brand-ink); font-weight: 800; overflow: hidden; flex: 0 0 auto; font-family: var(--font-sans); }
+.ak-avatar img { width: 100%; height: 100%; object-fit: cover; }

@@ -1,0 +1,9 @@
+.ak-iconbtn { font: inherit; width: var(--size-touch); height: var(--size-touch); flex: 0 0 var(--size-touch); border-radius: var(--radius-full);
+  border: 1px solid transparent; background: transparent; color: var(--ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; text-decoration: none; }
+.ak-iconbtn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.ak-iconbtn svg { display: block; }
+.ak-iconbtn-sm { width: 36px; height: 36px; flex-basis: 36px; }
+.ak-iconbtn-outline { border-color: var(--line); background: var(--surface); }
+.ak-iconbtn-solid { background: var(--brand); color: var(--on-brand); }
+.ak-iconbtn-plain:hover, .ak-iconbtn-outline:hover { background: var(--surface-sunken); }
+.ak-iconbtn:disabled { opacity: .45; cursor: not-allowed; }

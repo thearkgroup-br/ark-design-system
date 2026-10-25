@@ -1,0 +1,9 @@
+.ak-check { display: flex; flex-direction: column; gap: 2px; font-family: var(--font-sans); }
+.ak-check-row { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; min-height: var(--size-touch); padding: 10px 0; position: relative; }
+.ak-check-row.is-disabled { opacity: .5; cursor: not-allowed; }
+.ak-check-input { position: absolute; opacity: 0; width: 24px; height: 24px; margin: 0; }
+.ak-check-box { width: 24px; height: 24px; flex: 0 0 24px; border-radius: var(--radius-sm); border: 2px solid var(--line-control); display: flex; align-items: center; justify-content: center; color: var(--on-brand); background: var(--surface); }
+.ak-check-box svg { display: block; }
+.ak-check-input:checked + .ak-check-box { background: var(--brand); border-color: var(--brand); }
+.ak-check-input[aria-invalid="true"] + .ak-check-box { border-color: var(--danger); }
+.ak-check-input:focus-visible + .ak-check-box { outline: 3px solid var(--focus); outline-offset: 2px; }
