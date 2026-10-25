@@ -34,6 +34,8 @@ export { Footer } from './components/Footer';
 export type { FooterColumn, FooterProps } from './components/Footer';
 export { Badge, StatusBadge } from './components/Badge';
 export type { BadgeProps, BadgeStatus, Tom } from './components/Badge';
+export { Chip } from './components/Chip';
+export type { ChipProps } from './components/Chip';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';

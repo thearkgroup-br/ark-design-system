@@ -1,0 +1,9 @@
+.ak-chip { font: inherit; font-family: var(--font-sans); display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 16px; border-radius: var(--radius-full);
+  background: var(--surface); border: 1px solid var(--line); color: var(--ink); font-size: 15px; font-weight: 600; }
+.ak-chip-ico { display: inline-flex; }
+.ak-chip-ico svg { display: block; }
+/* Filtro clicável: área de toque de 44 px. */
+.ak-chip-btn { cursor: pointer; min-height: var(--size-touch); border-color: var(--line-control); }
+.ak-chip-btn:hover { background: var(--surface-sunken); }
+.ak-chip-btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.ak-chip-btn[aria-pressed="true"] { background: var(--brand-soft); border-color: var(--brand); color: var(--brand-ink); }
