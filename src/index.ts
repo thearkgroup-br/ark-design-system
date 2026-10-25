@@ -50,6 +50,8 @@ export { Badge, StatusBadge } from './components/Badge';
 export type { BadgeProps, BadgeStatus, Tom } from './components/Badge';
 export { Chip } from './components/Chip';
 export type { ChipProps } from './components/Chip';
+export { Card } from './components/Card';
+export type { CardProps } from './components/Card';
 export { Avatar } from './components/Avatar';
 export type { AvatarProps } from './components/Avatar';
 export { Rating } from './components/Rating';
