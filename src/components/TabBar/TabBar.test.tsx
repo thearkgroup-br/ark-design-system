@@ -8,9 +8,9 @@ describe('TabBar', () => {
   it('repassa o data-testid para o nav e deriva {id}-{nome}-tab em cada aba', () => {
     render(<TabBar data-testid={ID} />);
     expect(screen.getByTestId(ID).tagName).toBe('NAV');
-    expect(screen.getByTestId('iris-app-tabbar-inicio-tab')).toHaveTextContent('Início');
-    expect(screen.getByTestId('iris-app-tabbar-agendamentos-tab')).toHaveTextContent('Agendamentos');
-    expect(screen.getByTestId('iris-app-tabbar-perfil-tab')).toHaveTextContent('Perfil');
+    expect(screen.getByTestId('iris-app-tabbar-nav-inicio-tab')).toHaveTextContent('Início');
+    expect(screen.getByTestId('iris-app-tabbar-nav-agendamentos-tab')).toHaveTextContent('Agendamentos');
+    expect(screen.getByTestId('iris-app-tabbar-nav-perfil-tab')).toHaveTextContent('Perfil');
   });
 
   it('tem nome; padrão "Navegação principal"', () => {
@@ -98,9 +98,9 @@ describe('TabBar', () => {
     screen.getAllByRole('button').forEach((aba) => expect(aba.querySelector('svg')).toHaveAttribute('aria-hidden', 'true'));
   });
 
-  it('com o id do exemplo da skill (iris-app-main-tabbar), a aba home é iris-app-main-home-tab', () => {
+  it('com o id do exemplo da skill (iris-app-main-tabbar), a aba home é iris-app-main-tabbar-home-tab', () => {
     render(<TabBar data-testid="iris-app-main-tabbar" items={[{ id: 'home', label: 'Início', icon: 'home' }]} />);
-    expect(screen.getByTestId('iris-app-main-home-tab')).toHaveTextContent('Início');
+    expect(screen.getByTestId('iris-app-main-tabbar-home-tab')).toHaveTextContent('Início');
   });
 
   it('sem data-testid as abas ficam sem id', () => {

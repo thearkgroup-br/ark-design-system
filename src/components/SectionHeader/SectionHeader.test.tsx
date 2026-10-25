@@ -23,8 +23,8 @@ describe('SectionHeader', () => {
   it('repassa o data-testid e deriva título e texto', () => {
     render(<SectionHeader eyebrow="Para quem é" title="Feito para cada fase do seu negócio." text="Do salão de bairro à rede." data-testid={ID} />);
     expect(screen.getByTestId(ID)).toHaveTextContent('( Para quem é )');
-    expect(screen.getByTestId('ark-landing-audience-title')).toHaveTextContent('Feito para cada fase do seu negócio.');
-    expect(screen.getByTestId('ark-landing-audience-text')).toHaveTextContent('Do salão de bairro à rede.');
+    expect(screen.getByTestId('ark-landing-audience-header-title')).toHaveTextContent('Feito para cada fase do seu negócio.');
+    expect(screen.getByTestId('ark-landing-audience-header-text')).toHaveTextContent('Do salão de bairro à rede.');
   });
 
   it('título é h2 por padrão; hero usa level 1 e o tamanho de topo', () => {

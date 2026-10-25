@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { Footer } from './Footer';
+import { SiteHeader } from '../SiteHeader/SiteHeader';
 
 const ID = 'ark-landing-footer';
 const COLUNAS = [
@@ -12,11 +13,23 @@ describe('Footer', () => {
   it('repassa o data-testid para o footer e deriva os links', () => {
     render(<Footer columns={COLUNAS} bottomLinks={BAIXO} legal="© 2026 The Ark Group" data-testid={ID} />);
     expect(screen.getByTestId(ID).tagName).toBe('FOOTER');
-    expect(screen.getByTestId('ark-landing-link')).toHaveTextContent('Íris');
-    expect(screen.getByTestId('ark-landing-arca-link')).toHaveAttribute('href', '/arca');
-    expect(screen.getByTestId('ark-landing-legal-link')).toHaveTextContent('Política de privacidade');
-    expect(screen.getByTestId('ark-landing-terms-link')).toHaveAttribute('href', '/termos');
-    expect(screen.getByTestId('ark-landing-legal')).toHaveTextContent('© 2026 The Ark Group');
+    expect(screen.getByTestId('ark-landing-footer-link')).toHaveTextContent('Íris');
+    expect(screen.getByTestId('ark-landing-footer-arca-link')).toHaveAttribute('href', '/arca');
+    expect(screen.getByTestId('ark-landing-footer-legal-link')).toHaveTextContent('Política de privacidade');
+    expect(screen.getByTestId('ark-landing-footer-terms-link')).toHaveAttribute('href', '/termos');
+    expect(screen.getByTestId('ark-landing-footer-legal')).toHaveTextContent('© 2026 The Ark Group');
+  });
+
+  it('o mesmo link no cabeçalho e no rodapé ganha ids diferentes (exemplo da skill)', () => {
+    const como = { label: 'Como funciona', href: '#how', id: 'how' };
+    render(
+      <>
+        <SiteHeader links={[como]} data-testid="ark-landing-header" />
+        <Footer columns={[{ title: 'Site', items: [como] }]} data-testid={ID} />
+      </>,
+    );
+    expect(screen.getByTestId('ark-landing-header-how-link')).toHaveTextContent('Como funciona');
+    expect(screen.getByTestId('ark-landing-footer-how-link')).toHaveTextContent('Como funciona');
   });
 
   it('item em texto fica como texto selecionável, sem link', () => {

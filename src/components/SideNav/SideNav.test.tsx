@@ -14,8 +14,8 @@ describe('SideNav', () => {
   it('repassa o data-testid para o nav e deriva link e contador de cada item', () => {
     render(<SideNav items={ITENS} data-testid={ID} />);
     expect(screen.getByTestId(ID).tagName).toBe('NAV');
-    expect(screen.getByTestId('iris-app-side-schedule-link')).toHaveTextContent('Agenda');
-    expect(screen.getByTestId('iris-app-side-schedule-count')).toHaveTextContent('8');
+    expect(screen.getByTestId('iris-app-side-nav-schedule-link')).toHaveTextContent('Agenda');
+    expect(screen.getByTestId('iris-app-side-nav-schedule-count')).toHaveTextContent('8');
   });
 
   it('é uma lista com nome; padrão "Menu do painel"', () => {
@@ -41,8 +41,8 @@ describe('SideNav', () => {
 
   it('mostra contador só quando existe, inclusive 0', () => {
     render(<SideNav items={ITENS} data-testid={ID} />);
-    expect(screen.getByTestId('iris-app-side-help-count')).toHaveTextContent('0');
-    expect(screen.queryByTestId('iris-app-side-clients-count')).not.toBeInTheDocument();
+    expect(screen.getByTestId('iris-app-side-nav-help-count')).toHaveTextContent('0');
+    expect(screen.queryByTestId('iris-app-side-nav-clients-count')).not.toBeInTheDocument();
   });
 
   it('mostra a marca e o rodapé quando recebe', () => {
