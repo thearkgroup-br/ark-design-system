@@ -52,6 +52,8 @@ export { Chip } from './components/Chip';
 export type { ChipProps } from './components/Chip';
 export { Card } from './components/Card';
 export type { CardProps } from './components/Card';
+export { ListItem } from './components/ListItem';
+export type { ListItemProps } from './components/ListItem';
 export { Avatar } from './components/Avatar';
 export type { AvatarProps } from './components/Avatar';
 export { Rating } from './components/Rating';
