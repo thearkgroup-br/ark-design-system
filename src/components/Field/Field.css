@@ -1,0 +1,15 @@
+.ak-field { display: flex; flex-direction: column; gap: 6px; font-family: var(--font-sans); min-width: 0; }
+.ak-field-top { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-2); }
+.ak-label { font-size: 14px; font-weight: 600; color: var(--ink); }
+.ak-opt { font-weight: 400; color: var(--ink-muted); }
+.ak-count { font-size: 12px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.ak-input { font: inherit; font-family: var(--font-sans); font-size: 16px; color: var(--ink); width: 100%; min-height: var(--size-field);
+  padding: 0 14px; border-radius: var(--radius-md); border: 1px solid var(--line-control); background: var(--surface); appearance: none; }
+.ak-input:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+textarea.ak-input { padding: 14px; min-height: 104px; resize: vertical; line-height: 1.45; }
+.ak-input::placeholder { color: var(--ink-muted); }
+.ak-input[aria-invalid="true"] { border: 2px solid var(--danger); }
+.ak-input:disabled { background: var(--surface-sunken); color: var(--ink-disabled); cursor: not-allowed; }
+.ak-hint { font-size: 13px; line-height: 18px; color: var(--ink-muted); }
+.ak-error { font-size: 13px; line-height: 18px; color: var(--danger-ink); font-weight: 600; display: flex; gap: 6px; align-items: flex-start; }
+.ak-error svg { flex: 0 0 auto; margin-top: 1px; }
