@@ -50,6 +50,15 @@ describe('ServiceItem', () => {
     expect(onFavorite).toHaveBeenCalledWith(false);
   });
 
+  it('favoritos que chegam depois acendem o coração (mesmo sem onFavorite)', async () => {
+    const { rerender } = render(<ServiceItem name="Corte" duration="40 min" price={35} />);
+    expect(screen.getByRole('button', { name: 'Favoritar Corte' })).toBeInTheDocument();
+    rerender(<ServiceItem name="Corte" duration="40 min" price={35} favorite />);
+    expect(screen.getByRole('button', { name: 'Remover Corte' })).toHaveAttribute('aria-pressed', 'true');
+    await userEvent.click(screen.getByRole('button', { name: 'Remover Corte' }));
+    expect(screen.getByRole('button', { name: 'Favoritar Corte' })).toBeInTheDocument();
+  });
+
   it('controlado por selected', async () => {
     const onToggle = vi.fn();
     render(<ServiceItem name="Corte" duration="40 min" price={35} selected onToggle={onToggle} />);

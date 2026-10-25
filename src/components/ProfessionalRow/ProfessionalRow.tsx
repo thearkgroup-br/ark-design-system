@@ -33,6 +33,8 @@ export function ProfessionalRow({ name, subtitle, selected, onSelect, favorite, 
       {!anyone && (
         <FavoriteButton
           label={name}
+          // Sem quem avise, o coração funciona sozinho e recomeça quando `favorite` muda (favoritos que chegam depois).
+          key={onFavorite ? 'controlado' : `fav-${String(favorite)}`}
           {...(onFavorite ? { active: favorite, onToggle: onFavorite } : { defaultActive: favorite })}
           data-testid={testIdParte(testId, 'favorite-button')}
         />

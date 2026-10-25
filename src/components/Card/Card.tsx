@@ -27,12 +27,13 @@ const ehNomeDeIcone = (v: unknown): v is IconName => typeof v === 'string' && (I
 /** Bloco com título, texto e um detalhe. O data-testid vai no card (div, link ou botão); o título ganha `{base}-title`. */
 export function Card({ title, text, icon, number, badge, footer, tone = 'surface', size, href, onClick, children, 'data-testid': testId }: CardProps) {
   const clicavel = Boolean(href || onClick);
+  const desenho = ehNomeDeIcone(icon) ? renderIcon(icon, 26) : isValidElement(icon) ? icon : null;
   const classes = cx('ak-card', `ak-card-${tone}`, clicavel && 'ak-card-link', size === 'sm' && 'ak-card-sm');
   const conteudo = (
     <>
-      {icon != null && icon !== false && (
+      {desenho && (
         <span className="ak-card-icon" aria-hidden="true">
-          {ehNomeDeIcone(icon) ? renderIcon(icon, 26) : isValidElement(icon) ? icon : null}
+          {desenho}
         </span>
       )}
       {number && <span className="ak-num">{number}</span>}

@@ -45,6 +45,8 @@ export function ServiceItem({ name, description, duration, price, priceFrom, sel
       {onFavorite !== false && (
         <FavoriteButton
           label={name}
+          // Sem quem avise, o coração funciona sozinho e recomeça quando `favorite` muda (favoritos que chegam depois).
+          key={typeof onFavorite === 'function' ? 'controlado' : `fav-${String(favorite)}`}
           {...(typeof onFavorite === 'function' ? { active: favorite, onToggle: onFavorite } : { defaultActive: favorite })}
           data-testid={testIdParte(testId, 'favorite-button')}
         />

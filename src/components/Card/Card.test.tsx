@@ -30,6 +30,11 @@ describe('Card', () => {
     expect(screen.getByTestId('meu-icone')).toBeInTheDocument();
   });
 
+  it('ícone desconhecido não deixa caixa vazia', () => {
+    const { container } = render(<Card title="X" icon={'foguete' as never} />);
+    expect(container.querySelector('.ak-card-icon')).toBeNull();
+  });
+
   it('mostra número, selo e rodapé', () => {
     render(<Card number="01" title="Comece" badge="Grátis" footer="30 dias" />);
     expect(screen.getByText('01')).toHaveClass('ak-num');

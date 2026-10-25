@@ -23,3 +23,5 @@ Bloco com título, texto e um detalhe (ícone, número, selo ou rodapé). Serve 
 ## data-testid
 
 Vai no card (`div`, `a` ou `button`); o título ganha `{base}-title`. Ex.: `ark-landing-companies-card` → `ark-landing-companies-title`.
+
+Card clicável (`href` ou `onClick`) não pode ter botão ou link dentro (`children`, `footer`): seria um controle dentro de outro.

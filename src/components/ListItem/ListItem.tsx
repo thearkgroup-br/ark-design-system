@@ -24,7 +24,12 @@ export interface ListItemProps extends TestIdProps {
  */
 export function ListItem({ title, subtitle, icon, avatar, leading, trailing, href, onClick, chevron, 'data-testid': testId }: ListItemProps) {
   const clicavel = Boolean(href || onClick);
-  const inicio = avatar ? <Avatar name={avatar} size={40} /> : icon ? <span className="ak-li-icon">{renderIcon(icon, 20)}</span> : leading;
+  // O avatar repete o nome do título: fica escondido para o leitor de tela não ler duas vezes.
+  const inicio = avatar ? (
+    <span className="ak-li-avatar" aria-hidden="true">
+      <Avatar name={avatar} size={40} />
+    </span>
+  ) : icon ? <span className="ak-li-icon">{renderIcon(icon, 20)}</span> : leading;
   const conteudo = (
     <>
       {inicio}

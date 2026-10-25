@@ -1,4 +1,4 @@
-import { useRef, type KeyboardEvent } from 'react';
+import { useEffect, useRef, type KeyboardEvent } from 'react';
 import { renderIcon } from '../../icons/icons';
 import { cx, formatarNota, testIdParte, useControllable, type TestIdProps } from '../../utils';
 
@@ -20,15 +20,25 @@ const ROTULOS = ['Muito ruim', 'Ruim', 'Regular', 'Bom', 'Excelente'];
 const NOTAS = [1, 2, 3, 4, 5];
 
 function Entrada({ value, defaultValue = 0, label, onChange, 'data-testid': testId }: RatingProps) {
-  const [nota, definir] = useControllable<number>(value, defaultValue, onChange);
+  const [valor, definir] = useControllable<number>(value, defaultValue, onChange);
+  // Nota inteira de 0 a 5 (valor fracionado, fora da faixa ou NaN não tira o grupo do Tab).
+  const nota = Number.isFinite(valor) ? Math.min(5, Math.max(0, Math.round(valor))) : 0;
   const estrelas = useRef<(HTMLButtonElement | null)[]>([]);
+  const focarDepois = useRef(false);
+  // O foco segue a nota que valeu (num controlado, só se o pai aceitar a mudança).
+  useEffect(() => {
+    if (!focarDepois.current) return;
+    focarDepois.current = false;
+    estrelas.current[(nota || 1) - 1]?.focus();
+  }, [nota]);
   const escolher = (n: number) => {
+    if (n === nota) return;
+    focarDepois.current = true;
     definir(n);
-    estrelas.current[n - 1]?.focus();
   };
   // Grupo de radios: setas mudam a nota, Home/End vão para 1 e 5.
   const aoTeclar = (e: KeyboardEvent) => {
-    const atual = nota || 0;
+    const atual = nota;
     const proxima = { ArrowRight: atual + 1, ArrowUp: atual + 1, ArrowLeft: atual - 1, ArrowDown: atual - 1, Home: 1, End: 5 }[e.key];
     if (proxima === undefined) return;
     e.preventDefault();
@@ -63,8 +73,9 @@ function Entrada({ value, defaultValue = 0, label, onChange, 'data-testid': test
 export function Rating(props: RatingProps) {
   const { value, count, compact, editable, 'data-testid': testId } = props;
   if (editable) return <Entrada {...props} />;
-  const nota = Math.min(5, Math.max(0, value ?? 0));
-  if (value == null || (nota === 0 && !count)) {
+  const valida = typeof value === 'number' && Number.isFinite(value);
+  const nota = valida ? Math.min(5, Math.max(0, value)) : 0;
+  if (!valida || (nota === 0 && !count)) {
     return (
       <span className="ak-rating ak-rating-vazio" data-testid={testId}>
         Sem avaliações
@@ -73,12 +84,12 @@ export function Rating(props: RatingProps) {
   }
   const texto = formatarNota(nota);
   return (
-    <span className="ak-rating" role="img" aria-label={`Nota ${texto} de 5${count != null ? `, ${count} avaliações` : ''}`} data-testid={testId}>
+    <span className="ak-rating" role="img" aria-label={`Nota ${texto} de 5${count ? `, ${count} ${count === 1 ? 'avaliação' : 'avaliações'}` : ''}`} data-testid={testId}>
       <span className="ak-stars" aria-hidden="true">
         {compact ? renderIcon('star', 16, true) : NOTAS.map((n) => <span key={n}>{renderIcon('star', 16, n <= Math.round(nota))}</span>)}
       </span>
       <span aria-hidden="true">{texto}</span>
-      {count != null && (
+      {!!count && (
         <span className="ak-rcount" aria-hidden="true">
           ({count})
         </span>

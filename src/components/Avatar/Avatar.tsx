@@ -12,7 +12,7 @@ export interface AvatarProps extends TestIdProps {
 export function Avatar({ name, src, alt, size = 44, 'data-testid': testId }: AvatarProps) {
   return (
     <span className="ak-avatar" style={{ width: size, height: size, fontSize: Math.round(size * 0.36) }} data-testid={testId}>
-      {src ? <img src={src} alt={alt ?? name ?? ''} /> : <span aria-hidden={name ? true : undefined}>{iniciais(name)}</span>}
+      {src ? <img src={src} alt={alt ?? name ?? ''} /> : <span aria-hidden="true">{iniciais(name)}</span>}
       {!src && name && <span className="ak-sr">{name}</span>}
     </span>
   );

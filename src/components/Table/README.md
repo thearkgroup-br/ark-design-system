@@ -24,3 +24,5 @@ Tabela de dados para o painel no computador. Em espaço estreito (celular), vira
 | Tabela | `iris-schedule-day-table` |
 | Cada linha | `iris-schedule-day-row` |
 | Mensagem de vazio | `iris-schedule-day-empty` |
+
+No modo cartão (estreito) alguns leitores de tela deixam de anunciar a tabela como tabela, porque as células viram blocos; o rótulo de cada coluna continua aparecendo (`data-label`). No app do celular, prefira ListItem.

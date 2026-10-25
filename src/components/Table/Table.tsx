@@ -20,7 +20,8 @@ export interface TableProps extends TestIdProps {
   empty?: string;
 }
 
-const chave = (linha: Record<string, ReactNode>, i: number) => (typeof linha.id === 'string' || typeof linha.id === 'number' ? linha.id : i);
+const chave = (linha: Record<string, ReactNode>, i: number) =>
+  typeof linha.id === 'string' || typeof linha.id === 'number' ? `id:${linha.id}` : `i:${i}`;
 
 /**
  * Tabela de dados do painel. Em espaço estreito (até 560 px de largura da própria tabela) vira lista de cartões

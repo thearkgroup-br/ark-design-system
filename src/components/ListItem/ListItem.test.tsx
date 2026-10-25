@@ -36,6 +36,8 @@ describe('ListItem', () => {
   it('avatar mostra iniciais; ícone fica escondido', () => {
     const { container, rerender } = render(<ListItem title="Maria Souza" avatar="Maria Souza" />);
     expect(container.querySelector('.ak-avatar')).toHaveTextContent('MS');
+    // O nome não é lido duas vezes (título + avatar).
+    expect(container.querySelector('.ak-li-avatar')).toHaveAttribute('aria-hidden', 'true');
     rerender(<ListItem title="Agenda" icon="calendar" />);
     expect(container.querySelector('.ak-li-icon svg')).toHaveAttribute('aria-hidden', 'true');
   });

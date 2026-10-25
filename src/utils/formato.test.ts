@@ -7,6 +7,14 @@ describe('formatarDinheiro', () => {
     expect(formatarDinheiro(9999.99)).toBe('R$ 9.999,99');
     expect(formatarDinheiro(0)).toBe('R$ 0,00');
   });
+
+  it('negativo com sinal na frente; -0 vira 0; sem número vira "—"', () => {
+    expect(formatarDinheiro(-35)).toBe('-R$ 35,00');
+    expect(formatarDinheiro(-0.001)).toBe('R$ 0,00');
+    expect(formatarDinheiro(NaN)).toBe('—');
+    expect(formatarDinheiro(undefined as unknown as number)).toBe('—');
+    expect(formatarNota(NaN)).toBe('—');
+  });
 });
 
 describe('formatarNota', () => {

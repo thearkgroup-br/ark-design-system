@@ -20,6 +20,16 @@ describe('Rating (exibição)', () => {
     expect(screen.getByTestId('r')).not.toHaveTextContent('0,0');
   });
 
+  it('NaN é "Sem avaliações"; 1 avaliação no singular; 0 avaliações some', () => {
+    const { rerender } = render(<Rating value={NaN} data-testid="r" />);
+    expect(screen.getByTestId('r')).toHaveTextContent('Sem avaliações');
+    rerender(<Rating value={5} count={1} data-testid="r" />);
+    expect(screen.getByTestId('r')).toHaveAccessibleName('Nota 5,0 de 5, 1 avaliação');
+    rerender(<Rating value={4.8} count={0} data-testid="r" />);
+    expect(screen.getByTestId('r')).toHaveAccessibleName('Nota 4,8 de 5');
+    expect(screen.getByTestId('r')).not.toHaveTextContent('(0)');
+  });
+
   it('5 estrelas, preenchidas pela nota arredondada; compact mostra uma', () => {
     const { container, rerender } = render(<Rating value={3.6} />);
     expect(container.querySelectorAll('svg')).toHaveLength(5);
@@ -78,6 +88,24 @@ describe('Rating (entrada)', () => {
     await userEvent.click(screen.getByRole('radio', { name: '5 estrelas, Excelente' }));
     expect(onChange).toHaveBeenCalledWith(5);
     expect(screen.getByRole('radio', { name: '2 estrelas, Ruim' })).toHaveAttribute('aria-checked', 'true');
+  });
+
+  it('nota fracionada ou fora da faixa não tira o grupo do Tab', async () => {
+    const { rerender } = render(<Rating editable value={4.3} />);
+    expect(screen.getByRole('radio', { name: '4 estrelas, Bom' })).toHaveAttribute('tabindex', '0');
+    rerender(<Rating editable value={7} />);
+    expect(screen.getByRole('radio', { name: '5 estrelas, Excelente' })).toHaveAttribute('tabindex', '0');
+    rerender(<Rating editable value={NaN} />);
+    await userEvent.tab();
+    expect(screen.getByRole('radio', { name: '1 estrela, Muito ruim' })).toHaveFocus();
+  });
+
+  it('seta além do limite não avisa mudança', async () => {
+    const onChange = vi.fn();
+    render(<Rating editable defaultValue={5} onChange={onChange} />);
+    await userEvent.tab();
+    await userEvent.keyboard('{ArrowRight}{End}');
+    expect(onChange).not.toHaveBeenCalled();
   });
 
   it('aceita outro nome de grupo', () => {
