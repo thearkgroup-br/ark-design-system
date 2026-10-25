@@ -59,6 +59,20 @@ describe('CSS dos componentes', () => {
     expect(faltando).toEqual([]);
   });
 
+  it('componentes .tsx não escrevem cor em hex (exceção: cores fixas do desenho do Logo)', () => {
+    const tsx = (pasta: string): string[] =>
+      readdirSync(pasta).flatMap((nome) => {
+        const caminho = join(pasta, nome);
+        if (statSync(caminho).isDirectory()) return tsx(caminho);
+        return /\.tsx?$/.test(nome) && !/\.test\.tsx?$/.test(nome) ? [caminho] : [];
+      });
+    const comCor = tsx(resolve(SRC, 'components'))
+      .filter((f) => !f.endsWith(join('Logo', 'Logo.tsx')))
+      .filter((f) => /['"`]#[0-9a-f]{3,8}['"`]/i.test(readFileSync(f, 'utf8')))
+      .map((f) => relative(SRC, f));
+    expect(comCor).toEqual([]);
+  });
+
   it('todo CSS de componente entra no CSS único do pacote', () => {
     const pastaEstilos = resolve(SRC, 'styles');
     const indice = readFileSync(resolve(pastaEstilos, 'index.css'), 'utf8');

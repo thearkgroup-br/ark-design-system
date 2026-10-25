@@ -1,0 +1,25 @@
+.ak-siteheader { container-type: inline-size; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-sans); z-index: 50; }
+.ak-sticky { position: sticky; top: env(safe-area-inset-top, 0px); }
+.ak-siteheader-in { max-width: var(--size-container); margin: 0 auto; min-height: var(--size-header); padding: 10px max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px)); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.ak-siteheader-logo { display: inline-flex; text-decoration: none; border-radius: 8px; }
+.ak-siteheader-logo:focus-visible, .ak-navlink:focus-visible, .ak-drawer-link:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* Quebra linha em vez de estourar entre 861 px e a largura em que tudo cabe numa linha. */
+.ak-siteheader-nav { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 4px 20px; min-width: 0; }
+.ak-navlink { white-space: nowrap; color: var(--ink); text-decoration: none; font-size: 15px; font-weight: 600; min-height: var(--size-touch); display: flex; align-items: center; border-radius: 8px; }
+.ak-navlink:hover { color: var(--brand); text-decoration: underline; text-underline-offset: 4px; }
+.ak-siteheader-mobile { display: none; align-items: center; gap: 8px; }
+.ak-siteheader-drawer { display: none; }
+@container (max-width: 860px) {
+  .ak-siteheader-nav { display: none; }
+  .ak-siteheader-mobile { display: flex; }
+  .ak-siteheader-drawer { display: flex; flex-direction: column; gap: 4px; padding: 8px 16px 16px; border-top: 1px solid var(--line); }
+}
+.ak-siteheader-drawer .ak-btn { display: none; }
+@container (max-width: 420px) {
+  .ak-siteheader-mobile .ak-btn { display: none; }
+  .ak-siteheader-drawer .ak-btn { display: flex; align-self: flex-start; margin-top: 8px; }
+}
+/* Abaixo de 340 px o nome escrito não cabe ao lado do menu: fica só o símbolo (o nome continua sendo falado). */
+@container (max-width: 340px) { .ak-siteheader-logo .ak-logo:has(svg) .ak-logo-name { display: none; } }
+.ak-drawer-link { color: var(--ink); text-decoration: none; font-size: 16px; font-weight: 600; min-height: 48px; display: flex; align-items: center; border-bottom: 1px solid var(--line); }
+.ak-siteheader-drawer .ak-theme { margin-top: 8px; align-self: flex-start; }

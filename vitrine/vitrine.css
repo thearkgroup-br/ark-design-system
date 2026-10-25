@@ -8,7 +8,7 @@ body { margin: 0; background: var(--bg); }
 .vt-tema select { font: inherit; min-height: var(--size-touch); padding: 0 var(--space-3); border-radius: var(--radius-md); border: 1px solid var(--line-control);
   background: var(--surface); color: var(--ink); }
 .vt-tema select:focus-visible, .vt-indice a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
-.vt-corpo { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: var(--space-6); max-width: var(--size-container); margin: 0 auto; padding: var(--space-6) var(--space-5); }
+.vt-corpo { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: var(--space-6); max-width: calc(var(--size-container) + 120px); margin: 0 auto; padding: var(--space-6) var(--space-5); }
 .vt-indice { position: sticky; top: 88px; align-self: start; display: flex; flex-direction: column; gap: 2px; }
 .vt-indice a { color: var(--ink-muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 6px 10px; border-radius: var(--radius-sm); }
 .vt-indice a:hover { background: var(--surface-sunken); color: var(--ink); }
@@ -42,3 +42,5 @@ body { margin: 0; background: var(--bg); }
 .vt-logo-escuro figcaption { color: var(--bg); }
 .vt-lista { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: 15px; color: var(--ink); }
 .vt-lista li { padding: var(--space-2) var(--space-3); background: var(--surface-sunken); border-radius: var(--radius-sm); }
+.vt-moldura { width: 100%; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; background: var(--bg); }
+.vt-celular { max-width: 390px; height: 260px; justify-content: flex-end; }

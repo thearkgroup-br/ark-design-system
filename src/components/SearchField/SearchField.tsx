@@ -1,6 +1,6 @@
-import { forwardRef, useId, useImperativeHandle, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { renderIcon } from '../../icons/icons';
-import { BUSCA_MAXIMO, testIdParte, useControllable, type TestIdProps } from '../../utils';
+import { BUSCA_MAXIMO, testIdParte, useControllable, useIdDoDom, type TestIdProps } from '../../utils';
 import { IconButton } from '../IconButton/IconButton';
 
 export interface SearchFieldProps extends TestIdProps {
@@ -23,8 +23,8 @@ export const SearchField = forwardRef<HTMLInputElement, SearchFieldProps>(functi
   { id, label, hideLabel, placeholder, value, defaultValue, onChange, name, 'data-testid': testId },
   ref,
 ) {
-  const idGerado = useId();
-  const campoId = id ?? `ak-busca-${idGerado.replace(/:/g, '')}`;
+  const idGerado = useIdDoDom('ak-busca');
+  const campoId = id ?? idGerado;
   const [atual, definir] = useControllable<string>(value, defaultValue ?? '', onChange);
   const input = useRef<HTMLInputElement>(null);
   useImperativeHandle(ref, () => input.current as HTMLInputElement, []);

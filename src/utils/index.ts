@@ -2,4 +2,5 @@ export { BUSCA_ATRASO_MS, BUSCA_MAXIMO, BUSCA_MINIMO, buscaEncontra, normalizarB
 export { cx } from './cx';
 export { testIdParte } from './testid';
 export type { TestIdProps } from './testid';
+export { useIdDoDom } from './id';
 export { useControllable } from './useControllable';

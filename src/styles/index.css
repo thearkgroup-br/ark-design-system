@@ -10,3 +10,9 @@
 @import '../components/Checkbox/Checkbox.css';
 @import '../components/Switch/Switch.css';
 @import '../components/Segmented/Segmented.css';
+@import '../components/Logo/Logo.css';
+@import '../components/TopBar/TopBar.css';
+@import '../components/TabBar/TabBar.css';
+@import '../components/SideNav/SideNav.css';
+@import '../components/SiteHeader/SiteHeader.css';
+@import '../components/Footer/Footer.css';
