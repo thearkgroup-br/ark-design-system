@@ -41,6 +41,7 @@ import { Button, TextField } from 'ark-design-system';
 | Instalar | `npm install` |
 | Vitrine local | `npm run vitrine` (http://localhost:5180) |
 | Testes | `npm test` |
+| Cobertura (mínimo de 80% por arquivo) | `npm run test:coverage` |
 | Lint e tipos | `npm run lint` |
 | Regenerar tokens | `npm run tokens` |
 | Build | `npm run build` |
