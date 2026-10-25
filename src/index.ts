@@ -10,6 +10,8 @@ export { SearchField } from './components/SearchField';
 export type { SearchFieldProps } from './components/SearchField';
 export { Select } from './components/Select';
 export type { SelectOption, SelectProps } from './components/Select';
+export { Checkbox } from './components/Checkbox';
+export type { CheckboxProps } from './components/Checkbox';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';
