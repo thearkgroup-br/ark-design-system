@@ -28,6 +28,8 @@ export { TabBar } from './components/TabBar';
 export type { NavItem, TabBarProps } from './components/TabBar';
 export { SideNav } from './components/SideNav';
 export type { SideNavProps } from './components/SideNav';
+export { SiteHeader } from './components/SiteHeader';
+export type { SiteHeaderProps, SiteLink } from './components/SiteHeader';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';
