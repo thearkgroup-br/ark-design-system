@@ -4,3 +4,9 @@
 @import '../components/Field/Field.css';
 @import '../components/Button/Button.css';
 @import '../components/ThemeToggle/ThemeToggle.css';
+@import '../components/IconButton/IconButton.css';
+@import '../components/Select/Select.css';
+@import '../components/SearchField/SearchField.css';
+@import '../components/Checkbox/Checkbox.css';
+@import '../components/Switch/Switch.css';
+@import '../components/Segmented/Segmented.css';

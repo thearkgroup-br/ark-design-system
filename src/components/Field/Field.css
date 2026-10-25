@@ -13,3 +13,7 @@ textarea.ak-input { padding: 14px; min-height: 104px; resize: vertical; line-hei
 .ak-hint { font-size: 13px; line-height: 18px; color: var(--ink-muted); }
 .ak-error { font-size: 13px; line-height: 18px; color: var(--danger-ink); font-weight: 600; display: flex; gap: 6px; align-items: flex-start; }
 .ak-error svg { flex: 0 0 auto; margin-top: 1px; }
+/* Texto de controles de escolha (Checkbox, Switch) */
+.ak-check-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ak-check-label { font-size: 15px; line-height: 22px; font-weight: 600; color: var(--ink); }
+.ak-check-label a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
