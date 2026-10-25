@@ -23,6 +23,8 @@ Design system da The Ark Group: tokens e componentes React usados no `iris-pwa`,
 - Instalar: `npm install` (o `prepare` já gera o `dist/`).
 - Vitrine: `npm run vitrine` → http://localhost:5180 (seletor de marca e modo escuro no topo).
 - Testar: `npm test` (um arquivo: `npx vitest run src/components/Button/Button.test.tsx`).
+- Cobertura: `npm run test:coverage`. Mínimo de 80% de linhas, funções e branches **por arquivo**; abaixo disso falha. Relatório em `coverage/index.html`.
+- Versões: o time usa a major anterior à mais nova, desde que ela ainda tenha suporte oficial; se saiu de suporte, usa a atual (ver DECISOES.md, decisão 17).
 - Lint e tipos: `npm run lint`.
 - Tokens: editar `src/publico/tokens.json` e rodar `npm run tokens` (o teste falha se o `tokens.css` ficar desatualizado).
 - Build: `npm run build` → `dist/` (JS, `estilos.css`, `fonte.css`, `tokens.json`, `logos/`, tipos).
