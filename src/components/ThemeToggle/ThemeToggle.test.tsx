@@ -53,3 +53,12 @@ describe('ThemeToggle', () => {
     expect(onChange).toHaveBeenNthCalledWith(2, false);
   });
 });
+
+describe('ThemeToggle (CSS)', () => {
+  it('tem largura fixa de 156 px sem flex-basis (numa coluna, flex-basis viraria altura)', async () => {
+    const { readFileSync } = await import('node:fs');
+    const { resolve } = await import('node:path');
+    const css = readFileSync(resolve(__dirname, 'ThemeToggle.css'), 'utf8');
+    expect(css).toMatch(/width: 156px; flex: none;/);
+  });
+});

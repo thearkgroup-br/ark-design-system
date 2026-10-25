@@ -98,5 +98,7 @@ describe('SiteHeader', () => {
     expect(css).toContain('container-type: inline-size');
     expect(css).toMatch(/@container \(max-width: 860px\)/);
     expect(css).toMatch(/@container \(max-width: 420px\)/);
+    // Logo de 860 px para cima os links quebram linha em vez de rolar para o lado.
+    expect(css).toMatch(/\.ak-siteheader-nav \{[^}]*flex-wrap: wrap/);
   });
 });
