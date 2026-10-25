@@ -40,3 +40,5 @@ body { margin: 0; background: var(--bg); }
 .vt-logo-escuro { background: var(--ink); }
 .vt-logo figcaption { font-size: 12px; color: var(--ink-muted); }
 .vt-logo-escuro figcaption { color: var(--bg); }
+.vt-lista { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: 15px; color: var(--ink); }
+.vt-lista li { padding: var(--space-2) var(--space-3); background: var(--surface-sunken); border-radius: var(--radius-sm); }
