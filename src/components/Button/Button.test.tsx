@@ -68,6 +68,13 @@ describe('Button', () => {
     expect(screen.getByTestId('ark-landing-hero-contact-link')).toBe(link);
   });
 
+  it('link com target=_blank ganha rel seguro', () => {
+    render(<Button href="https://wa.me/5511912345678" target="_blank">Chamar no WhatsApp</Button>);
+    const link = screen.getByRole('link');
+    expect(link).toHaveAttribute('target', '_blank');
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+  });
+
   it('link desativado perde o href e avisa aria-disabled', async () => {
     const onClick = vi.fn();
     render(<Button href="/contato" disabled onClick={onClick}>Fale com a gente</Button>);

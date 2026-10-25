@@ -1,48 +1,45 @@
-import { forwardRef, type ChangeEvent, type FocusEvent, type Ref } from 'react';
+import { forwardRef, type ChangeEvent, type InputHTMLAttributes, type Ref } from 'react';
 import { testIdParte, useControllable } from '../../utils';
 import { FieldShell, fieldAria, type FieldBaseProps } from '../Field/FieldShell';
 
 type CampoEvento = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
+type AtributosNativos = Omit<
+  InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement>,
+  'id' | 'value' | 'defaultValue' | 'onChange' | 'type' | 'inputMode' | 'children' | 'size'
+>;
 
-export interface TextFieldProps extends FieldBaseProps {
-  disabled?: boolean;
+export interface TextFieldProps extends FieldBaseProps, AtributosNativos {
   value?: string;
   defaultValue?: string;
   onChange?: (e: CampoEvento) => void;
-  onBlur?: (e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  /** Só como exemplo ("Ex.: Maria Souza"); nunca no lugar do rótulo. */
-  placeholder?: string;
-  maxLength?: number;
   /** Mostra o contador "42/300". Precisa de maxLength. */
   showCount?: boolean;
   /** Vira textarea. */
   multiline?: boolean;
   type?: 'text' | 'email' | 'tel' | 'password' | 'number';
   inputMode?: 'text' | 'numeric' | 'tel' | 'email' | 'decimal';
-  autoComplete?: string;
-  required?: boolean;
-  name?: string;
 }
 
-/** Campo de texto com rótulo sempre visível, dica ou erro abaixo e contador opcional. O data-testid vai no input. */
-export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, TextFieldProps>(function TextField(props, ref) {
-  const { id, hint, error, disabled, value, defaultValue, onChange, onBlur, placeholder, maxLength, showCount, multiline, type, inputMode, autoComplete, required, name } = props;
-  const testId = props['data-testid'];
-  const [atual, definir] = useControllable<string, [CampoEvento]>(value, defaultValue ?? '', onChange && ((_v, e) => onChange(e)));
+/**
+ * Campo de texto com rótulo sempre visível, dica ou erro abaixo e contador opcional.
+ * O data-testid e os demais atributos nativos (onBlur, readOnly, autoFocus…) vão no input.
+ */
+export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, TextFieldProps>(function TextField(
+  { id, label, hint, error, optional, value, defaultValue, onChange, showCount, multiline, type, maxLength, 'data-testid': testId, ...nativos },
+  ref,
+) {
+  const [atual, definir] = useControllable<string>(value, defaultValue ?? '');
 
   const comum = {
+    ...nativos,
     id,
-    name,
     className: 'ak-input',
     value: atual,
-    onChange: (e: CampoEvento) => definir(e.target.value, e),
-    onBlur,
-    placeholder,
+    onChange: (e: CampoEvento) => {
+      definir(e.target.value);
+      onChange?.(e);
+    },
     maxLength,
-    inputMode,
-    autoComplete,
-    required,
-    disabled,
     'data-testid': testId,
     ...fieldAria({ id, hint, error }),
   };
@@ -55,7 +52,7 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
     ) : null;
 
   return (
-    <FieldShell {...props} count={count}>
+    <FieldShell id={id} label={label} hint={hint} error={error} optional={optional} count={count} data-testid={testId}>
       {multiline ? (
         <textarea {...comum} ref={ref as Ref<HTMLTextAreaElement>} />
       ) : (

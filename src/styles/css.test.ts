@@ -15,6 +15,7 @@ function arquivosCss(pasta: string): string[] {
 }
 
 const semFimDeLinhaWindows = (texto: string) => texto.replace(/\r\n/g, '\n');
+const semComentarios = (css: string) => css.replace(/\/\*[\s\S]*?\*\//g, '');
 
 describe('tokens', () => {
   it('tokens.css está em dia com o tokens.json (rode npm run tokens)', () => {
@@ -37,24 +38,31 @@ describe('tokens', () => {
   });
 });
 
+const COR_EM_FUNCAO = /#[0-9a-f]{3,8}\b|\b(rgba?|hsla?|hwb|oklch|oklab|lab|lch|color|color-mix)\(/gi;
+const COR_NOMEADA = /:[^;{}]*\b(white|black|red|green|blue|gray|grey|silver|orange|purple|yellow|pink|navy|teal)\b/gi;
+
 describe('CSS dos componentes', () => {
   const arquivos = [...arquivosCss(SRC), ...arquivosCss(VITRINE)].filter((f) => f !== CAMINHO_CSS);
+  const casos = arquivos.map((f) => [relative(SRC, f), f]);
+  const tokens = new Set([...readFileSync(CAMINHO_CSS, 'utf8').matchAll(/--([\w-]+):/g)].map((m) => m[1]));
 
-  it.each(arquivos.map((f) => [relative(SRC, f), f]))('%s não tem cor solta (só tokens)', (_nome, caminho) => {
-    const css = readFileSync(caminho, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
-    const cores = css.match(/#[0-9a-f]{3,8}\b|\b(rgba?|hsla?|oklch|lab|lch)\(/gi);
-    expect(cores).toBeNull();
+  it.each(casos)('%s não tem cor solta (só tokens)', (_nome, caminho) => {
+    const css = semComentarios(readFileSync(caminho, 'utf8'));
+    expect(css.match(COR_EM_FUNCAO)).toBeNull();
+    expect(css.match(COR_NOMEADA)).toBeNull();
   });
 
-  it('todo var(--x) usado existe nos tokens ou é definido no próprio CSS', () => {
-    const tokensCss = readFileSync(CAMINHO_CSS, 'utf8');
-    const definidos = new Set([...tokensCss.matchAll(/--([\w-]+):/g)].map((m) => m[1]));
-    for (const arquivo of arquivos) {
-      const css = readFileSync(arquivo, 'utf8');
-      for (const m of css.matchAll(/--([\w-]+):/g)) definidos.add(m[1]);
-    }
-    const usados = arquivos.flatMap((f) => [...readFileSync(f, 'utf8').matchAll(/var\(--([\w-]+)/g)].map((m) => [relative(SRC, f), m[1]]));
-    const faltando = usados.filter(([, nome]) => !definidos.has(nome));
+  it.each(casos)('%s só usa var(--x) que existe nos tokens ou no próprio arquivo', (_nome, caminho) => {
+    const css = semComentarios(readFileSync(caminho, 'utf8'));
+    const locais = new Set([...css.matchAll(/--([\w-]+):/g)].map((m) => m[1]));
+    const faltando = [...css.matchAll(/var\(--([\w-]+)/g)].map((m) => m[1]).filter((n) => !tokens.has(n) && !locais.has(n));
     expect(faltando).toEqual([]);
+  });
+
+  it('todo CSS de componente entra no CSS único do pacote', () => {
+    const pastaEstilos = resolve(SRC, 'styles');
+    const indice = readFileSync(resolve(pastaEstilos, 'index.css'), 'utf8');
+    const componentes = arquivosCss(resolve(SRC, 'components')).map((f) => relative(pastaEstilos, f).split('\\').join('/'));
+    for (const css of componentes) expect(indice).toContain(`@import '${css}';`);
   });
 });

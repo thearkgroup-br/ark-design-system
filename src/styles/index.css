@@ -1,2 +1,6 @@
+/* CSS único do pacote (dist/estilos.css). Todo CSS de componente entra aqui; um teste confere. */
 @import './tokens.css';
 @import './base.css';
+@import '../components/Field/Field.css';
+@import '../components/Button/Button.css';
+@import '../components/ThemeToggle/ThemeToggle.css';

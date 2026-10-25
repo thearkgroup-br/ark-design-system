@@ -1,9 +1,11 @@
 import { forwardRef, type AnchorHTMLAttributes, type ButtonHTMLAttributes, type MouseEvent, type Ref } from 'react';
 import { renderIcon, type IconName } from '../../icons/icons';
 import { cx, type TestIdProps } from '../../utils';
-import './Button.css';
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, TestIdProps {
+export interface ButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement>,
+    Pick<AnchorHTMLAttributes<HTMLAnchorElement>, 'target' | 'rel' | 'download' | 'hrefLang'>,
+    TestIdProps {
   variant?: 'primary' | 'secondary' | 'ghost' | 'soft' | 'danger' | 'danger-outline';
   size?: 'sm' | 'md' | 'lg';
   /** Ocupa a largura toda (botão do rodapé do app no celular). */
@@ -14,14 +16,14 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, Te
   loading?: boolean;
   /** Texto enquanto carrega, dizendo o que acontece: "Salvando…". Padrão "Carregando…". */
   loadingText?: string;
-  /** Com href vira link com o mesmo visual. */
+  /** Com href vira link com o mesmo visual (aceita target, rel e download). */
   href?: string;
   iconLeft?: IconName;
   iconRight?: IconName;
 }
 
 export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(function Button(
-  { variant = 'primary', size, block, pill, loading, loadingText, href, iconLeft, iconRight, className, children, disabled, type, onClick, ...rest },
+  { variant = 'primary', size, block, pill, loading, loadingText, href, target, rel, download, hrefLang, iconLeft, iconRight, className, children, disabled, type, onClick, ...rest },
   ref,
 ) {
   const classes = cx(
@@ -60,6 +62,10 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
         {...(rest as AnchorHTMLAttributes<HTMLAnchorElement>)}
         ref={ref as Ref<HTMLAnchorElement>}
         href={inativo ? undefined : href}
+        target={target}
+        rel={rel ?? (target === '_blank' ? 'noopener noreferrer' : undefined)}
+        download={download}
+        hrefLang={hrefLang}
         role={inativo ? 'link' : undefined}
         aria-disabled={inativo ? 'true' : undefined}
         aria-busy={loading ? 'true' : undefined}

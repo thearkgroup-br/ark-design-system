@@ -1,6 +1,5 @@
 import { renderIcon } from '../../icons/icons';
 import { useControllable, type TestIdProps } from '../../utils';
-import './ThemeToggle.css';
 
 export interface ThemeToggleProps extends TestIdProps {
   /** Modo escuro ligado (controlado). */

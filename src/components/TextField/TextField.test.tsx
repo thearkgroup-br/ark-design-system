@@ -99,6 +99,16 @@ describe('TextField', () => {
     expect(campo).toBeDisabled();
   });
 
+  it('repassa atributos nativos como readOnly, autoFocus e onBlur ao input', async () => {
+    const onBlur = vi.fn();
+    render(<TextField id="cep" label="CEP" readOnly autoFocus onBlur={onBlur} data-testid="iris-page-editor-zip-input" />);
+    const campo = screen.getByTestId('iris-page-editor-zip-input');
+    expect(campo).toHaveAttribute('readonly');
+    expect(campo).toHaveFocus();
+    await userEvent.tab();
+    expect(onBlur).toHaveBeenCalledTimes(1);
+  });
+
   it('respeita o maxLength ao digitar', async () => {
     render(<TextField id="cod" label="Código de acesso" maxLength={6} />);
     await userEvent.type(screen.getByLabelText('Código de acesso'), '12345678');
