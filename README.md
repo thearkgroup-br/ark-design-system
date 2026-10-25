@@ -49,3 +49,15 @@ import { Button, TextField } from 'ark-design-system';
 Publicar uma versão: subir `version` no `package.json`, mergear na `main` e criar a tag `vX.Y.Z`.
 
 A pasta `referencia/` tem o design system de origem (regras, tokens, API dos componentes e logos). Não é código de produção.
+
+## Componentes
+
+43 componentes, cada um com README em `src/components/<Nome>/` (API e data-testid):
+
+- **Base:** Button, TextField, ThemeToggle, Icon, IconButton, Logo.
+- **Formulários:** SearchField, Select, Checkbox, Switch, Segmented.
+- **Navegação:** TopBar, TabBar, SideNav, SiteHeader, Footer.
+- **Feedback:** Alert, Toast, Dialog, BottomSheet, Skeleton, SkeletonCard, EmptyState, Badge (e StatusBadge), Chip.
+- **Conteúdo:** Card, ListItem, Avatar, Rating, FavoriteButton, ServiceItem, ProfessionalRow, EstablishmentCard, Table, StatBar, Eyebrow, SectionHeader, NumberedList, Steps, Accordion, Comparison, PlanCard, PriceList.
+
+Helpers exportados: `useTermoDeBusca`, `normalizarBusca` e `buscaEncontra` (regras de busca), `useEstadoDeCarregamento` (300 ms e 10 s), `formatarDinheiro`, `formatarNota` e `testIdParte`.
