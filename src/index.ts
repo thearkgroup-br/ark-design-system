@@ -60,6 +60,8 @@ export {
   CARREGAMENTO_ATRASO_MS,
   CARREGAMENTO_LIMITE_MS,
   buscaEncontra,
+  formatarDinheiro,
+  formatarNota,
   normalizarBusca,
   testIdParte,
   useEstadoDeCarregamento,
