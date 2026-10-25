@@ -18,6 +18,8 @@ export { Segmented } from './components/Segmented';
 export type { SegmentedOption, SegmentedProps } from './components/Segmented';
 export { IconButton } from './components/IconButton';
 export type { IconButtonProps } from './components/IconButton';
+export { Icon } from './components/Icon';
+export type { IconProps } from './components/Icon';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';
