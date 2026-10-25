@@ -29,8 +29,8 @@ export function Footer({ brand = 'ark', brandName, tagline, columns = [], legal,
           <Logo brand={brand} size={28} name={brandName} />
           {tagline && <span>{tagline}</span>}
         </div>
-        {columns.map((col) => (
-          <div key={col.title} className="ak-footer-col">
+        {columns.map((col, c) => (
+          <div key={`${col.title}-${c}`} className="ak-footer-col">
             <b>{col.title}</b>
             {col.items.map((it, i) =>
               typeof it === 'string' ? (
@@ -47,8 +47,8 @@ export function Footer({ brand = 'ark', brandName, tagline, columns = [], legal,
       <div className="ak-footer-bottom">
         <span data-testid={testIdParte(testId, 'legal')}>{legal ?? ''}</span>
         <span className="ak-row ak-footer-links">
-          {bottomLinks.map((l) => (
-            <a key={l.label} href={l.href || '#'} data-testid={idLink('legal-link', l)}>
+          {bottomLinks.map((l, i) => (
+            <a key={l.id ?? `${l.label}-${i}`} href={l.href || '#'} data-testid={idLink('legal-link', l)}>
               {l.label}
             </a>
           ))}

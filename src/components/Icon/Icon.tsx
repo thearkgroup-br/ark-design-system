@@ -21,6 +21,7 @@ export function Icon({ name, size = 20, filled, color, label, 'data-testid': tes
       style={color ? { color } : undefined}
       role={label ? 'img' : undefined}
       aria-label={label}
+      aria-hidden={label ? undefined : true}
       data-testid={testId}
     >
       {renderIcon(name, size, filled)}

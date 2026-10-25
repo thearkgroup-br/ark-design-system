@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { renderIcon } from '../../icons/icons';
 import { testIdParte, useControllable, type TestIdProps } from '../../utils';
 import { Logo, type Marca } from '../Logo/Logo';
-import { Destino, type NavItem } from '../TabBar/navegacao';
+import { Destino, itemAtual, type NavItem } from '../TabBar/navegacao';
 
 export interface SideNavProps extends TestIdProps {
   /** Mesmos destinos da TabBar, mais os que só fazem sentido no computador. */
@@ -18,7 +18,8 @@ export interface SideNavProps extends TestIdProps {
 
 /** Menu lateral do painel no computador. O data-testid vai no nav; cada item ganha `{base}-{id}-link`. */
 export function SideNav({ items, active, onNavigate, brand, brandName, footer, label, 'data-testid': testId }: SideNavProps) {
-  const [atual, definir] = useControllable<string>(active, items[0]?.id ?? '', onNavigate);
+  const [escolhido, definir] = useControllable<string>(active, items[0]?.id ?? '', onNavigate);
+  const atual = itemAtual(items, escolhido);
   return (
     <nav className="ak-sidenav" aria-label={label || 'Menu do painel'} data-testid={testId}>
       {brand && (

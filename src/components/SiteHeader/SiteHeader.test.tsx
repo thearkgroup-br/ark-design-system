@@ -53,11 +53,42 @@ describe('SiteHeader', () => {
     expect(screen.getByRole('button', { name: 'Abrir menu' })).toHaveAttribute('aria-expanded', 'false');
   });
 
-  it('clicar num link do menu fecha o menu', async () => {
+  it('clicar num link do menu fecha o menu e o foco volta ao botão', async () => {
     render(<SiteHeader links={LINKS} data-testid={ID} />);
     await userEvent.click(screen.getByRole('button', { name: 'Abrir menu' }));
     await userEvent.click(screen.getByTestId('ark-landing-menu-plans-link'));
     expect(screen.queryByTestId('ark-landing-menu')).not.toBeInTheDocument();
+    expect(screen.getByTestId('ark-landing-menu-button')).toHaveFocus();
+  });
+
+  it('Esc que outra camada já tratou não fecha o menu', async () => {
+    render(<SiteHeader links={LINKS} data-testid={ID} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Abrir menu' }));
+    const evento = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+    evento.preventDefault();
+    document.dispatchEvent(evento);
+    expect(screen.getByTestId('ark-landing-menu')).toBeInTheDocument();
+  });
+
+  it('aria-controls só aponta para o menu quando ele existe', async () => {
+    render(<SiteHeader links={LINKS} />);
+    const botao = screen.getByRole('button', { name: 'Abrir menu' });
+    expect(botao).not.toHaveAttribute('aria-controls');
+    await userEvent.click(botao);
+    expect(document.getElementById(botao.getAttribute('aria-controls') ?? '')).toHaveAccessibleName('Menu do site');
+  });
+
+  it('o botão principal também fica no menu (aparece nele abaixo de 420 px)', async () => {
+    render(<SiteHeader links={LINKS} cta={CTA} data-testid={ID} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Abrir menu' }));
+    expect(screen.getByTestId('ark-landing-menu-cta-link')).toHaveAttribute('href', '#contato');
+  });
+
+  it('aceita dois links com o mesmo texto', () => {
+    const avisos = vi.spyOn(console, 'error').mockImplementation(() => {});
+    render(<SiteHeader links={[{ label: 'Contato', href: '#a' }, { label: 'Contato', href: '#b' }]} />);
+    expect(avisos).not.toHaveBeenCalled();
+    avisos.mockRestore();
   });
 
   it('o tema do topo e o do menu ficam iguais e avisam onThemeChange', async () => {
@@ -90,6 +121,9 @@ describe('SiteHeader', () => {
       </>,
     );
     const [a, b] = screen.getAllByRole('button', { name: 'Abrir menu' });
+    await userEvent.click(a);
+    await userEvent.click(b);
+    expect(a.getAttribute('aria-controls')).toBeTruthy();
     expect(a.getAttribute('aria-controls')).not.toBe(b.getAttribute('aria-controls'));
   });
 

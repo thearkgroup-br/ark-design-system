@@ -20,7 +20,7 @@ Cabeçalho fixo do site: logo, links, botão de modo claro/escuro e o botão pri
 | `sticky` | `boolean` | `true` |
 | `data-testid` | `string` | |
 
-O menu fecha no X, na tecla Esc (o foco volta ao botão) e ao escolher um link. O link do logo se chama "{marca}: início".
+O menu fecha no X, na tecla Esc e ao escolher um link (nos dois casos o foco volta ao botão do menu). Abaixo de 420 px o botão principal sai do topo e aparece no menu. O link do logo se chama "{marca}: início".
 
 ## data-testid
 
@@ -30,7 +30,7 @@ O menu fecha no X, na tecla Esc (o foco volta ao botão) e ao escolher um link. 
 | Link do logo | `ark-landing-logo-link` |
 | Link com `id: 'plans'` | `ark-landing-plans-link` (no menu: `ark-landing-menu-plans-link`) |
 | Link sem `id` | `ark-landing-nav-link` (no menu: `ark-landing-menu-nav-link`) |
-| Botão principal | `ark-landing-cta-link` (faixa do celular: `ark-landing-mobile-cta-link`) |
+| Botão principal | `ark-landing-cta-link` (faixa do celular: `ark-landing-mobile-cta-link`; no menu, abaixo de 420 px: `ark-landing-menu-cta-link`) |
 | Tema | `ark-landing-theme-button` (no menu: `ark-landing-menu-theme-button`) |
 | Abrir/fechar menu | `ark-landing-menu-button` |
 | Menu aberto | `ark-landing-menu` |

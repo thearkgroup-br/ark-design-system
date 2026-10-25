@@ -14,7 +14,11 @@
   .ak-siteheader-mobile { display: flex; }
   .ak-siteheader-drawer { display: flex; flex-direction: column; gap: 4px; padding: 8px 16px 16px; border-top: 1px solid var(--line); }
 }
-@container (max-width: 420px) { .ak-siteheader-mobile .ak-btn { display: none; } }
+.ak-siteheader-drawer .ak-btn { display: none; }
+@container (max-width: 420px) {
+  .ak-siteheader-mobile .ak-btn { display: none; }
+  .ak-siteheader-drawer .ak-btn { display: flex; align-self: flex-start; margin-top: 8px; }
+}
 /* Abaixo de 340 px o nome escrito não cabe ao lado do menu: fica só o símbolo (o nome continua sendo falado). */
 @container (max-width: 340px) { .ak-siteheader-logo .ak-logo:has(svg) .ak-logo-name { display: none; } }
 .ak-drawer-link { color: var(--ink); text-decoration: none; font-size: 16px; font-weight: 600; min-height: 48px; display: flex; align-items: center; border-bottom: 1px solid var(--line); }

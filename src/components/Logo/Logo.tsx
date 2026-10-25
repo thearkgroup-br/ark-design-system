@@ -1,5 +1,4 @@
-import { useId } from 'react';
-import { cx, type TestIdProps } from '../../utils';
+import { cx, useIdDoDom, type TestIdProps } from '../../utils';
 
 export type Marca = 'ark' | 'iris' | 'pulse';
 
@@ -41,7 +40,7 @@ function SimboloIris({ size }: { size: number }) {
 }
 
 function SimboloArk({ size }: { size: number }) {
-  const mascara = `ak-mask-${useId().replace(/:/g, '')}`;
+  const mascara = useIdDoDom('ak-mask');
   return (
     <svg width={Math.round((size * 152) / 70)} height={size} viewBox="4 26 152 70" aria-hidden="true" focusable="false">
       <defs>

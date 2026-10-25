@@ -49,6 +49,24 @@ describe('TabBar', () => {
     expect(screen.getByRole('link', { name: 'Início' })).toHaveAttribute('aria-current', 'page');
   });
 
+  it('Ctrl+clique num link (nova aba) não troca a aba atual', async () => {
+    const onNavigate = vi.fn();
+    render(<TabBar onNavigate={onNavigate} items={[{ id: 'home', label: 'Início', icon: 'home', href: '/inicio' }, { id: 'profile', label: 'Perfil', icon: 'user', href: '/perfil' }]} />);
+    const perfil = screen.getByRole('link', { name: 'Perfil' });
+    perfil.addEventListener('click', (e) => e.preventDefault());
+    const user = userEvent.setup();
+    await user.keyboard('{Control>}');
+    await user.click(perfil);
+    await user.keyboard('{/Control}');
+    expect(onNavigate).not.toHaveBeenCalled();
+    expect(screen.getByRole('link', { name: 'Início' })).toHaveAttribute('aria-current', 'page');
+  });
+
+  it('se o item ativo sumir da lista, a primeira aba fica atual', () => {
+    render(<TabBar active="removido" />);
+    expect(screen.getByRole('button', { name: 'Início' })).toHaveAttribute('aria-current', 'page');
+  });
+
   it('ícones ficam escondidos; o texto da aba é o nome', () => {
     render(<TabBar />);
     screen.getAllByRole('button').forEach((aba) => expect(aba.querySelector('svg')).toHaveAttribute('aria-hidden', 'true'));

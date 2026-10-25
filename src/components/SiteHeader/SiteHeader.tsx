@@ -1,5 +1,5 @@
-import { useEffect, useId, useRef, useState } from 'react';
-import { cx, testIdParte, useControllable, type TestIdProps } from '../../utils';
+import { useEffect, useRef, useState } from 'react';
+import { cx, testIdParte, useControllable, useIdDoDom, type TestIdProps } from '../../utils';
 import { Button } from '../Button/Button';
 import { IconButton } from '../IconButton/IconButton';
 import { Logo, type Marca } from '../Logo/Logo';
@@ -53,14 +53,17 @@ export function SiteHeader({
   const [aberto, setAberto] = useState(false);
   // Um estado só para o tema do topo e o do menu não ficarem diferentes.
   const [escuro, definirEscuro] = useControllable<boolean>(dark, defaultDark, onThemeChange);
-  const menuId = `ak-menu-${useId().replace(/:/g, '')}`;
+  const menuId = useIdDoDom('ak-menu');
+  const cabecalho = useRef<HTMLElement>(null);
   const botaoMenu = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!aberto) return;
     const aoTeclar = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setAberto(false);
+      // Esc que outra camada (diálogo) já tratou não fecha o menu junto.
+      if (e.key !== 'Escape' || e.defaultPrevented) return;
+      setAberto(false);
+      if (!document.activeElement || document.activeElement === document.body || cabecalho.current?.contains(document.activeElement)) {
         botaoMenu.current?.focus();
       }
     };
@@ -68,6 +71,11 @@ export function SiteHeader({
     return () => document.removeEventListener('keydown', aoTeclar);
   }, [aberto]);
 
+  // O link some ao fechar o menu; o foco volta ao botão do menu em vez de cair no body.
+  const fecharPorLink = () => {
+    setAberto(false);
+    botaoMenu.current?.focus();
+  };
   const idLink = (prefixo: string, l: SiteLink) => testIdParte(testId, l.id ? `${prefixo}${l.id}-link` : `${prefixo}nav-link`);
   const tema = (parte: string) =>
     themeToggle ? <ThemeToggle dark={escuro} onChange={definirEscuro} data-testid={testIdParte(testId, parte)} /> : null;
@@ -79,14 +87,14 @@ export function SiteHeader({
     ) : null;
 
   return (
-    <header className={cx('ak-siteheader', sticky && 'ak-sticky')} data-testid={testId}>
+    <header ref={cabecalho} className={cx('ak-siteheader', sticky && 'ak-sticky')} data-testid={testId}>
       <div className="ak-siteheader-in">
         <a href={homeHref} className="ak-siteheader-logo" aria-label={`${brandName ?? NOME_DA_MARCA[brand]}: início`} data-testid={testIdParte(testId, 'logo-link')}>
           <Logo brand={brand} size={brand === 'iris' ? 30 : 34} name={brandName} />
         </a>
         <nav className="ak-siteheader-nav" aria-label="Menu">
-          {links.map((l) => (
-            <a key={l.label} href={l.href || '#'} className="ak-navlink" data-testid={idLink('', l)}>
+          {links.map((l, i) => (
+            <a key={l.id ?? `${l.label}-${i}`} href={l.href || '#'} className="ak-navlink" data-testid={idLink('', l)}>
               {l.label}
             </a>
           ))}
@@ -100,20 +108,22 @@ export function SiteHeader({
             icon={aberto ? 'close' : 'menu'}
             label={aberto ? 'Fechar menu' : 'Abrir menu'}
             aria-expanded={aberto}
-            aria-controls={menuId}
+            aria-controls={aberto ? menuId : undefined}
             onClick={() => setAberto(!aberto)}
             data-testid={testIdParte(testId, 'menu-button')}
           />
         </div>
       </div>
       {aberto && (
-        <nav id={menuId} className="ak-siteheader-drawer" aria-label="Menu" data-testid={testIdParte(testId, 'menu')}>
-          {links.map((l) => (
-            <a key={l.label} href={l.href || '#'} className="ak-drawer-link" onClick={() => setAberto(false)} data-testid={idLink('menu-', l)}>
+        <nav id={menuId} className="ak-siteheader-drawer" aria-label="Menu do site" data-testid={testIdParte(testId, 'menu')}>
+          {links.map((l, i) => (
+            <a key={l.id ?? `${l.label}-${i}`} href={l.href || '#'} className="ak-drawer-link" onClick={fecharPorLink} data-testid={idLink('menu-', l)}>
               {l.label}
             </a>
           ))}
           {tema('menu-theme-button')}
+          {/* Abaixo de 420 px o botão principal sai do topo e fica aqui (CSS). */}
+          {botao('menu-cta-link')}
         </nav>
       )}
     </header>

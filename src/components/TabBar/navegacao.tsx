@@ -10,6 +10,11 @@ export interface NavItem {
   count?: number;
 }
 
+/** Item atual que existe na lista; se o escolhido sumiu (lista mudou), volta para o primeiro. */
+export function itemAtual(itens: NavItem[], escolhido: string): string | undefined {
+  return itens.some((i) => i.id === escolhido) ? escolhido : itens[0]?.id;
+}
+
 interface DestinoProps {
   item: NavItem;
   atual: boolean;
@@ -24,7 +29,15 @@ export function Destino({ item, atual, className, testId, aoEscolher, children }
   const comum = { className, 'aria-current': atual ? ('page' as const) : undefined, 'data-testid': testId };
   if (item.href) {
     return (
-      <a {...comum} href={item.href} onClick={() => aoEscolher(item.id)}>
+      <a
+        {...comum}
+        href={item.href}
+        onClick={(e) => {
+          // Ctrl/Cmd/Shift ou botão do meio abre em outra aba: a aba atual desta página não muda.
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+          aoEscolher(item.id);
+        }}
+      >
         {children}
       </a>
     );

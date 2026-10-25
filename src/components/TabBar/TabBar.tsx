@@ -1,6 +1,6 @@
 import { renderIcon } from '../../icons/icons';
 import { testIdParte, useControllable, type TestIdProps } from '../../utils';
-import { Destino, type NavItem } from './navegacao';
+import { Destino, itemAtual, type NavItem } from './navegacao';
 
 export interface TabBarProps extends TestIdProps {
   /** 3 a 5 abas, rótulos de 1 palavra. Padrão: Início, Agendamentos e Perfil. */
@@ -19,7 +19,8 @@ const PADRAO: NavItem[] = [
 
 /** Barra fixa de abas no rodapé do app. O data-testid vai no nav; cada aba ganha `{base}-{id}-tab`. */
 export function TabBar({ items = PADRAO, active, onNavigate, label, 'data-testid': testId }: TabBarProps) {
-  const [atual, definir] = useControllable<string>(active, items[0]?.id ?? '', onNavigate);
+  const [escolhido, definir] = useControllable<string>(active, items[0]?.id ?? '', onNavigate);
+  const atual = itemAtual(items, escolhido);
   return (
     <nav className="ak-tabbar" aria-label={label || 'Navegação principal'} data-testid={testId}>
       {items.map((t) => (
