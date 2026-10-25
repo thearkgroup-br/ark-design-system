@@ -60,6 +60,10 @@ export { Rating } from './components/Rating';
 export type { RatingProps } from './components/Rating';
 export { FavoriteButton } from './components/FavoriteButton';
 export type { FavoriteButtonProps } from './components/FavoriteButton';
+export { ServiceItem } from './components/ServiceItem';
+export type { ServiceItemProps } from './components/ServiceItem';
+export { ProfessionalRow } from './components/ProfessionalRow';
+export type { ProfessionalRowProps } from './components/ProfessionalRow';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';
