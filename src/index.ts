@@ -52,6 +52,8 @@ export { Chip } from './components/Chip';
 export type { ChipProps } from './components/Chip';
 export { Avatar } from './components/Avatar';
 export type { AvatarProps } from './components/Avatar';
+export { FavoriteButton } from './components/FavoriteButton';
+export type { FavoriteButtonProps } from './components/FavoriteButton';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';
