@@ -64,6 +64,8 @@ export { ServiceItem } from './components/ServiceItem';
 export type { ServiceItemProps } from './components/ServiceItem';
 export { ProfessionalRow } from './components/ProfessionalRow';
 export type { ProfessionalRowProps } from './components/ProfessionalRow';
+export { EstablishmentCard } from './components/EstablishmentCard';
+export type { EstablishmentCardProps } from './components/EstablishmentCard';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';
