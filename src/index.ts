@@ -66,6 +66,18 @@ export { ProfessionalRow } from './components/ProfessionalRow';
 export type { ProfessionalRowProps } from './components/ProfessionalRow';
 export { EstablishmentCard } from './components/EstablishmentCard';
 export type { EstablishmentCardProps } from './components/EstablishmentCard';
+export { StatBar } from './components/StatBar';
+export type { StatBarProps } from './components/StatBar';
+export { Eyebrow } from './components/Eyebrow';
+export type { EyebrowProps } from './components/Eyebrow';
+export { SectionHeader } from './components/SectionHeader';
+export type { SectionHeaderProps } from './components/SectionHeader';
+export { NumberedList } from './components/NumberedList';
+export type { NumberedListProps } from './components/NumberedList';
+export { Steps } from './components/Steps';
+export type { StepsProps } from './components/Steps';
+export { PriceList } from './components/PriceList';
+export type { PriceListProps } from './components/PriceList';
 export { Table } from './components/Table';
 export type { TableColumn, TableProps } from './components/Table';
 

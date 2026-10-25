@@ -32,3 +32,9 @@
 @import '../components/ServiceItem/ServiceItem.css';
 @import '../components/EstablishmentCard/EstablishmentCard.css';
 @import '../components/Table/Table.css';
+@import '../components/StatBar/StatBar.css';
+@import '../components/Eyebrow/Eyebrow.css';
+@import '../components/SectionHeader/SectionHeader.css';
+@import '../components/NumberedList/NumberedList.css';
+@import '../components/Steps/Steps.css';
+@import '../components/PriceList/PriceList.css';
