@@ -16,6 +16,8 @@ export { Switch } from './components/Switch';
 export type { SwitchProps } from './components/Switch';
 export { Segmented } from './components/Segmented';
 export type { SegmentedOption, SegmentedProps } from './components/Segmented';
+export { IconButton } from './components/IconButton';
+export type { IconButtonProps } from './components/IconButton';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';
