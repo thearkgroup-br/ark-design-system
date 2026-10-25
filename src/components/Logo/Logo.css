@@ -1,0 +1,7 @@
+.ak-logo { display: inline-flex; align-items: center; gap: 10px; color: var(--brand); font-family: var(--font-sans); line-height: 1; }
+.ak-logo svg { display: block; flex: 0 0 auto; }
+.ak-logo-ark { color: var(--ink); }
+.ak-logo-name { font-weight: 800; letter-spacing: -0.03em; color: inherit; white-space: nowrap; }
+.ak-logo-iris .ak-logo-name { color: var(--ink); }
+.ak-logo-caps { letter-spacing: 0.16em; }
+.ak-logo-pulse .ak-logo-name { color: var(--brand); }

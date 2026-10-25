@@ -20,6 +20,8 @@ export { IconButton } from './components/IconButton';
 export type { IconButtonProps } from './components/IconButton';
 export { Icon } from './components/Icon';
 export type { IconProps } from './components/Icon';
+export { Logo } from './components/Logo';
+export type { LogoProps, Marca } from './components/Logo';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';
