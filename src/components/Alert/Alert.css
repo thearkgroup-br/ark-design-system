@@ -1,0 +1,8 @@
+.ak-alert { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: flex-start; border-radius: var(--radius-lg); padding: 14px var(--space-4); font-size: 14px; line-height: 1.5; font-family: var(--font-sans); }
+.ak-alert > svg { flex: 0 0 22px; margin-top: 1px; }
+.ak-alert-body { flex: 1 1 200px; min-width: 0; }
+.ak-alert-title { font-weight: 700; display: block; }
+.ak-alert-info { background: var(--info-soft); color: var(--info-ink); }
+.ak-alert-success { background: var(--success-soft); color: var(--success-ink); }
+.ak-alert-warning { background: var(--warning-soft); color: var(--warning-ink); }
+.ak-alert-danger { background: var(--danger-soft); color: var(--danger-ink); }

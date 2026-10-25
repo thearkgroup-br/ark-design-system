@@ -1,0 +1,11 @@
+.ak-sk { display: block; flex: 0 0 auto; background: var(--skeleton); border-radius: var(--radius-sm); position: relative; overflow: hidden; }
+.ak-sk::after { content: ""; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, var(--skeleton-shine), transparent); animation: ak-shine 1.3s ease-in-out infinite; }
+@keyframes ak-shine { to { transform: translateX(100%); } }
+.ak-sk-card { display: flex; gap: var(--space-3); align-items: center; background: var(--surface); border-radius: var(--radius-lg); padding: var(--space-3); }
+.ak-sk-col { flex-direction: column; align-items: stretch; padding: var(--space-4); gap: 12px; }
+.ak-sk-linhas { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.ak-sk-linha { display: flex; gap: 12px; align-items: flex-start; }
+.ak-sk-rodape { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
+.ak-sk-botoes { display: flex; gap: 8px; }
+
+@media (prefers-reduced-motion: reduce) { .ak-sk::after { animation: none; } }

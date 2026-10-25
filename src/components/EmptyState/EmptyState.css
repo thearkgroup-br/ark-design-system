@@ -1,0 +1,6 @@
+.ak-empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: var(--space-8) var(--space-4); font-family: var(--font-sans); color: var(--ink); }
+.ak-empty-ico { width: 64px; height: 64px; border-radius: 999px; background: var(--brand-soft); color: var(--brand-ink); display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+.ak-empty-ico svg { display: block; }
+.ak-empty-title { margin: 0; font-size: 17px; line-height: 24px; font-weight: 700; text-wrap: balance; }
+.ak-empty-text { margin: 0; font-size: 13px; line-height: 19px; color: var(--ink-muted); max-width: 40ch; }
+.ak-empty .ak-btn { margin-top: 8px; }

@@ -44,3 +44,5 @@ body { margin: 0; background: var(--bg); }
 .vt-lista li { padding: var(--space-2) var(--space-3); background: var(--surface-sunken); border-radius: var(--radius-sm); }
 .vt-moldura { width: 100%; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; background: var(--bg); }
 .vt-celular { max-width: 390px; height: 260px; justify-content: flex-end; }
+.vt-sk-grade { width: 100%; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: var(--space-3); background: var(--bg); padding: var(--space-3); border-radius: var(--radius-md); }
+.vt-sk-grade > div { display: flex; flex-direction: column; gap: 6px; }
