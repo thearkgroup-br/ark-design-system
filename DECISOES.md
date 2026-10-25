@@ -82,3 +82,4 @@ Decisões tomadas sem aprovação durante a noite de 25/10/2026. Em caso de dúv
 45. **Cor do ícone de Dialog/BottomSheet por classe de token** (`ak-sheet-icon-{tom}`) em vez do `style` com `var()` montado no JS da referência.
 46. **Chip filtro com 44 px de altura** (regra de toque) e borda `line-control` (3:1, borda de controle); etiqueta continua com 40 px e borda `line`. EmptyState: título em `<p>` com peso 700 (a referência usava `<b>`), sem virar título de seção.
 47. **data-testid**: Dialog e BottomSheet `{base}-close-button` (como pedido), `{base}-title`, `{base}-actions`, `{base}-overlay` e, no sheet, `{base}-grabber`; Alert `{base}-title`; EmptyState `{base}-title` e `{base}-text`. Badge, Chip, Toast, Skeleton e SkeletonCard recebem só no elemento principal.
+48. **Correção do teste de tela do lote 4**: o rodapé do SkeletonCard `booking` (64 + 84 + 92 px + folgas) estourava num card de 280 px (celular de 320 px com margem de 20 px). Agora quebra linha.

@@ -5,7 +5,7 @@
 .ak-sk-col { flex-direction: column; align-items: stretch; padding: var(--space-4); gap: 12px; }
 .ak-sk-linhas { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
 .ak-sk-linha { display: flex; gap: 12px; align-items: flex-start; }
-.ak-sk-rodape { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.ak-sk-rodape { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
 .ak-sk-botoes { display: flex; gap: 8px; }
 
 @media (prefers-reduced-motion: reduce) { .ak-sk::after { animation: none; } }
