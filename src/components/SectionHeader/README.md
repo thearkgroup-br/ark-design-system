@@ -29,5 +29,7 @@ Rótulo + título + texto de apoio de uma seção do site. `size="hero"` é o to
 | Parte | Com `ark-landing-audience-header` |
 | --- | --- |
 | Bloco | `ark-landing-audience-header` |
-| Título | `ark-landing-audience-title` |
-| Texto | `ark-landing-audience-text` |
+| Título | `ark-landing-audience-header-title` |
+| Texto | `ark-landing-audience-header-text` |
+
+O bloco termina em `-header`, que é região (skill `padrao-data-testid` 0.3.2): o id fica inteiro e cada parte é acrescentada no fim. Na versão 0.1.0 o `-header` saía (`ark-landing-audience-title`): quem usa no E2E precisa trocar.
