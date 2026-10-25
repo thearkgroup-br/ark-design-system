@@ -5,19 +5,39 @@
 ## Resumo
 
 - **Os 5 lotes estão prontos**, cada um numa branch que sai da anterior:
-  - `feature/IRIS-112-lote-1-base` (8 commits)
-  - `feature/IRIS-112-lote-2-formularios` (+10)
-  - `feature/IRIS-112-lote-3-navegacao` (+12)
+  - `feature/IRIS-112-lote-1-base` (13 commits)
+  - `feature/IRIS-112-lote-2-formularios` (+11)
+  - `feature/IRIS-112-lote-3-navegacao` (+13)
   - `feature/IRIS-112-lote-4-feedback` (+13)
-  - `feature/IRIS-112-lote-5-conteudo` (+14, onde está este relatório)
+  - `feature/IRIS-112-lote-5-conteudo` (+16, onde está este relatório)
+  - A pilha foi reescrita na manhã de 25/10 (ver "Manhã de 25/10" abaixo). A anterior está nas branches `backup/IRIS-112-lote-*`.
 - São **43 componentes**, todos com teste e README (API + data-testid). Todos estão exportados e o teste `src/index.test.ts` confere isso.
-- **447 testes** verdes, lint e tipos limpos. Todos os commits seguem o formato `IRIS-112 …` e passaram por lint e testes antes de entrar. O script de commit isola só o que vai no commit para isso.
-- **59 decisões** tomadas sem você estão em `DECISOES.md`, numeradas e por lote. As que mais pesam estão listadas abaixo.
+- **530 testes** verdes, lint e tipos limpos, e nenhum arquivo abaixo de 80% de cobertura. Cada lote passa sozinho: 135 testes no lote 1, 206 no 2, 320 no 3, 413 no 4 e 530 no 5. Todos os commits seguem o formato `IRIS-112 …`. Os da noite passaram por lint e testes antes de entrar; na reescrita da manhã, conferi a ponta de cada lote (testes com cobertura, lint e build).
+- **60 decisões** tomadas sem você estão em `DECISOES.md`, numeradas e por lote. As que mais pesam estão listadas abaixo.
 - Em cada lote rodei o mesmo ciclo:
   1. plano com o agente planejador;
   2. código e testes no padrão da skill `teste-front`;
   3. revisão do agente `typescript-reviewer`, com os achados corrigidos e commitados antes de abrir a branch seguinte;
   4. teste de tela da skill `testar-pr` na vitrine, no Chrome.
+
+## Manhã de 25/10: versões, cobertura e data-testid
+
+Pedidos da manhã, cada um no lote a que pertence. A pilha foi reescrita (nada tinha subido) e cada lote passa sozinho.
+
+- **Versões (decisão 17, lote 1):** a regra é a major anterior à mais nova, desde que ainda tenha suporte oficial; se saiu de suporte, a atual. Conferido na política de cada projeto:
+
+  | Pacote | Usada | Por quê |
+  | --- | --- | --- |
+  | TypeScript | 6.0.3 (anterior) | Sem política publicada; a Microsoft mantém o 6.0 para ferramentas, e o `typescript-eslint` só aceita abaixo de 6.1. |
+  | Vite | 7.3.7 (anterior) | O 7.3 recebe correções importantes e de segurança. |
+  | Vitest | 4.1.12 (anterior) | O 4.1 recebe correções importantes e de segurança. |
+  | ESLint | **10.13.0 (atual)** | O 9 está em fim de vida desde 06/08/2026. |
+  | React | 18.3.1 (anterior) | Recebe só correção de segurança. |
+
+  O React 18 e o TypeScript 6 estão no limite do que conta como "com suporte". Está explicado na decisão 17.
+- **Cobertura de 80% por arquivo (decisão 18, lote 1):** os testes que faltavam foram cada um para o seu lote. No lote 1, o desenho dos ícones. No 2, o `ref` e o nome padrão do SearchField. No 3, o clique e os modificadores na TabBar e na SideNav.
+- **data-testid (decisão 9, lote 1):** o `testIdParte` bate com a skill `padrao-data-testid` 0.3.1. Os sufixos são exatamente os da tabela "Elemento" da skill: entraram `-tabbar` e `-error`. As duas tabelas da skill viraram teste. Nenhum data-testid de componente mudou.
+- **`.gitignore` (decisão 16, lote 1).**
 
 ## O que ficou pronto em cada lote
 
@@ -74,7 +94,7 @@ Todo componente aceita `data-testid` e repassa para o elemento certo: o `input`,
   - um caso raro do `useEstadoDeCarregamento` (decisão 49);
   - a Table em modo cartão perde parte da semântica de tabela em alguns leitores de tela (documentado no README).
 - **Versão**: o pacote está em 0.1.0 e não criei tag. A tag sai depois do merge na `main`.
-- **Sua alteração em `.gitignore`** (linha `.claude/settings.local.json`), que já estava sem commit na `develop`, continua sem commit e não entrou nos meus commits.
+- **A linha `.claude/settings.local.json` do `.gitignore`**, que estava sem commit na `develop`, foi commitada no lote 1 na manhã de 25/10, a seu pedido (decisão 16).
 - Os erros que aparecem no console da vitrine durante o trabalho vêm do recarregamento automático do Vite, enquanto o script de commit tirava e devolvia arquivos. Recarregando a página, o console fica limpo (conferido em todos os lotes).
 
 ## Como testar de manhã
@@ -82,7 +102,8 @@ Todo componente aceita `data-testid` e repassa para o elemento certo: o `input`,
 ```bash
 git switch feature/IRIS-112-lote-5-conteudo   # tem tudo dos 5 lotes
 npm install                                    # o prepare já gera o dist/
-npm test                                       # 447 testes
+npm test                                       # 530 testes
+npm run test:coverage                          # falha se algum arquivo ficar abaixo de 80%
 npm run lint                                   # ESLint + tipos
 npm run vitrine                                # http://localhost:5180
 npm run build                                  # dist/: index.js, estilos.css, fonte.css, tokens.json, logos/, tipos
