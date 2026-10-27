@@ -37,6 +37,14 @@ export function CardsELista() {
         <div className="vt-moldura">
           <ListItem title="Corte masculino" subtitle="Qua, 21 out · 10:00 · com Rafa" avatar="Maria Souza" trailing={<Badge status="ativo" />} href="#card" data-testid="ark-showcase-listitem-appointment-item" />
           <ListItem title="Lembretes" subtitle="1 dia antes" icon="clock" trailing={<Switch id="vt-li-switch" label="Lembretes" />} />
+          <ListItem
+            title="Seg, 12 out · 09:30"
+            subtitle="Barbearia Exemplo · Corte e barba com Diego · R$ 70,00"
+            avatar="Barbearia Exemplo"
+            trailing={<Badge status="falta" />}
+            href="#card"
+            data-testid="ark-showcase-listitem-missed-item"
+          />
           <ListItem title="Sair" icon="logout" onClick={() => {}} />
         </div>
       </Exemplo>

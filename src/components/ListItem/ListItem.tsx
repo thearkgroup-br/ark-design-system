@@ -33,11 +33,14 @@ export function ListItem({ title, subtitle, icon, avatar, leading, trailing, hre
   const conteudo = (
     <>
       {inicio}
-      <span className="ak-li-text">
-        <span className="ak-li-title">{title}</span>
-        {subtitle && <span className="ak-li-sub">{subtitle}</span>}
+      {/* Texto e trailing juntos: sem espaço para os dois na linha, o trailing desce para baixo do texto (IRIS-128). */}
+      <span className="ak-li-main">
+        <span className="ak-li-text">
+          <span className="ak-li-title">{title}</span>
+          {subtitle && <span className="ak-li-sub">{subtitle}</span>}
+        </span>
+        {trailing && <span className="ak-li-trailing">{trailing}</span>}
       </span>
-      {trailing}
       {clicavel && chevron !== false && <span className="ak-chev">{renderIcon('chevronRight', 18)}</span>}
     </>
   );

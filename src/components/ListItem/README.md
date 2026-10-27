@@ -5,6 +5,7 @@ Linha de lista com ícone ou avatar, título, detalhe e seta quando leva a outra
 - Título de uma linha (quebra se precisar, nunca corta sem "…"); detalhe em `ink-muted`.
 - Linha clicável inteira, 64 px de altura mínima.
 - Seta só quando abre outra tela. Ação na própria linha (switch, valor) vai em `trailing`.
+- Sem espaço para o texto (9rem) ao lado do `trailing`, o `trailing` desce para baixo do texto, alinhado com ele. A seta continua à direita. Vale pela largura da linha (desde a 0.2.1).
 
 ## API
 
