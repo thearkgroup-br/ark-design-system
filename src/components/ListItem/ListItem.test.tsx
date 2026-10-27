@@ -61,15 +61,16 @@ describe('ListItem', () => {
       expect(container.querySelector('.ak-li > .ak-chev')).not.toBeNull();
     });
 
-    it('sem trailing, o grupo só tem o texto', () => {
+    it('sem trailing, não sobra caixa vazia do trailing', () => {
       const { container } = render(<ListItem title="Corte" />);
       expect(container.querySelector('.ak-li-trailing')).toBeNull();
     });
 
     it('quando falta espaço para o texto, o trailing desce para baixo dele (flex-wrap no grupo)', () => {
-      expect(css).toMatch(/\.ak-li-main \{[^}]*flex-wrap: wrap/);
+      expect(css).toMatch(/\.ak-li-main \{[^}]*flex-wrap: wrap;/);
+      expect(css).toMatch(/\.ak-li-main \{[^}]*min-width: 0/);
       // Abaixo dessa largura, o texto não divide a linha com o selo.
-      expect(css).toMatch(/\.ak-li-main > \.ak-li-text \{[^}]*flex: 1 1 9rem/);
+      expect(css).toMatch(/\.ak-li-main > \.ak-li-text \{[^}]*flex: 1 1 8rem/);
       expect(css).toMatch(/\.ak-li-trailing \{[^}]*flex: none/);
     });
   });
