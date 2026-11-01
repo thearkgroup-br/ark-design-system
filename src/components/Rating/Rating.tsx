@@ -60,7 +60,7 @@ function Entrada({ value, defaultValue = 0, label, onChange, 'data-testid': test
           // Só uma estrela entra na ordem do Tab: a escolhida (ou a primeira, sem nota).
           tabIndex={n === (nota || 1) ? 0 : -1}
           onClick={() => escolher(n)}
-          data-testid={testIdParte(testId, 'star')}
+          data-testid={testIdParte(testId, 'star-button')}
         >
           {renderIcon('star', 32, n <= nota)}
         </button>
