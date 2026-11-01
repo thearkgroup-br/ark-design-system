@@ -4,7 +4,7 @@ Design system da The Ark Group: tokens e componentes React usados no `iris-pwa`,
 
 ## Stack
 - React + TypeScript, build de biblioteca com Vite.
-- Tokens em `tokens.json` → variáveis CSS por `data-theme` (ark, ark-escuro, iris, iris-escuro, pulse, pulse-escuro).
+- Tokens em `tokens.json` → variáveis CSS por `data-theme` (ark, ark-escuro, iris, iris-escuro, pulse, pulse-escuro, zenno, zenno-escuro).
 - Testes com Vitest + Testing Library (skill `ark:teste-front`).
 - Consumido pelos outros repos como dependência git com tag de versão.
 

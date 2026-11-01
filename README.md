@@ -9,6 +9,7 @@ Os componentes são os mesmos em todo lugar. O que muda de uma marca para outra 
 | The Ark Group e Arca Dev | `ark` | `ark-escuro` |
 | Íris | `iris` | `iris-escuro` |
 | Pulse | `pulse` | `pulse-escuro` |
+| Zenno (provisório, teal sereno) | `zenno` | `zenno-escuro` |
 
 ## Como usar
 
@@ -20,7 +21,7 @@ Na raiz do app, uma vez:
 
 ```tsx
 import 'ark-design-system/fonte.css'; // Plus Jakarta Sans servida pelo app
-import 'ark-design-system/estilos.css'; // tokens dos 6 temas + componentes
+import 'ark-design-system/estilos.css'; // tokens dos 8 temas + componentes
 import { Button, TextField } from 'ark-design-system';
 ```
 
