@@ -109,7 +109,7 @@ Decisões tomadas sem aprovação durante a noite de 25/10/2026. Em caso de dúv
     - O exemplo do README da TabBar passou a usar o id da skill (`iris-app-main-tabbar`, aba `home`) em vez de `iris-app-tabbar-nav`.
     - README da raiz: instalação aponta para `#v0.2.0`.
 
-## Selo do ListItem em tela estreita (versão 0.2.1)
+## Selo do ListItem em tela estreita (versão 0.2.2)
 
 62. **O `trailing` do ListItem quebra para baixo do texto (IRIS-128).** Texto e `trailing` ficam num grupo (`.ak-li-main`) com `flex-wrap`. O texto tem base de 8rem: quando não sobra isso ao lado do `trailing`, ele desce, alinhado com o texto. A seta fica fora do grupo, à direita.
     - **Por que `flex-wrap`, e não `@media` nem `@container`:** a quebra depende da largura da própria linha. Um `@container` precisaria de um container em volta da lista, que nem todo app tem. O `@media` falharia num cartão estreito no computador.
