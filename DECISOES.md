@@ -108,3 +108,13 @@ Decisões tomadas sem aprovação durante a noite de 25/10/2026. Em caso de dúv
     - O id do elemento principal não muda. Componente que recebe id de controle (TextField, Dialog, listas etc.) não muda nada.
     - O exemplo do README da TabBar passou a usar o id da skill (`iris-app-main-tabbar`, aba `home`) em vez de `iris-app-tabbar-nav`.
     - README da raiz: instalação aponta para `#v0.2.0`.
+
+## Selo do ListItem em tela estreita (versão 0.2.2)
+
+62. **O `trailing` do ListItem quebra para baixo do texto (IRIS-128).** Texto e `trailing` ficam num grupo (`.ak-li-main`) com `flex-wrap`. O texto tem base de 8rem: quando não sobra isso ao lado do `trailing`, ele desce, alinhado com o texto. A seta fica fora do grupo, à direita.
+    - **Por que `flex-wrap`, e não `@media` nem `@container`:** a quebra depende da largura da própria linha. Um `@container` precisaria de um container em volta da lista, que nem todo app tem. O `@media` falharia num cartão estreito no computador.
+    - **8rem:** a 360 px, numa lista com avatar e seta, sobram 212 px para texto e `trailing` (medido na vitrine). O selo "Não compareceu" (121 px) desce. "R$ 35,00" (67 px) continua ao lado, com 133 px de texto. "R$ 120,00" (75 px) desce. Com 9rem, até o "R$ 35,00" descia (achado da revisão).
+    - **Patch, não minor:** a API não muda. O DOM ganhou dois `span` (`.ak-li-main` e `.ak-li-trailing`), o que só afeta CSS de app que mire os filhos de `.ak-li`. Nenhum dos três consumidores faz isso (conferido no iris-pwa, que é o único que usa `trailing`).
+    - O `Switch` em `trailing` sempre mostra o rótulo (~140 px), então também desce a 360 px. Antes, apertava o título para ~60 px.
+    - Conferido na vitrine (seção Card, ListItem e Avatar, com um exemplo novo "Não compareceu"): a 328 px de lista, o selo desce e a data fica em uma linha; a 600 px, fica ao lado.
+
