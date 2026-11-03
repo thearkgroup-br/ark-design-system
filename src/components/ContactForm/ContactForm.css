@@ -5,3 +5,4 @@
 .ak-contact-verification:empty { display: none; }
 /* Anti-spam: fora da tela (não display:none, que alguns robôs ignoram) */
 .ak-contact-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.ak-contact-box { padding: var(--space-6); border: 1px solid var(--line); border-radius: var(--radius-xl); background: var(--bg); min-width: 0; }
