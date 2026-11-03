@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { cx, testIdParte, useControllable, useIdDoDom, type TestIdProps } from '../../utils';
 import { Button } from '../Button/Button';
 import { IconButton } from '../IconButton/IconButton';
@@ -15,6 +15,8 @@ export interface SiteLink {
 export interface SiteHeaderProps extends TestIdProps {
   brand?: Marca;
   brandName?: string;
+  /** Logo da marca desenhado fora do design system (marca que o Logo ainda não conhece). */
+  logo?: ReactNode;
   homeHref?: string;
   /** Até 5 links de 1 a 3 palavras. */
   links?: SiteLink[];
@@ -39,6 +41,7 @@ const NOME_DA_MARCA: Record<Marca, string> = { ark: 'The Ark Group', iris: 'Íri
 export function SiteHeader({
   brand = 'ark',
   brandName,
+  logo,
   homeHref = '#',
   links = [],
   cta,
@@ -90,7 +93,7 @@ export function SiteHeader({
     <header ref={cabecalho} className={cx('ak-siteheader', sticky && 'ak-sticky')} data-testid={testId}>
       <div className="ak-siteheader-in">
         <a href={homeHref} className="ak-siteheader-logo" aria-label={`${brandName ?? NOME_DA_MARCA[brand]}: início`} data-testid={testIdParte(testId, 'logo-link')}>
-          <Logo brand={brand} size={brand === 'iris' ? 30 : 34} name={brandName} />
+          {logo ?? <Logo brand={brand} size={brand === 'iris' ? 30 : 34} name={brandName} />}
         </a>
         <nav className="ak-siteheader-nav" aria-label="Menu">
           {links.map((l, i) => (

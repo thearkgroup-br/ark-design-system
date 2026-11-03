@@ -86,6 +86,16 @@ export { PriceList } from './components/PriceList';
 export type { PriceListProps } from './components/PriceList';
 export { Table } from './components/Table';
 export type { TableColumn, TableProps } from './components/Table';
+export { Section } from './components/Section';
+export type { SectionProps } from './components/Section';
+export { StatBand } from './components/StatBand';
+export type { StatBandProps } from './components/StatBand';
+export { Hero } from './components/Hero';
+export type { HeroAction, HeroProps } from './components/Hero';
+export { Faq } from './components/Faq';
+export type { FaqProps } from './components/Faq';
+export { SiteFooter, NOTA_DO_GRUPO } from './components/SiteFooter';
+export type { SiteFooterProps } from './components/SiteFooter';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';

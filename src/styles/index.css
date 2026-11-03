@@ -41,3 +41,6 @@
 @import '../components/Comparison/Comparison.css';
 @import '../components/PlanCard/PlanCard.css';
 @import '../components/PriceList/PriceList.css';
+@import '../components/Section/Section.css';
+@import '../components/StatBand/StatBand.css';
+@import '../components/Hero/Hero.css';

@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { testIdParte, type TestIdProps } from '../../utils';
 import { Logo, type Marca } from '../Logo/Logo';
 import type { SiteLink } from '../SiteHeader/SiteHeader';
@@ -12,6 +13,10 @@ export interface FooterProps extends TestIdProps {
   brand?: Marca;
   brandName?: string;
   tagline?: string;
+  /** Linha de pertencimento abaixo da frase da marca (ex.: "Um produto do The Ark Group"). Ganha `{base}-group`. */
+  note?: string;
+  /** Logo da marca desenhado fora do design system (marca que o Logo ainda não conhece). */
+  logo?: ReactNode;
   /** Até 3 colunas além da marca. */
   columns?: FooterColumn[];
   legal?: string;
@@ -20,14 +25,15 @@ export interface FooterProps extends TestIdProps {
 }
 
 /** Rodapé do site. O data-testid vai no footer; links ganham `{base}-link` (ou `{base}-{id}-link`) e os de baixo `{base}-legal-link`. */
-export function Footer({ brand = 'ark', brandName, tagline, columns = [], legal, bottomLinks = [], 'data-testid': testId }: FooterProps) {
+export function Footer({ brand = 'ark', brandName, tagline, note, logo, columns = [], legal, bottomLinks = [], 'data-testid': testId }: FooterProps) {
   const idLink = (padrao: string, l: SiteLink) => testIdParte(testId, l.id ? `${l.id}-link` : padrao);
   return (
     <footer className="ak-footer" data-testid={testId}>
       <div className="ak-footer-grid">
         <div className="ak-footer-brand">
-          <Logo brand={brand} size={28} name={brandName} />
+          {logo ?? <Logo brand={brand} size={28} name={brandName} />}
           {tagline && <span>{tagline}</span>}
+          {note && <span data-testid={testIdParte(testId, 'group')}>{note}</span>}
         </div>
         {columns.map((col, c) => (
           <div key={`${col.title}-${c}`} className="ak-footer-col">
