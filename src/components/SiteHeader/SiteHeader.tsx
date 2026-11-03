@@ -36,7 +36,8 @@ const NOME_DA_MARCA: Record<Marca, string> = { ark: 'The Ark Group', iris: 'Íri
 
 /**
  * Cabeçalho fixo do site. O data-testid vai no header. Abaixo de 860 px (largura do próprio cabeçalho)
- * os links vão para o menu; abaixo de 420 px o botão principal sai do topo.
+ * os links vão para o menu e o botão de tema vira um ícone ao lado do botão do menu (o menu aberto não tem tema);
+ * abaixo de 420 px o botão principal sai do topo.
  */
 export function SiteHeader({
   brand = 'ark',
@@ -80,8 +81,9 @@ export function SiteHeader({
     botaoMenu.current?.focus();
   };
   const idLink = (prefixo: string, l: SiteLink) => testIdParte(testId, l.id ? `${prefixo}${l.id}-link` : `${prefixo}nav-link`);
-  const tema = (parte: string) =>
-    themeToggle ? <ThemeToggle dark={escuro} onChange={definirEscuro} data-testid={testIdParte(testId, parte)} /> : null;
+  const tema = themeToggle ? (
+    <ThemeToggle dark={escuro} onChange={definirEscuro} data-testid={testIdParte(testId, 'theme-button')} />
+  ) : null;
   const botao = (parte: string) =>
     cta ? (
       <Button href={cta.href || '#'} pill={pill} data-testid={testIdParte(testId, parte)}>
@@ -101,11 +103,19 @@ export function SiteHeader({
               {l.label}
             </a>
           ))}
-          {tema('theme-button')}
+          {tema}
           {botao('cta-link')}
         </nav>
         <div className="ak-siteheader-mobile">
           {botao('mobile-cta-link')}
+          {themeToggle && (
+            <IconButton
+              icon={escuro ? 'sun' : 'moon'}
+              label={escuro ? 'Ativar modo claro' : 'Ativar modo escuro'}
+              onClick={() => definirEscuro(!escuro)}
+              data-testid={testIdParte(testId, 'mobile-theme-button')}
+            />
+          )}
           <IconButton
             ref={botaoMenu}
             icon={aberto ? 'close' : 'menu'}
@@ -124,7 +134,6 @@ export function SiteHeader({
               {l.label}
             </a>
           ))}
-          {tema('menu-theme-button')}
           {/* Abaixo de 420 px o botão principal sai do topo e fica aqui (CSS). */}
           {botao('menu-cta-link')}
         </nav>
