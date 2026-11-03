@@ -1,0 +1,18 @@
+.ak-actionbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: var(--surface); border-top: 1px solid var(--line); box-shadow: var(--shadow-sheet); font-family: var(--font-sans);
+  padding-bottom: env(safe-area-inset-bottom, 0px); transform: translateY(100%); opacity: 0; visibility: hidden;
+  transition: transform 200ms ease, opacity 200ms ease, visibility 0s linear 200ms; }
+.ak-actionbar-on { transform: translateY(0); opacity: 1; visibility: visible; transition-delay: 0s; }
+.ak-actionbar-in { max-width: var(--size-container); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+  padding: var(--space-3) max(16px, env(safe-area-inset-right, 0px)) var(--space-3) max(16px, env(safe-area-inset-left, 0px)); }
+.ak-actionbar-msg { margin: 0; min-width: 0; flex: 1 1 auto; color: var(--ink); font-size: 15px; font-weight: 700; line-height: 1.3; }
+.ak-actionbar-actions { display: flex; align-items: center; gap: var(--space-4); flex: none; }
+.ak-actionbar-second { color: var(--ink); font-size: 15px; font-weight: 600; min-height: var(--size-touch); display: inline-flex; align-items: center; text-decoration: underline; text-underline-offset: 4px; border-radius: 8px; }
+.ak-actionbar-second:hover { color: var(--brand); }
+.ak-actionbar-second:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.ak-actionbar-reserva { width: 100%; padding-bottom: env(safe-area-inset-bottom, 0px); box-sizing: content-box; }
+/* No celular: só a frase curta e o botão principal. */
+@media (max-width: 559px) {
+  .ak-actionbar-second { display: none; }
+  .ak-actionbar-msg { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .ak-actionbar { transition: none; } }

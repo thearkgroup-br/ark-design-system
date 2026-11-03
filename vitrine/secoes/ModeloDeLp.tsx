@@ -1,4 +1,4 @@
-import { ContactForm, Faq, Hero, Section, SiteFooter, SiteHeader, StatBand } from '../../src';
+import { ActionBar, Button, ContactForm, Faq, Hero, Section, SiteFooter, SiteHeader, StatBand } from '../../src';
 import type { ConfigContato } from '../../src';
 import { Exemplo, Secao } from '../Secao';
 
@@ -92,6 +92,23 @@ export function ModeloDeLp() {
               title: 'Fale com a gente',
             }}
             data-testid="ark-showcase-model-contact"
+          />
+        </div>
+      </Exemplo>
+      <Exemplo titulo="ActionBar: role dentro da caixa. Aparece quando o botão do topo sai, some no contato">
+        <div className="vt-moldura" style={{ height: 360, overflow: 'auto', transform: 'translateZ(0)' }}>
+          <div className="ak-pad">
+            <Button pill id="vitrine-barra-gatilho" href="#modelo-de-lp">Entrar na lista</Button>
+            <div style={{ height: 520 }} />
+          </div>
+          <div id="vitrine-barra-contato" className="ak-pad">Seção de contato: a barra some aqui.</div>
+          <ActionBar
+            message="Pronto para começar?"
+            primaryAction={{ label: 'Entrar na lista', href: '#modelo-de-lp' }}
+            secondaryAction={{ label: 'Ver como funciona', href: '#modelo-de-lp' }}
+            triggerSelector="#vitrine-barra-gatilho"
+            hideSelectors="#vitrine-barra-contato"
+            data-testid="ark-showcase-model-action-bar"
           />
         </div>
       </Exemplo>
