@@ -1,7 +1,5 @@
 // @vitest-environment node
-import { http, HttpResponse } from 'msw';
-import { setupServer } from 'msw/node';
-import { afterAll, afterEach, beforeAll, beforeEach, vi } from 'vitest';
+import { afterEach, beforeEach, vi } from 'vitest';
 import { ENVIAR_EMAIL, TAMANHO_MAXIMO, VERIFICAR_TURNSTILE, criarFuncaoDeContato, type Env } from './funcao';
 import type { ConfigContato } from './validacao';
 
@@ -19,11 +17,15 @@ const CONFIG: ConfigContato = {
 };
 const { onRequestPost, lerValores, montarEmail } = criarFuncaoDeContato(CONFIG);
 
-// Pedido sem handler falha o teste: nunca sai para a rede de verdade.
-const server = setupServer();
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+/** Resposta falsa do serviço de fora; `HttpResponse.error()` é a queda de rede (o fetch rejeita). */
+class HttpResponse extends Response {
+  static json(corpo: unknown, init?: ResponseInit) {
+    return new HttpResponse(JSON.stringify(corpo), { ...init, headers: { 'Content-Type': 'application/json' } });
+  }
+  static error() {
+    return new TypeError('Failed to fetch');
+  }
+}
 
 const ENV: Env = {
   RESEND_API_KEY: 're_teste',
@@ -49,18 +51,23 @@ interface Chamadas {
   resend: { corpo: Record<string, unknown>; autorizacao: string | null }[];
 }
 
-function servicos({ turnstile = HttpResponse.json({ success: true }), resend = HttpResponse.json({ id: 'email-1' }) } = {}) {
+type Falso = Response | TypeError;
+
+function servicos({ turnstile = HttpResponse.json({ success: true }), resend = HttpResponse.json({ id: 'email-1' }) }: { turnstile?: Falso; resend?: Falso } = {}) {
   const chamadas: Chamadas = { turnstile: [], resend: [] };
-  server.use(
-    http.post(VERIFICAR_TURNSTILE, async ({ request }) => {
-      chamadas.turnstile.push(await request.formData());
-      return turnstile;
-    }),
-    http.post(ENVIAR_EMAIL, async ({ request }) => {
-      chamadas.resend.push({ corpo: (await request.json()) as Record<string, unknown>, autorizacao: request.headers.get('Authorization') });
-      return resend;
-    }),
-  );
+  const entregar = (resposta: Falso) => (resposta instanceof Error ? Promise.reject(resposta) : Promise.resolve(resposta));
+  // Pedido para endereço desconhecido falha o teste: nunca sai para a rede de verdade.
+  vi.stubGlobal('fetch', (entrada: string, init: RequestInit) => {
+    if (entrada === VERIFICAR_TURNSTILE) {
+      chamadas.turnstile.push(init.body as FormData);
+      return entregar(turnstile);
+    }
+    if (entrada === ENVIAR_EMAIL) {
+      chamadas.resend.push({ corpo: JSON.parse(init.body as string) as Record<string, unknown>, autorizacao: new Headers(init.headers).get('Authorization') });
+      return entregar(resend);
+    }
+    return Promise.reject(new Error(`Pedido sem handler: ${String(entrada)}`));
+  });
   return chamadas;
 }
 
@@ -81,6 +88,7 @@ beforeEach(() => {
   log = vi.spyOn(console, 'error').mockImplementation(() => {});
 });
 afterEach(() => {
+  vi.unstubAllGlobals();
   const escrito = log.mock.calls.flat().map(String).join('\n');
   for (const dado of PESSOAIS) expect(escrito).not.toContain(dado);
   log.mockRestore();
