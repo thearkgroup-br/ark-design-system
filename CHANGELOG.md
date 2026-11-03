@@ -2,7 +2,22 @@
 
 Mudanças de cada versão do `ark-design-system`. Os apps instalam pela tag (`#vX.Y.Z`), criada na `main` depois do merge.
 
+## 0.4.0
+
+### Adicionado
+- **ActionBar** (ARK-22): barra fixa de ação no rodapé da tela, no estilo da LP de banho e tosa da Petz. Frase curta à esquerda e botão principal à direita; no computador, também um link secundário opcional. Aparece quando o botão principal do topo (Hero) sai da tela e some quando a seção de contato ou o rodapé entram. Reserva espaço embaixo do tamanho da barra, respeita `safe-area-inset-bottom` e a animação some com `prefers-reduced-motion`. Props: `message`, `primaryAction`, `secondaryAction`, `triggerSelector`, `hideSelectors`. `data-testid`: `{base}`, `-message`, `-primary-link`, `-secondary-link`. Exemplo na vitrine, em "Modelo de LP".
+
+### Alterado
+- **SiteHeader** (ARK-21): no celular (abaixo de 860 px de largura do cabeçalho) o botão de tema vira um ícone de 44 px ao lado do botão do menu (logo à esquerda; tema e menu à direita). O `aria-label` diz o tema que vai ligar ("Ativar modo escuro" / "Ativar modo claro"). O menu aberto deixa de ter o botão de tema. No computador nada muda.
+
+### Para quem usa
+- **Mudança de `data-testid` no SiteHeader:** `{base}-menu-theme-button` deixou de existir. No celular o tema é `{base}-mobile-theme-button`; `{base}-theme-button` continua sendo o do computador. Quem usa no E2E precisa trocar.
+- O `ThemeToggle` com texto continua igual; só o SiteHeader passou a usar o ícone no celular.
+- Para adotar: trocar `#v0.3.0` ou `#v0.3.1` por `#v0.4.0` no `package.json` depois que a tag existir. A 0.4.0 inclui a correção da 0.3.1.
+
 ## 0.3.1
+
+Versão que ainda não recebeu tag: a correção chega aos apps junto com a 0.4.0.
 
 ### Corrigido
 - **SiteFooter/Footer:** a coluna com link `mailto:` ocupa a linha toda em rodapé estreito (até 720 px de largura do rodapé). A 360 px, o e-mail não quebra mais no meio da palavra (ARK-19). Antes, cada LP corrigia isso no próprio CSS.
