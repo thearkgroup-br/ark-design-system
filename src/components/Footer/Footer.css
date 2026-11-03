@@ -9,3 +9,5 @@
 .ak-footer-bottom { max-width: var(--size-container); margin: 0 auto; padding: 18px 16px 28px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; border-top: 1px solid var(--line); font-size: 14px; }
 .ak-footer-links { gap: 18px; }
 @container (max-width: 720px) { .ak-footer-grid { grid-template-columns: 1fr 1fr; } .ak-footer-brand { grid-column: 1 / -1; } }
+/* Rodapé estreito (360 px): a coluna com e-mail ocupa a linha toda, para o endereço não quebrar no meio da palavra (ARK-19). */
+@container (max-width: 720px) { .ak-footer-col:has(a[href^="mailto:"]) { grid-column: 1 / -1; overflow-wrap: normal; } }
