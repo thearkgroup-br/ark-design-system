@@ -22,6 +22,7 @@ describe('SiteHeader', () => {
     expect(screen.getByTestId('ark-landing-header-cta-link')).toHaveAttribute('href', '#contato');
     expect(screen.getByTestId('ark-landing-header-mobile-cta-link')).toHaveTextContent('Fale com a gente');
     expect(screen.getByTestId('ark-landing-header-theme-button')).toBeInTheDocument();
+    expect(screen.getByTestId('ark-landing-header-mobile-theme-button')).toBeInTheDocument();
     expect(screen.getByTestId('ark-landing-header-menu-button')).toBeInTheDocument();
   });
 
@@ -91,19 +92,41 @@ describe('SiteHeader', () => {
     avisos.mockRestore();
   });
 
-  it('o tema do topo e o do menu ficam iguais e avisam onThemeChange', async () => {
+  it('no celular o tema é um ícone ao lado do menu, e o aria-label diz o tema que vai ligar', async () => {
+    const onThemeChange = vi.fn();
+    render(<SiteHeader links={LINKS} onThemeChange={onThemeChange} data-testid={ID} />);
+    const mobile = screen.getByTestId('ark-landing-header-mobile-theme-button');
+    const menu = screen.getByTestId('ark-landing-header-menu-button');
+    expect(mobile.parentElement).toBe(menu.parentElement);
+    expect(mobile.compareDocumentPosition(menu) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(mobile).toHaveAccessibleName('Ativar modo escuro');
+    await userEvent.click(mobile);
+    expect(onThemeChange).toHaveBeenCalledWith(true);
+    expect(mobile).toHaveAccessibleName('Ativar modo claro');
+    // o do computador acompanha o mesmo estado
+    expect(screen.getByTestId('ark-landing-header-theme-button')).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('o menu aberto não tem botão de tema', async () => {
+    render(<SiteHeader links={LINKS} data-testid={ID} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Abrir menu' }));
+    const menu = screen.getByTestId('ark-landing-header-menu');
+    expect(menu.querySelector('button')).toBeNull();
+    expect(screen.queryByTestId('ark-landing-header-menu-theme-button')).not.toBeInTheDocument();
+  });
+
+  it('o tema do computador avisa onThemeChange', async () => {
     const onThemeChange = vi.fn();
     render(<SiteHeader links={LINKS} onThemeChange={onThemeChange} data-testid={ID} />);
     await userEvent.click(screen.getByTestId('ark-landing-header-theme-button'));
     expect(onThemeChange).toHaveBeenCalledWith(true);
-    await userEvent.click(screen.getByRole('button', { name: 'Abrir menu' }));
-    expect(screen.getByTestId('ark-landing-header-menu-theme-button')).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByTestId('ark-landing-header-mobile-theme-button')).toHaveAccessibleName('Ativar modo claro');
   });
 
   it('sem cta não mostra botão; themeToggle={false} tira o tema', () => {
     render(<SiteHeader links={LINKS} themeToggle={false} />);
     expect(screen.queryByRole('link', { name: 'Fale com a gente' })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /Modo/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /modo/i })).not.toBeInTheDocument();
   });
 
   it('fica preso no topo por padrão', () => {
