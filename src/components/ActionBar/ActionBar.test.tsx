@@ -3,136 +3,70 @@ import { resolve } from 'node:path';
 import { act, render, screen } from '@testing-library/react';
 import { ActionBar } from './ActionBar';
 
-type Entrada = Partial<IntersectionObserverEntry>;
-type Callback = (entradas: Entrada[]) => void;
-const observadores: FakeIO[] = [];
-
-class FakeIO {
-  disconnect = vi.fn();
-  cb: Callback;
-  constructor(cb: Callback) {
-    this.cb = cb;
-    observadores.push(this);
-  }
-  observe() {}
-  unobserve() {}
-  takeRecords() {
-    return [];
-  }
-}
-
 const ID = 'ark-landing-action-bar';
 const props = {
   message: 'Pronto para começar?',
   primaryAction: { label: 'Entrar na lista', href: '#contato' },
   secondaryAction: { label: 'Ver como funciona', href: '#como-funciona' },
-  triggerSelector: '#hero-cta',
-  hideSelectors: ['#contato', 'footer'] as string | string[] | undefined,
+  whatsapp: { href: 'https://wa.me/5511999999999' },
   'data-testid': ID,
 };
 
-function pagina(extra: Partial<typeof props> = {}) {
-  return render(
-    <>
-      <a id="hero-cta" href="#x">
-        Topo
-      </a>
-      <section id="contato">Contato</section>
-      <footer>Rodapé</footer>
-      <ActionBar {...props} {...extra} />
-    </>,
-  );
-}
-const emitir = (i: number, entradas: Entrada[]) => act(() => observadores[i].cb(entradas));
-const gatilho = (isIntersecting: boolean, top: number): Entrada[] => [{ isIntersecting, boundingClientRect: { top } as DOMRect }];
-
-beforeEach(() => {
-  observadores.length = 0;
-  vi.stubGlobal('IntersectionObserver', FakeIO);
-});
 afterEach(() => {
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
 });
 
 describe('ActionBar', () => {
-  it('mostra a frase, o botão principal e o link secundário com data-testid derivado', () => {
-    pagina();
+  it('mostra a frase, o botão principal, o link secundário e o WhatsApp com data-testid derivado', () => {
+    render(<ActionBar {...props} />);
     expect(screen.getByTestId(ID)).toHaveAttribute('aria-label', 'Ação principal');
     expect(screen.getByTestId(`${ID}-message`)).toHaveTextContent('Pronto para começar?');
     expect(screen.getByTestId(`${ID}-primary-link`)).toHaveAttribute('href', '#contato');
     expect(screen.getByTestId(`${ID}-secondary-link`)).toHaveAttribute('href', '#como-funciona');
+    expect(screen.getByTestId(`${ID}-whatsapp-link`)).toHaveAttribute('href', 'https://wa.me/5511999999999');
   });
 
-  it('sem link secundário não desenha o link; sem data-testid as partes ficam sem id', () => {
-    const { container } = render(<ActionBar message="Oi" primaryAction={{ label: 'Ir', href: '#a' }} triggerSelector="#nada" />);
-    expect(container.querySelector('.ak-actionbar-second')).toBeNull();
-    expect(screen.queryByTestId(`${ID}-message`)).toBeNull();
-  });
-
-  it('começa escondida e fora do foco', () => {
-    pagina();
-    const barra = screen.getByTestId(ID);
-    expect(barra).not.toHaveClass('ak-actionbar-on');
-    expect(barra).toHaveAttribute('aria-hidden', 'true');
-    expect(screen.getByTestId(`${ID}-primary-link`)).toHaveAttribute('tabindex', '-1');
-    expect(screen.getByTestId(`${ID}-secondary-link`)).toHaveAttribute('tabindex', '-1');
-  });
-
-  it('aparece quando o botão do topo sai da tela por cima', () => {
-    pagina();
-    emitir(0, gatilho(false, -50));
-    const barra = screen.getByTestId(ID);
-    expect(barra).toHaveClass('ak-actionbar-on');
-    expect(barra).not.toHaveAttribute('aria-hidden');
+  it('está sempre visível: sem aria-hidden, sem foco removido e sem observador de rolagem', () => {
+    const observador = vi.fn();
+    vi.stubGlobal('IntersectionObserver', observador);
+    render(<ActionBar {...props} />);
+    expect(observador).not.toHaveBeenCalled();
+    expect(screen.getByTestId(ID)).not.toHaveAttribute('aria-hidden');
     expect(screen.getByTestId(`${ID}-primary-link`)).not.toHaveAttribute('tabindex');
   });
 
-  it('não aparece se o botão ainda está embaixo, e some quando ele volta', () => {
-    pagina();
-    emitir(0, gatilho(false, 900));
-    expect(screen.getByTestId(ID)).not.toHaveClass('ak-actionbar-on');
-    emitir(0, gatilho(false, -50));
-    expect(screen.getByTestId(ID)).toHaveClass('ak-actionbar-on');
-    emitir(0, gatilho(true, 10));
-    expect(screen.getByTestId(ID)).not.toHaveClass('ak-actionbar-on');
+  it('o WhatsApp abre em nova aba, se chama "Falar no WhatsApp" e mostra "WhatsApp" por padrão', () => {
+    render(<ActionBar {...props} />);
+    const link = screen.getByRole('link', { name: 'Falar no WhatsApp' });
+    expect(link).toHaveAttribute('target', '_blank');
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+    expect(link).toHaveTextContent('WhatsApp');
+    expect(link.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
   });
 
-  it('some enquanto o contato ou o rodapé estão na tela e volta quando saem', () => {
-    pagina();
-    emitir(0, gatilho(false, -50));
-    const contato = document.getElementById('contato')!;
-    const rodape = document.querySelector('footer')!;
-    emitir(1, [{ isIntersecting: true, target: contato }]);
-    expect(screen.getByTestId(ID)).not.toHaveClass('ak-actionbar-on');
-    emitir(1, [{ isIntersecting: true, target: rodape }]);
-    emitir(1, [{ isIntersecting: false, target: contato }]);
-    expect(screen.getByTestId(ID)).not.toHaveClass('ak-actionbar-on');
-    emitir(1, [{ isIntersecting: false, target: rodape }]);
-    expect(screen.getByTestId(ID)).toHaveClass('ak-actionbar-on');
+  it('o rótulo do WhatsApp pode ser trocado', () => {
+    render(<ActionBar {...props} whatsapp={{ href: 'https://wa.me/1', label: 'Chamar' }} />);
+    expect(screen.getByTestId(`${ID}-whatsapp-link`)).toHaveTextContent('Chamar');
   });
 
-  it('aceita um seletor só e funciona sem seletor de esconder', () => {
-    pagina({ hideSelectors: '#contato' });
-    expect(observadores).toHaveLength(2);
-    observadores.length = 0;
-    pagina({ hideSelectors: undefined });
-    expect(observadores).toHaveLength(1);
+  it('o WhatsApp fica entre a frase e o botão principal', () => {
+    render(<ActionBar {...props} />);
+    const whats = screen.getByTestId(`${ID}-whatsapp-link`);
+    const principal = screen.getByTestId(`${ID}-primary-link`);
+    const frase = screen.getByTestId(`${ID}-message`);
+    expect(frase.compareDocumentPosition(whats) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(whats.compareDocumentPosition(principal) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
-  it('sem o elemento do topo na página, fica escondida', () => {
-    render(<ActionBar {...props} triggerSelector="#nao-existe" />);
-    expect(observadores).toHaveLength(0);
-    expect(screen.getByTestId(ID)).not.toHaveClass('ak-actionbar-on');
+  it('sem as props opcionais não desenha o link secundário nem o WhatsApp; sem data-testid as partes ficam sem id', () => {
+    const { container } = render(<ActionBar message="Oi" primaryAction={{ label: 'Ir', href: '#a' }} />);
+    expect(container.querySelector('.ak-actionbar-second')).toBeNull();
+    expect(container.querySelector('.ak-actionbar-whats')).toBeNull();
+    expect(screen.queryByTestId(`${ID}-message`)).toBeNull();
   });
 
-  it('sem IntersectionObserver, fica escondida em vez de quebrar', () => {
-    vi.stubGlobal('IntersectionObserver', undefined);
-    pagina();
-    expect(screen.getByTestId(ID)).not.toHaveClass('ak-actionbar-on');
-  });
-
-  it('reserva o espaço da altura da barra só enquanto ela aparece', () => {
+  it('reserva o espaço da altura da barra', () => {
     let aoMedir: () => void = () => {};
     vi.stubGlobal(
       'ResizeObserver',
@@ -144,29 +78,32 @@ describe('ActionBar', () => {
         disconnect() {}
       },
     );
-    vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(72);
-    const { container } = pagina();
+    vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockReturnValue(80);
+    const { container } = render(<ActionBar {...props} />);
     const reserva = container.querySelector<HTMLElement>('.ak-actionbar-reserva')!;
+    expect(reserva.style.height).toBe('');
     act(() => aoMedir());
-    expect(reserva.style.height).toBe('0px');
-    emitir(0, gatilho(false, -50));
-    expect(reserva.style.height).toBe('72px');
+    expect(reserva.style.height).toBe('80px');
   });
 
-  it('desconecta os observadores ao sair', () => {
-    const { unmount } = pagina();
-    unmount();
-    expect(observadores.length).toBeGreaterThan(0);
-    expect(observadores.every((o) => o.disconnect.mock.calls.length > 0)).toBe(true);
+  it('desconecta o medidor ao sair', () => {
+    const desconectar = vi.fn();
+    vi.stubGlobal('ResizeObserver', class { observe() {} disconnect = desconectar; });
+    render(<ActionBar {...props} />).unmount();
+    expect(desconectar).toHaveBeenCalled();
   });
 
-  it('o CSS usa só tokens, safe-area, animação curta e respeita prefers-reduced-motion', () => {
+  it('o CSS usa só tokens, safe-area, 8 px a mais de altura e só o ícone do WhatsApp no celular', () => {
     const css = readFileSync(resolve(__dirname, 'ActionBar.css'), 'utf8');
     expect(css).not.toMatch(/#[0-9a-fA-F]{3,8}\b/);
     expect(css).not.toMatch(/rgba?\(/);
     expect(css).toContain('safe-area-inset-bottom');
-    expect(css).toMatch(/prefers-reduced-motion: reduce\) \{ \.ak-actionbar \{ transition: none/);
-    expect(css).toMatch(/@media \(max-width: 559px\)[^}]*\.ak-actionbar-second \{ display: none/s);
-    expect(css).toMatch(/transition: transform 200ms/);
+    expect(css).toMatch(/calc\(var\(--space-3\) \+ 4px\)/);
+    expect(css).toMatch(/@media \(max-width: 559px\)[\s\S]*\.ak-actionbar-whats-txt \{ display: none/);
+    expect(css).toMatch(/@media \(max-width: 559px\)[\s\S]*\.ak-actionbar-second \{ display: none/);
+    expect(css).not.toContain('transition');
+    // Até 439 px a frase sai da vista (o leitor de tela continua lendo) e o botão principal ocupa a linha.
+    expect(css).toMatch(/@media \(max-width: 439px\)[\s\S]*\.ak-actionbar-msg \{ position: absolute/);
+    expect(css).toMatch(/@media \(max-width: 439px\)[\s\S]*\.ak-actionbar-actions \.ak-btn \{ flex: 1 1 auto/);
   });
 });

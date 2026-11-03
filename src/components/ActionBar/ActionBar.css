@@ -1,18 +1,31 @@
 .ak-actionbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: var(--surface); border-top: 1px solid var(--line); box-shadow: var(--shadow-sheet); font-family: var(--font-sans);
-  padding-bottom: env(safe-area-inset-bottom, 0px); transform: translateY(100%); opacity: 0; visibility: hidden;
-  transition: transform 200ms ease, opacity 200ms ease, visibility 0s linear 200ms; }
-.ak-actionbar-on { transform: translateY(0); opacity: 1; visibility: visible; transition-delay: 0s; }
+  padding-bottom: env(safe-area-inset-bottom, 0px); }
 .ak-actionbar-in { max-width: var(--size-container); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
-  padding: var(--space-3) max(16px, env(safe-area-inset-right, 0px)) var(--space-3) max(16px, env(safe-area-inset-left, 0px)); }
+  padding: calc(var(--space-3) + 4px) max(16px, env(safe-area-inset-right, 0px)) calc(var(--space-3) + 4px) max(16px, env(safe-area-inset-left, 0px)); }
 .ak-actionbar-msg { margin: 0; min-width: 0; flex: 1 1 auto; color: var(--ink); font-size: 15px; font-weight: 700; line-height: 1.3; }
 .ak-actionbar-actions { display: flex; align-items: center; gap: var(--space-4); flex: none; }
-.ak-actionbar-second { color: var(--ink); font-size: 15px; font-weight: 600; min-height: var(--size-touch); display: inline-flex; align-items: center; text-decoration: underline; text-underline-offset: 4px; border-radius: 8px; }
-.ak-actionbar-second:hover { color: var(--brand); }
-.ak-actionbar-second:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
-.ak-actionbar-reserva { width: 100%; padding-bottom: env(safe-area-inset-bottom, 0px); box-sizing: content-box; }
-/* No celular: só a frase curta e o botão principal. */
+.ak-actionbar-second, .ak-actionbar-whats { color: var(--ink); font-size: 15px; font-weight: 600; min-height: var(--size-touch); display: inline-flex; align-items: center; border-radius: 8px; }
+.ak-actionbar-second { text-decoration: underline; text-underline-offset: 4px; }
+.ak-actionbar-whats { gap: var(--space-2); text-decoration: none; }
+.ak-actionbar-second:hover, .ak-actionbar-whats:hover { color: var(--brand); }
+.ak-actionbar-second:focus-visible, .ak-actionbar-whats:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.ak-actionbar-whats svg { display: block; flex: none; }
+.ak-actionbar-whats { box-sizing: border-box; }
+/* Espaço do tamanho da barra no fim da página; a altura real vem da medida (o mínimo cobre o primeiro desenho). */
+.ak-actionbar-reserva { width: 100%; height: calc(5rem + env(safe-area-inset-bottom, 0px)); }
+/* No celular: frase em até 2 linhas, WhatsApp só com o ícone (alvo de 44 px) e botão principal; sem link secundário. */
 @media (max-width: 559px) {
+  .ak-actionbar-in { gap: var(--space-3); }
+  .ak-actionbar-actions { gap: var(--space-2); }
   .ak-actionbar-second { display: none; }
-  .ak-actionbar-msg { font-size: 14px; }
+  .ak-actionbar-msg { font-size: 14px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .ak-actionbar-whats { width: var(--size-touch); justify-content: center; border: 1px solid var(--line-control); border-radius: var(--radius-full); }
+  .ak-actionbar-whats-txt { display: none; }
 }
-@media (prefers-reduced-motion: reduce) { .ak-actionbar { transition: none; } }
+/* Celular estreito (360 a 430 px): a frase não cabe ao lado do WhatsApp e do botão sem ficar cortada. Ela sai da vista
+   (continua lida pelo leitor de tela) e o botão principal ocupa o resto da linha, com o WhatsApp ao lado. */
+@media (max-width: 439px) {
+  .ak-actionbar-msg { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .ak-actionbar-actions { flex: 1 1 auto; }
+  .ak-actionbar-actions .ak-btn { flex: 1 1 auto; }
+}

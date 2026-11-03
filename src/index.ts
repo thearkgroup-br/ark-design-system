@@ -29,7 +29,7 @@ export type { NavItem, TabBarProps } from './components/TabBar';
 export { SideNav } from './components/SideNav';
 export type { SideNavProps } from './components/SideNav';
 export { ActionBar } from './components/ActionBar';
-export type { ActionBarAction, ActionBarProps } from './components/ActionBar';
+export type { ActionBarAction, ActionBarProps, ActionBarWhatsapp } from './components/ActionBar';
 export { SiteHeader } from './components/SiteHeader';
 export type { SiteHeaderProps, SiteLink } from './components/SiteHeader';
 export { Footer } from './components/Footer';
