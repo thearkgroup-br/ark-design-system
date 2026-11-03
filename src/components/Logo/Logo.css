@@ -5,3 +5,4 @@
 .ak-logo-iris .ak-logo-name { color: var(--ink); }
 .ak-logo-caps { letter-spacing: 0.16em; }
 .ak-logo-pulse .ak-logo-name { color: var(--brand); }
+.ak-logo-zenno .ak-logo-name, .ak-logo-somma .ak-logo-name { color: var(--ink); }

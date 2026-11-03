@@ -2,6 +2,8 @@ export const MARCAS = [
   { id: 'ark', nome: 'The Ark Group' },
   { id: 'iris', nome: 'Íris' },
   { id: 'pulse', nome: 'Pulse' },
+  { id: 'zenno', nome: 'Zenno' },
+  { id: 'somma', nome: 'Somma' },
 ] as const;
 
 export type Marca = (typeof MARCAS)[number]['id'];

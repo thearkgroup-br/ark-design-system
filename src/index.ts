@@ -96,6 +96,12 @@ export { Faq } from './components/Faq';
 export type { FaqProps } from './components/Faq';
 export { SiteFooter, NOTA_DO_GRUPO } from './components/SiteFooter';
 export type { SiteFooterProps } from './components/SiteFooter';
+export { ContactForm } from './components/ContactForm';
+export type { ContactFormProps, ContactFormTexts } from './components/ContactForm';
+export { criarFuncaoDeContato } from './contato/funcao';
+export { enviarContato, ErroDeValidacao, ENDERECO_DO_ENVIO } from './contato/enviar';
+export type { EnviarContato } from './contato/enviar';
+export type { ConfigContato, DadosDoContato, Escolha, OpcaoDeEscolha } from './contato/validacao';
 
 export { ICON_NAMES } from './icons/icons';
 export type { IconName } from './icons/icons';

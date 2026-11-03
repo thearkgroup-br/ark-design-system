@@ -1,6 +1,6 @@
 import { cx, useIdDoDom, type TestIdProps } from '../../utils';
 
-export type Marca = 'ark' | 'iris' | 'pulse';
+export type Marca = 'ark' | 'iris' | 'pulse' | 'zenno' | 'somma';
 
 export interface LogoProps extends TestIdProps {
   brand?: Marca;
@@ -12,7 +12,7 @@ export interface LogoProps extends TestIdProps {
   name?: string;
 }
 
-const NOME: Record<Marca, string> = { ark: 'THE ARK GROUP', iris: 'íris', pulse: 'pulse' };
+const NOME: Record<Marca, string> = { ark: 'THE ARK GROUP', iris: 'íris', pulse: 'pulse', zenno: 'zenno', somma: 'somma' };
 
 // Cores fixas do desenho da íris (logos/README.md: a pupila é sempre #17142B e o brilho é branco).
 // Fazem parte do logo, como nos arquivos SVG, e por isso não viram token. A íris em si usa currentColor (brand).
@@ -56,10 +56,39 @@ function SimboloArk({ size }: { size: number }) {
   );
 }
 
+/** Enso do Zenno: o círculo de um traço só, aberto. Na cor da marca. */
+function SimboloZenno({ size }: { size: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+      <path d="M78 17 A46 46 0 1 0 100 52" fill="none" stroke="currentColor" strokeWidth={11} strokeLinecap="round" />
+      <path d="M82 22 A40 40 0 0 1 96 44" fill="none" stroke="currentColor" strokeWidth={4} strokeLinecap="round" opacity={0.5} />
+    </svg>
+  );
+}
+
+/** Σ da Somma no quadrado arredondado: o quadrado na cor da marca e o traço em on-brand. */
+function SimboloSomma({ size }: { size: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <rect width={48} height={48} rx={13} fill="currentColor" />
+      <path d="M33 13H15l10 11-10 11h18" fill="none" stroke="var(--on-brand)" strokeWidth={4.5} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 /** Logo de cada marca, desenhado em código para acompanhar o tema. O data-testid vai no elemento com role="img". */
 export function Logo({ brand = 'ark', size = 28, markOnly, name, 'data-testid': testId }: LogoProps) {
   const nome = name ?? NOME[brand];
-  const simbolo = brand === 'iris' ? <SimboloIris size={size} /> : brand === 'ark' ? <SimboloArk size={Math.round(size * 0.62)} /> : null;
+  const simbolo =
+    brand === 'iris' ? (
+      <SimboloIris size={size} />
+    ) : brand === 'ark' ? (
+      <SimboloArk size={Math.round(size * 0.62)} />
+    ) : brand === 'zenno' ? (
+      <SimboloZenno size={size} />
+    ) : brand === 'somma' ? (
+      <SimboloSomma size={size} />
+    ) : null;
   const tamanhoDoNome = brand === 'ark' ? Math.round(size * 0.52) : Math.round(size * 0.82);
   return (
     <span className={cx('ak-logo', `ak-logo-${brand}`)} role="img" aria-label={nome === 'íris' ? 'Íris' : nome} data-testid={testId}>

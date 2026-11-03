@@ -21,6 +21,26 @@ describe('Logo', () => {
     expect(container.querySelectorAll('svg line')).toHaveLength(40);
   });
 
+  it('Zenno: enso (círculo aberto) + "zenno" escrito', () => {
+    const { container } = render(<Logo brand="zenno" />);
+    expect(screen.getByRole('img', { name: 'zenno' })).toHaveClass('ak-logo-zenno');
+    expect(container.querySelector('svg path')).toHaveAttribute('stroke', 'currentColor');
+    expect(container.querySelector('svg circle')).toBeNull();
+    expect(screen.getByText('zenno')).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('Somma: símbolo Σ no quadrado arredondado + "somma" escrito', () => {
+    const { container } = render(<Logo brand="somma" />);
+    expect(screen.getByRole('img', { name: 'somma' })).toHaveClass('ak-logo-somma');
+    expect(container.querySelector('svg rect')).toHaveAttribute('fill', 'currentColor');
+    expect(screen.getByText('somma')).toBeInTheDocument();
+  });
+
+  it('Zenno e Somma: markOnly deixa só o símbolo', () => {
+    render(<Logo brand="zenno" markOnly />);
+    expect(screen.queryByText('zenno')).not.toBeInTheDocument();
+  });
+
   it('Pulse: só o nome, sem símbolo (mesmo com markOnly)', () => {
     const { container } = render(<Logo brand="pulse" markOnly />);
     expect(container.querySelector('svg')).toBeNull();

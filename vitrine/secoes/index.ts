@@ -4,6 +4,7 @@ import { AlternarTema, Botoes, CamposDeTexto } from './Lote1';
 import { Busca, Escolhas, Interruptores, Segmentos, Selecao } from './Lote2';
 import { Avisos, Carregando, Selos, Sobreposicoes } from './Lote4';
 import { Agendamento, CardsELista, Notas, Site as PecasDoSite, Tabela } from './Lote5';
+import { ModeloDeLp } from './ModeloDeLp';
 import { Icones as IconesComponente, Logos as LogosComponente, NavegacaoDoApp, Site } from './Lote3';
 
 export const SECOES: { id: string; titulo: string; Componente: ComponentType }[] = [
@@ -32,4 +33,5 @@ export const SECOES: { id: string; titulo: string; Componente: ComponentType }[]
   { id: 'serviceitem', titulo: 'Agendamento', Componente: Agendamento },
   { id: 'table', titulo: 'Table', Componente: Tabela },
   { id: 'sectionheader', titulo: 'Peças do site', Componente: PecasDoSite },
+  { id: 'modelo-de-lp', titulo: 'Modelo de LP', Componente: ModeloDeLp },
 ];
