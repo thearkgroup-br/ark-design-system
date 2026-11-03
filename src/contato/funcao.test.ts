@@ -18,14 +18,10 @@ const CONFIG: ConfigContato = {
 const { onRequestPost, lerValores, montarEmail } = criarFuncaoDeContato(CONFIG);
 
 /** Resposta falsa do serviço de fora; `HttpResponse.error()` é a queda de rede (o fetch rejeita). */
-class HttpResponse extends Response {
-  static json(corpo: unknown, init?: ResponseInit) {
-    return new HttpResponse(JSON.stringify(corpo), { ...init, headers: { 'Content-Type': 'application/json' } });
-  }
-  static error() {
-    return new TypeError('Failed to fetch');
-  }
-}
+const HttpResponse = {
+  json: (corpo: unknown, init?: ResponseInit) => new Response(JSON.stringify(corpo), { ...init, headers: { 'Content-Type': 'application/json' } }),
+  error: () => new TypeError('Failed to fetch'),
+};
 
 const ENV: Env = {
   RESEND_API_KEY: 're_teste',
@@ -238,7 +234,7 @@ describe('POST /api/contato da Somma', () => {
   });
 
   it('Turnstile fora do ar: 502 e não envia', async () => {
-    const chamadas = servicos({ turnstile: new HttpResponse('falhou', { status: 500 }) });
+    const chamadas = servicos({ turnstile: new Response('falhou', { status: 500 }) });
     const resposta = await chamar(VALIDO);
     expect(resposta.status).toBe(502);
     expect(chamadas.resend).toHaveLength(0);
