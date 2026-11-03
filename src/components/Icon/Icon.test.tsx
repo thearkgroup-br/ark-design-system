@@ -17,8 +17,8 @@ describe('Icon', () => {
     expect(svg?.childElementCount).toBeGreaterThan(0);
   });
 
-  it('tem 35 ícones, como a lista da referência', () => {
-    expect(ICON_NAMES).toHaveLength(35);
+  it('tem 36 ícones: os 35 da referência e o whatsapp (ARK-24)', () => {
+    expect(ICON_NAMES).toHaveLength(36);
   });
 
   it('usa 20 px por padrão e aceita outro tamanho', () => {

@@ -1,15 +1,13 @@
 # ActionBar
 
-Barra fixa de ação no rodapé da tela, no estilo da LP de banho e tosa da Petz: frase curta à esquerda e botão principal à direita.
+Barra fixa de ação no rodapé da tela, no estilo da LP de banho e tosa da Petz: frase curta, WhatsApp opcional e botão principal.
 
-- **Computador:** frase, link secundário opcional e botão principal.
-- **Celular (abaixo de 560 px):** só a frase curta e o botão principal.
-- **Aparece** quando o botão principal do topo (o do Hero) sai da tela por cima; **some** enquanto a seção de contato ou o rodapé estão na tela.
-- **Não cobre conteúdo:** enquanto aparece, reserva no fim da página um espaço do tamanho da barra (medido ao vivo) mais `safe-area-inset-bottom`. Ponha o componente por último na página.
-- Animação de 200 ms (subir e aparecer), desligada com `prefers-reduced-motion`.
-- Escondida, a barra sai do foco do teclado (`visibility`, `aria-hidden` e `tabindex="-1"`).
-- Só tokens do DS; vale nos temas claro e escuro de todas as marcas.
-- Sem `IntersectionObserver` ou sem o elemento do gatilho na página, a barra fica escondida.
+- **Sempre visível**, desde o topo da página: não aparece nem some com a rolagem (até a 0.4.0 ela dependia do botão do topo e do contato).
+- **Computador:** frase à esquerda; à direita, link secundário opcional, WhatsApp (ícone e texto) e botão principal.
+- **Celular de 440 a 559 px:** frase em até 2 linhas e WhatsApp só com o ícone (alvo de 44 px, nome acessível "Falar no WhatsApp") ao lado do botão principal. Sem link secundário.
+- **Celular de até 439 px (inclui 360 px):** a frase não cabe ao lado do WhatsApp e do botão sem ficar cortada, então sai da vista (o leitor de tela continua lendo) e o botão principal ocupa o resto da linha, com o ícone do WhatsApp ao lado.
+- **Não cobre conteúdo:** reserva no fim da página um espaço do tamanho da barra (medido ao vivo, com `safe-area-inset-bottom`), inclusive abaixo do rodapé. Ponha o componente por último na página.
+- Só tokens do DS; vale nos temas claro e escuro de todas as marcas. Sem animação.
 
 ## API
 
@@ -18,17 +16,17 @@ Barra fixa de ação no rodapé da tela, no estilo da LP de banho e tosa da Petz
 | `message` | `string` | Frase curta (até uns 45 caracteres) |
 | `primaryAction` | `{ label, href }` | Botão principal. O texto diz o que acontece |
 | `secondaryAction` | `{ label, href }` | Opcional; só no computador |
-| `triggerSelector` | `string` | Seletor CSS do elemento que faz a barra aparecer (ex.: `[data-testid="ark-landing-hero-primary-link"]`) |
-| `hideSelectors` | `string \| string[]` | Seletor(es) do que esconde a barra (ex.: `['#contato', 'footer']`) |
+| `whatsapp` | `{ href, label? }` | Opcional. Abre em nova aba. `label` padrão "WhatsApp", só no computador |
 | `data-testid` | `string` | Vai na barra |
+
+Saíram na 0.5.0 as props `triggerSelector` e `hideSelectors`.
 
 ```tsx
 <ActionBar
   message="Pronto para começar?"
   primaryAction={{ label: 'Entrar na lista', href: '#contato' }}
   secondaryAction={{ label: 'Ver como funciona', href: '#como-funciona' }}
-  triggerSelector="#topo a.ak-btn"
-  hideSelectors={['#contato', 'footer']}
+  whatsapp={{ href: 'https://wa.me/5511999999999' }}
   data-testid="ark-landing-action-bar"
 />
 ```
@@ -41,5 +39,6 @@ Barra fixa de ação no rodapé da tela, no estilo da LP de banho e tosa da Petz
 | Frase | `ark-landing-action-bar-message` |
 | Botão principal | `ark-landing-action-bar-primary-link` |
 | Link secundário | `ark-landing-action-bar-secondary-link` |
+| WhatsApp | `ark-landing-action-bar-whatsapp-link` |
 
 `-bar` não está na tabela de sufixos da skill `padrao-data-testid`: é tratado como região (o id fica inteiro e a parte entra no fim).

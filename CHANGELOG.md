@@ -2,6 +2,24 @@
 
 Mudanças de cada versão do `ark-design-system`. Os apps instalam pela tag (`#vX.Y.Z`), criada na `main` depois do merge.
 
+## 0.5.0
+
+### Alterado (quebra compatibilidade)
+- **ActionBar** (ARK-24): a barra fica **sempre visível**, desde o topo, sem aparecer nem sumir com a rolagem. Saíram as props `triggerSelector` (era obrigatória) e `hideSelectors`, e o observador de rolagem. Quem passava essas props precisa tirá-las (no TypeScript, `triggerSelector` passa a ser erro de tipo). A reserva de espaço no fim da página continua, agora sempre ligada e do tamanho da barra (com `safe-area-inset-bottom`), inclusive abaixo do rodapé. A animação de entrada saiu junto.
+- **ActionBar:** a barra ficou 8 px mais alta (4 px a mais em cima e embaixo), com a mesma tipografia.
+
+### Adicionado
+- **ActionBar, prop `whatsapp`** (`{ href, label? }`, opcional): ação de WhatsApp entre a frase e o botão principal. No computador, ícone e o texto ("WhatsApp" por padrão); no celular, só o ícone, com `aria-label` "Falar no WhatsApp" e alvo de 44 px, ao lado do botão principal. Abre em nova aba. `data-testid`: `{base}-whatsapp-link`.
+- **Ícone `whatsapp`** no conjunto de ícones (agora 36). O `chat` continua sendo o balão simples.
+
+### Decisão de layout a 360 px
+- Frase, WhatsApp e botão principal não cabem juntos em 360 px sem cortar a frase (ela ficava com 56 a 140 px de largura, cortada em "app ou…"). Até 439 px de largura a frase sai da vista (continua lida pelo leitor de tela) e o botão principal ocupa o resto da linha, com o WhatsApp ao lado. De 440 a 559 px a frase aparece em até 2 linhas. Registrado também no README do componente.
+
+### Para quem usa
+- Tirar `triggerSelector` e `hideSelectors` do `<ActionBar>`. Passar `whatsapp` se a LP tiver número.
+- Se o app tinha botão flutuante de WhatsApp, ele pode sair: a barra assume o papel.
+- Para adotar: trocar `#v0.4.0` por `#v0.5.0` no `package.json` depois que a tag existir.
+
 ## 0.4.0
 
 ### Adicionado

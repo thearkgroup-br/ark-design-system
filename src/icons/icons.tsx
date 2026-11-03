@@ -4,7 +4,7 @@ import type { ReactElement, SVGProps } from 'react';
 export const ICON_NAMES = [
   'home', 'store', 'menu', 'users', 'user', 'plus', 'search', 'close', 'chevronRight', 'chevronLeft', 'chevronDown',
   'check', 'info', 'alert', 'calendar', 'clock', 'lock', 'sun', 'moon', 'settings', 'logout', 'chart', 'code', 'pulse',
-  'chat', 'mail', 'phone', 'pin', 'edit', 'trash', 'filter', 'external', 'arrowRight', 'heart', 'star',
+  'chat', 'whatsapp', 'mail', 'phone', 'pin', 'edit', 'trash', 'filter', 'external', 'arrowRight', 'heart', 'star',
 ] as const;
 
 export type IconName = (typeof ICON_NAMES)[number];
@@ -37,6 +37,7 @@ const FORMAS: Record<Exclude<IconName, 'heart' | 'star'>, Forma[]> = {
   code: [['polyline', { points: '8 6 2 12 8 18' }], ['polyline', { points: '16 6 22 12 16 18' }]],
   pulse: [['polyline', { points: '2 12 7 12 10 5 14 19 17 12 22 12' }]],
   chat: [['path', { d: 'M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z' }]],
+  whatsapp: [['path', { d: 'M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z' }], ['path', { d: 'M9.2 8.2c-.3.6-.2 1.6.7 3 .9 1.4 2.1 2.4 3.2 2.8.8.3 1.5.2 1.9-.4l.2-.5-1.6-.9-.7.6c-.7-.3-1.6-1.1-2-2l.6-.7-.8-1.6z' }]],
   mail: [['rect', { x: 3, y: 5, width: 18, height: 14, rx: 2 }], ['polyline', { points: '3 7 12 13 21 7' }]],
   phone: [['path', { d: 'M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z' }]],
   pin: [['path', { d: 'M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z' }], ['circle', { cx: 12, cy: 9.5, r: 2.5 }]],
