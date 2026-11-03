@@ -79,7 +79,7 @@ describe('SiteHeader', () => {
     expect(document.getElementById(botao.getAttribute('aria-controls') ?? '')).toHaveAccessibleName('Menu do site');
   });
 
-  it('o botão principal também fica no menu (aparece nele abaixo de 420 px)', async () => {
+  it('o botão principal também fica no menu (aparece nele abaixo de 560 px)', async () => {
     render(<SiteHeader links={LINKS} cta={CTA} data-testid={ID} />);
     await userEvent.click(screen.getByRole('button', { name: 'Abrir menu' }));
     expect(screen.getByTestId('ark-landing-header-menu-cta-link')).toHaveAttribute('href', '#contato');
@@ -150,11 +150,11 @@ describe('SiteHeader', () => {
     expect(a.getAttribute('aria-controls')).not.toBe(b.getAttribute('aria-controls'));
   });
 
-  it('o CSS troca para o menu em 860 px e esconde o botão principal em 420 px (largura do cabeçalho)', () => {
+  it('o CSS troca para o menu em 860 px e esconde o botão principal em 560 px (largura do cabeçalho)', () => {
     const css = readFileSync(resolve(__dirname, 'SiteHeader.css'), 'utf8');
     expect(css).toContain('container-type: inline-size');
     expect(css).toMatch(/@container \(max-width: 860px\)/);
-    expect(css).toMatch(/@container \(max-width: 420px\)/);
+    expect(css).toMatch(/@container \(max-width: 560px\)/);
     // Logo de 860 px para cima os links quebram linha em vez de rolar para o lado.
     expect(css).toMatch(/\.ak-siteheader-nav \{[^}]*flex-wrap: wrap/);
   });

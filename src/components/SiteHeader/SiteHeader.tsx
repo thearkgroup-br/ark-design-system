@@ -37,7 +37,7 @@ const NOME_DA_MARCA: Record<Marca, string> = { ark: 'The Ark Group', iris: 'Íri
 /**
  * Cabeçalho fixo do site. O data-testid vai no header. Abaixo de 860 px (largura do próprio cabeçalho)
  * os links vão para o menu e o botão de tema vira um ícone ao lado do botão do menu (o menu aberto não tem tema);
- * abaixo de 420 px o botão principal sai do topo.
+ * abaixo de 560 px o botão principal sai do topo.
  */
 export function SiteHeader({
   brand = 'ark',
@@ -134,7 +134,7 @@ export function SiteHeader({
               {l.label}
             </a>
           ))}
-          {/* Abaixo de 420 px o botão principal sai do topo e fica aqui (CSS). */}
+          {/* Abaixo de 560 px o botão principal sai do topo e fica aqui (CSS). */}
           {botao('menu-cta-link')}
         </nav>
       )}

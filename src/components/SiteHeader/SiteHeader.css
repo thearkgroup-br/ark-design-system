@@ -16,6 +16,12 @@
 }
 .ak-siteheader-drawer .ak-btn { display: none; }
 @container (max-width: 420px) {
+  /* Logo, tema e menu cabem em 360 px: menos espaço entre eles e entre as letras do nome. */
+  .ak-siteheader-in { gap: 8px; }
+  .ak-siteheader-logo .ak-logo-caps { letter-spacing: 0.1em; }
+}
+/* Com o ícone de tema ao lado do menu, o botão principal só cabe no topo a partir de 560 px: abaixo disso fica no menu. */
+@container (max-width: 560px) {
   .ak-siteheader-mobile .ak-btn { display: none; }
   .ak-siteheader-drawer .ak-btn { display: flex; align-self: flex-start; margin-top: 8px; }
 }
