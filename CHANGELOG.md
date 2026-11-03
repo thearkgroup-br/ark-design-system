@@ -2,6 +2,19 @@
 
 Mudanças de cada versão do `ark-design-system`. Os apps instalam pela tag (`#vX.Y.Z`), criada na `main` depois do merge.
 
+## 0.3.0
+
+Modelo único de landing page (ARK-18): as LPs da Ark, da Íris, do Zenno e da Somma passam a montar a página com os mesmos blocos.
+
+### Adicionado
+- **Componentes novos:** `Section`, `Hero`, `StatBand`, `Faq`, `SiteFooter` e `ContactForm` (formulário de contato com a caixa `ak-contact-box`, aceita o Turnstile e recebe a função de envio).
+- **Slot `logo`** no `SiteHeader` e no `Footer`: quando vem, substitui o `Logo` padrão da marca.
+- **Temas `zenno` e `somma`** (claro e escuro): `data-theme="zenno"`, `"zenno-escuro"`, `"somma"` e `"somma-escuro"`.
+
+### Para quem usa
+- Sem quebra de API: o que já existia continua igual.
+- Para adotar: trocar `#v0.2.2` por `#v0.3.0` no `package.json` depois que a tag existir.
+
 ## 0.2.2
 
 ### Corrigido
