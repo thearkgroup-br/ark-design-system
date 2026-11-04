@@ -5,16 +5,17 @@ import { Exemplo, Secao } from '../Secao';
 export function Logos() {
   return (
     <Secao id="logo" titulo="Logo">
-      <Exemplo titulo="As três marcas (acompanham o tema)">
+      <Exemplo titulo="As marcas (acompanham o tema)">
         <Logo brand="ark" data-testid="ark-showcase-logo-ark-logo" />
         <Logo brand="iris" />
         <Logo brand="pulse" />
-        <Logo brand="ark" name="ARCA DEV" />
+        <Logo brand="mastro" data-testid="ark-showcase-logo-mastro-logo" />
       </Exemplo>
       <Exemplo titulo="Só símbolo e tamanho de tela de entrada">
         <Logo brand="ark" markOnly size={40} />
         <Logo brand="iris" markOnly size={40} />
         <Logo brand="iris" size={40} />
+        <Logo brand="mastro" markOnly size={40} />
       </Exemplo>
     </Secao>
   );
@@ -112,7 +113,7 @@ export function Site() {
             brand="ark"
             tagline="Tecnologia que cresce junto com o seu negócio."
             columns={[
-              { title: 'Empresas', items: [{ label: 'Íris', href: '#siteheader' }, { label: 'Arca Dev', href: '#siteheader' }] },
+              { title: 'Empresas', items: [{ label: 'Íris', href: '#siteheader' }, { label: 'Mastro', href: '#siteheader' }] },
               { title: 'Contato', items: ['Seg a sex, 9h às 18h', '(11) 91234-5678', 'contato@[a definir]'] },
               { title: 'Siga', items: [{ label: 'Instagram', href: '#siteheader' }] },
             ]}

@@ -6,7 +6,7 @@ import { SiteHeader } from '../SiteHeader/SiteHeader';
 
 const ID = 'ark-landing-footer';
 const COLUNAS = [
-  { title: 'Empresas', items: [{ label: 'Íris', href: '/iris' }, { label: 'Arca Dev', href: '/arca', id: 'arca' }] },
+  { title: 'Empresas', items: [{ label: 'Íris', href: '/iris' }, { label: 'Mastro', href: '/arca', id: 'arca' }] },
   { title: 'Contato', items: ['Seg a sex, 9h às 18h', '(11) 91234-5678'] },
 ];
 const BAIXO = [{ label: 'Política de privacidade', href: '/privacidade' }, { label: 'Termos de uso', href: '/termos', id: 'terms' }];

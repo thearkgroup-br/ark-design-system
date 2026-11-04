@@ -1,6 +1,6 @@
 import { cx, useIdDoDom, type TestIdProps } from '../../utils';
 
-export type Marca = 'ark' | 'iris' | 'pulse' | 'zenno' | 'somma';
+export type Marca = 'ark' | 'iris' | 'pulse' | 'zenno' | 'somma' | 'mastro';
 
 export interface LogoProps extends TestIdProps {
   brand?: Marca;
@@ -8,11 +8,11 @@ export interface LogoProps extends TestIdProps {
   size?: number;
   /** Só o símbolo (ícone de app, favicon). O Pulse ainda não tem símbolo e continua com o nome. */
   markOnly?: boolean;
-  /** Troca o nome escrito (ex.: "ARCA DEV" com brand="ark"). */
+  /** Troca o nome escrito (ex.: name="ACME" com brand="ark"). */
   name?: string;
 }
 
-const NOME: Record<Marca, string> = { ark: 'THE ARK GROUP', iris: 'íris', pulse: 'pulse', zenno: 'zenno', somma: 'somma' };
+const NOME: Record<Marca, string> = { ark: 'THE ARK GROUP', iris: 'íris', pulse: 'pulse', zenno: 'zenno', somma: 'somma', mastro: 'mastro' };
 
 // Cores fixas do desenho da íris (logos/README.md: a pupila é sempre #17142B e o brilho é branco).
 // Fazem parte do logo, como nos arquivos SVG, e por isso não viram token. A íris em si usa currentColor (brand).
@@ -76,6 +76,19 @@ function SimboloSomma({ size }: { size: number }) {
   );
 }
 
+/** Mastro: o mastro e a vela dentro do quadrado arredondado. O quadrado na cor da marca e o traço em on-brand. */
+function SimboloMastro({ size }: { size: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <rect width={48} height={48} rx={13} fill="currentColor" />
+      <g fill="none" stroke="var(--on-brand)" strokeWidth={4.5} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M16 11V37" />
+        <path d="M16 12L32 32H16" />
+      </g>
+    </svg>
+  );
+}
+
 /** Logo de cada marca, desenhado em código para acompanhar o tema. O data-testid vai no elemento com role="img". */
 export function Logo({ brand = 'ark', size = 28, markOnly, name, 'data-testid': testId }: LogoProps) {
   const nome = name ?? NOME[brand];
@@ -88,6 +101,8 @@ export function Logo({ brand = 'ark', size = 28, markOnly, name, 'data-testid': 
       <SimboloZenno size={size} />
     ) : brand === 'somma' ? (
       <SimboloSomma size={size} />
+    ) : brand === 'mastro' ? (
+      <SimboloMastro size={size} />
     ) : null;
   const tamanhoDoNome = brand === 'ark' ? Math.round(size * 0.52) : Math.round(size * 0.82);
   return (
