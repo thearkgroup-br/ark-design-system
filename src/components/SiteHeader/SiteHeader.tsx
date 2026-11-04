@@ -32,7 +32,7 @@ export interface SiteHeaderProps extends TestIdProps {
   sticky?: boolean;
 }
 
-const NOME_DA_MARCA: Record<Marca, string> = { ark: 'The Ark Group', iris: 'Íris', pulse: 'Pulse', zenno: 'Zenno', somma: 'Somma' };
+const NOME_DA_MARCA: Record<Marca, string> = { ark: 'The Ark Group', iris: 'Íris', pulse: 'Pulse', zenno: 'Zenno', somma: 'Somma', mastro: 'Mastro' };
 
 /**
  * Cabeçalho fixo do site. O data-testid vai no header. Abaixo de 860 px (largura do próprio cabeçalho)

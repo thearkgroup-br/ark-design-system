@@ -5,7 +5,7 @@ export interface PriceListProps extends TestIdProps {
   items: { name: string; desc?: string; price: string }[];
 }
 
-/** Lista de serviços com descrição e preço (Arca Dev). Cada linha ganha `{base}-item`; no estreito, empilha. */
+/** Lista de serviços com descrição e preço (Mastro). Cada linha ganha `{base}-item`; no estreito, empilha. */
 export function PriceList({ items, 'data-testid': testId }: PriceListProps) {
   return (
     <ul className="ak-pricelist" data-testid={testId}>

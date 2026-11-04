@@ -2,6 +2,32 @@
 
 Mudanças de cada versão do `ark-design-system`. Os apps instalam pela tag (`#vX.Y.Z`), criada na `main` depois do merge.
 
+## 0.6.0
+
+### Adicionado
+- **Temas `mastro` e `mastro-escuro`** (ARK-25): `data-theme="mastro"` e `"mastro-escuro"`. Os neutros (bg, surface, ink, line, status etc.) são os mesmos do tema `ark`; só muda a marca:
+
+  | Token | Claro | Escuro |
+  | --- | --- | --- |
+  | `brand` | #1D4ED8 | #7AA2FF |
+  | `on-brand` | #FFFFFF | #0B1533 |
+  | `brand-soft` | #E6EDFD | #14254A |
+  | `brand-ink` | #1E3A8A | #C7D6FF |
+  | `focus` | #1D4ED8 | #7AA2FF |
+
+  Contraste conferido nos dois temas: texto (on-brand sobre brand, brand-ink sobre brand-soft, surface e bg, brand sobre bg e surface) de 5,7:1 a 13,5:1 (mínimo 4,5:1); foco, brand sobre brand-soft e borda de campo de 3,4:1 a 7,9:1 (mínimo 3:1).
+- **Logo `brand="mastro"`**: mastro e vela dentro do quadrado arredondado (viewBox 48, quadrado em `brand`, traço em `on-brand`) + "mastro" em minúsculas, 800, espaçamento -0.035em. Com o tema `ark` o logo sai em preto e branco, como nos materiais do grupo.
+- **Logos em arquivo:** `mastro-simbolo.svg`, `mastro-simbolo-escuro.svg`, `mastro-simbolo-preto.svg` e `mastro-simbolo-branco.svg`.
+- Vitrine: seletor de marca com Mastro e logo do Mastro na seção Logo.
+
+### Alterado
+- Textos de exemplo que citavam "Arca Dev" passam a citar "Mastro" (README, vitrine e README de componentes). O `Logo` com `name` continua aceitando qualquer nome.
+- O `SiteHeader` entende a marca `mastro` (nome acessível "Mastro").
+
+### Para quem usa
+- Sem quebra de API: `Marca` ganha o valor `'mastro'`.
+- Para adotar: `ark-design-system#v0.6.0` no `package.json` depois que a tag existir.
+
 ## 0.5.0
 
 ### Alterado (quebra compatibilidade)

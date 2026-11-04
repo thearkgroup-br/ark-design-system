@@ -36,6 +36,22 @@ describe('Logo', () => {
     expect(screen.getByText('somma')).toBeInTheDocument();
   });
 
+  it('Mastro: mastro e vela no quadrado arredondado + "mastro" escrito', () => {
+    const { container } = render(<Logo brand="mastro" />);
+    expect(screen.getByRole('img', { name: 'mastro' })).toHaveClass('ak-logo-mastro');
+    expect(container.querySelector('svg')).toHaveAttribute('viewBox', '0 0 48 48');
+    expect(container.querySelector('svg rect')).toHaveAttribute('fill', 'currentColor');
+    expect(container.querySelectorAll('svg path')).toHaveLength(2);
+    expect(container.querySelector('svg g')).toHaveAttribute('stroke', 'var(--on-brand)');
+    expect(screen.getByText('mastro')).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('Mastro: markOnly deixa só o símbolo', () => {
+    render(<Logo brand="mastro" markOnly />);
+    expect(screen.queryByText('mastro')).not.toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'mastro' })).toBeInTheDocument();
+  });
+
   it('Zenno e Somma: markOnly deixa só o símbolo', () => {
     render(<Logo brand="zenno" markOnly />);
     expect(screen.queryByText('zenno')).not.toBeInTheDocument();
@@ -53,9 +69,9 @@ describe('Logo', () => {
     expect(screen.getByRole('img', { name: 'Íris' })).toBeInTheDocument();
   });
 
-  it('name troca o nome (Arca Dev usa o tema ark)', () => {
-    render(<Logo brand="ark" name="ARCA DEV" />);
-    expect(screen.getByRole('img', { name: 'ARCA DEV' })).toHaveTextContent('ARCA DEV');
+  it('name troca o nome (mesmo com outra marca)', () => {
+    render(<Logo brand="ark" name="ACME" />);
+    expect(screen.getByRole('img', { name: 'ACME' })).toHaveTextContent('ACME');
   });
 
   it('size é a altura do símbolo', () => {

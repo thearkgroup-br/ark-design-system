@@ -29,7 +29,7 @@ export function CardsELista() {
         <div className="vt-grade">
           <Card icon="calendar" title="Íris" text="Agenda online para pequenos negócios." href="#card" data-testid="ark-showcase-card-iris-card" />
           <Card number="01" title="Comece grátis" text="30 dias para testar, sem cartão." badge="Novo" tone="sunken" />
-          <Card icon="code" title="Arca Dev" text="Sites, apps e sistemas sob medida." tone="brand" footer="Fale com a gente" />
+          <Card icon="code" title="Mastro" text="Sob medida, sem surpresa." tone="brand" footer="Fale com a gente" />
           <Card title="Pequeno" text="size sm, outline." size="sm" tone="outline" />
         </div>
       </Exemplo>

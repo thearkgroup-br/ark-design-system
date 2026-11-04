@@ -6,9 +6,14 @@ Os componentes são os mesmos em todo lugar. O que muda de uma marca para outra 
 
 | Marca | Claro | Escuro |
 | --- | --- | --- |
-| The Ark Group e Arca Dev | `ark` | `ark-escuro` |
+| The Ark Group | `ark` | `ark-escuro` |
 | Íris | `iris` | `iris-escuro` |
 | Pulse | `pulse` | `pulse-escuro` |
+| Zenno | `zenno` | `zenno-escuro` |
+| Somma | `somma` | `somma-escuro` |
+| Mastro | `mastro` | `mastro-escuro` |
+
+Nos materiais do grupo (como a LP da Ark), o Mastro aparece em preto e branco, com o tema `ark`. Na LP do próprio Mastro, usa o tema `mastro` (azul).
 
 ## Como usar
 
@@ -20,7 +25,7 @@ Na raiz do app, uma vez:
 
 ```tsx
 import 'ark-design-system/fonte.css'; // Plus Jakarta Sans servida pelo app
-import 'ark-design-system/estilos.css'; // tokens dos 6 temas + componentes
+import 'ark-design-system/estilos.css'; // tokens dos 12 temas + componentes
 import { Button, TextField } from 'ark-design-system';
 ```
 
