@@ -2,6 +2,14 @@
 
 Mudanças de cada versão do `ark-design-system`. Os apps instalam pela tag (`#vX.Y.Z`), criada na `main` depois do merge.
 
+## 0.7.0
+
+### Adicionado
+- **Entrada `ark-design-system/contato`** (ARK-20): exporta `criarFuncaoDeContato` e os tipos `Env`, `Contexto`, `ConfigContato`, `DadosDoContato`, `Escolha` e `OpcaoDeEscolha` sem nenhum import de React. As Pages Functions das LPs passam a importar daqui e deixam de levar o React (~157 kB) no bundle. Um teste confere que o grafo de imports da entrada não alcança React, hook nem componente.
+
+### Mantido
+- O índice (`ark-design-system`) segue exportando `criarFuncaoDeContato` como antes; nada quebra para quem já usa.
+
 ## 0.6.0
 
 ### Adicionado
