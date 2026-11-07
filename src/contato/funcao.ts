@@ -1,6 +1,8 @@
 // Função de contato dos sites (POST /api/contato), a mesma nos quatro. O que muda é só a ConfigContato.
-// Valida com as mesmas regras e mensagens da tela, confere o Turnstile e manda o e-mail pelo Resend.
+// Valida com as mesmas regras e mensagens da tela, confere o Turnstile (e o hostname dele) e manda o e-mail pelo Resend.
+// Antes disso, recusa o excesso de envios do mesmo IP e finge que aceitou quem preencheu o campo armadilha (IRIS-285).
 // Nenhum dado da pessoa vai para o log: só o motivo e o status do serviço de fora.
+import { LIMITE_PADRAO, criarLimitador, hostnameValido, preencheuAArmadilha, type BancoD1, type ProtecaoContato } from './protecao';
 import { prepararDados, validarFormulario, type ConfigContato, type DadosDoContato, type Valores } from './validacao';
 
 export interface Env {
@@ -12,6 +14,11 @@ export interface Env {
   CONTATO_PARA?: string;
   /** Remetente num domínio verificado no Resend: "Somma <site@thearkgroup.com.br>". */
   CONTATO_DE?: string;
+  /**
+   * Opcional. Banco D1 (plano grátis) onde o limite por IP é contado para todos os isolates. Sem ele, o limite vale só
+   * dentro de cada isolate. Criar o banco e ligar o binding `CONTATO_LIMITE` no projeto do Pages; a tabela se cria sozinha.
+   */
+  CONTATO_LIMITE?: BancoD1;
 }
 
 export interface Contexto {
@@ -63,7 +70,7 @@ async function lerCorpo(request: Request): Promise<Record<string, unknown> | Res
   return responder(400, { erro: 'corpo' });
 }
 
-async function conferirTurnstile(token: string, segredo: string, ip: string | null): Promise<Verificacao> {
+async function conferirTurnstile(token: string, segredo: string, ip: string | null, protecao: ProtecaoContato): Promise<Verificacao> {
   const form = new FormData();
   form.append('secret', segredo);
   form.append('response', token);
@@ -74,8 +81,13 @@ async function conferirTurnstile(token: string, segredo: string, ip: string | nu
       registrar('turnstile-indisponivel', { status: resposta.status });
       return 'indisponivel';
     }
-    const resultado = (await resposta.json()) as { success?: boolean; 'error-codes'?: string[] };
-    if (resultado.success === true) return 'ok';
+    const resultado = (await resposta.json()) as { success?: boolean; hostname?: unknown; 'error-codes'?: string[] };
+    if (resultado.success === true) {
+      // Um token resolvido em outro site (que usa a mesma chave ou outra) não vale aqui.
+      if (hostnameValido(resultado.hostname, protecao)) return 'ok';
+      registrar('turnstile-hostname', { hostname: typeof resultado.hostname === 'string' ? resultado.hostname.slice(0, 100) : '(ausente)' });
+      return 'recusado';
+    }
     // Os códigos são do Turnstile (ex.: "timeout-or-duplicate"), sem dado da pessoa.
     registrar('turnstile-recusou', { codigos: (resultado['error-codes'] ?? []).join(',') });
     return 'recusado';
@@ -112,7 +124,11 @@ async function enviarEmail(email: Email, chave: string): Promise<boolean> {
 }
 
 /** Cria a Function do site. No site: `export const onRequestPost = criarFuncaoDeContato(CONFIG).onRequestPost;`. */
-export function criarFuncaoDeContato(config: ConfigContato) {
+export function criarFuncaoDeContato(config: ConfigContato, protecao: ProtecaoContato) {
+  /** Sal do resumo do IP no D1: o segredo do Turnstile, que só este projeto conhece. */
+  let segredoDoLimite = '';
+  const limitador = criarLimitador(protecao.limite ?? LIMITE_PADRAO, () => segredoDoLimite);
+
   /** Do corpo do pedido para os mesmos valores da tela. O que não é texto vira vazio e cai na validação. */
   function lerValores(corpo: Record<string, unknown>): Valores {
     return {
@@ -165,8 +181,22 @@ export function criarFuncaoDeContato(config: ConfigContato) {
       return responder(503, { erro: 'configuracao' });
     }
 
+    segredoDoLimite = TURNSTILE_SECRET_KEY;
+    // O limite vem antes de ler o corpo: quem passa do máximo não gasta nem o parse.
+    const espera = await limitador.registrar(request.headers.get('CF-Connecting-IP') ?? 'desconhecido', env.CONTATO_LIMITE, () => registrar('limite-sem-banco'));
+    if (espera !== null) {
+      const recusa = responder(429, { erro: 'muitas-tentativas' });
+      recusa.headers.set('Retry-After', String(espera));
+      return recusa;
+    }
+
     const corpo = await lerCorpo(request);
     if (corpo instanceof Response) return corpo;
+    // Robô que preencheu a armadilha leva "enviado" e nada sai: não aprende o que o barrou.
+    if (preencheuAArmadilha(corpo)) {
+      registrar('armadilha');
+      return responder(200, { ok: true });
+    }
 
     const valores = lerValores(corpo);
     const erros = validarFormulario(valores, config);
@@ -174,7 +204,7 @@ export function criarFuncaoDeContato(config: ConfigContato) {
 
     const token = texto(corpo.token);
     if (!token || token.length > TOKEN_MAXIMO) return responder(403, { erro: 'verificacao' });
-    const verificacao = await conferirTurnstile(token, TURNSTILE_SECRET_KEY, request.headers.get('CF-Connecting-IP'));
+    const verificacao = await conferirTurnstile(token, TURNSTILE_SECRET_KEY, request.headers.get('CF-Connecting-IP'), protecao);
     if (verificacao === 'recusado') return responder(403, { erro: 'verificacao' });
     if (verificacao === 'indisponivel') return responder(502, { erro: 'verificacao-indisponivel' });
 
@@ -182,5 +212,5 @@ export function criarFuncaoDeContato(config: ConfigContato) {
     return enviado ? responder(200, { ok: true }) : responder(502, { erro: 'envio' });
   }
 
-  return { onRequestPost, lerValores, montarEmail };
+  return { onRequestPost, lerValores, montarEmail, zerarLimite: limitador.zerar };
 }

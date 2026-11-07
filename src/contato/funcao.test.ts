@@ -1,6 +1,7 @@
 // @vitest-environment node
 import { afterEach, beforeEach, vi } from 'vitest';
 import { ENVIAR_EMAIL, TAMANHO_MAXIMO, VERIFICAR_TURNSTILE, criarFuncaoDeContato, type Env } from './funcao';
+import type { BancoD1, ProtecaoContato } from './protecao';
 import type { ConfigContato } from './validacao';
 
 const CONFIG: ConfigContato = {
@@ -15,7 +16,8 @@ const CONFIG: ConfigContato = {
     ],
   },
 };
-const { onRequestPost, lerValores, montarEmail } = criarFuncaoDeContato(CONFIG);
+const PROTECAO: ProtecaoContato = { dominios: ['somma.thearkgroup.com.br'], projetosPages: ['somma-landing-page'] };
+const { onRequestPost, lerValores, montarEmail, zerarLimite } = criarFuncaoDeContato(CONFIG, PROTECAO);
 
 /** Resposta falsa do serviço de fora; `HttpResponse.error()` é a queda de rede (o fetch rejeita). */
 const HttpResponse = {
@@ -49,9 +51,9 @@ interface Chamadas {
 
 type Falso = Response | TypeError;
 
-function servicos({ turnstile = HttpResponse.json({ success: true }), resend = HttpResponse.json({ id: 'email-1' }) }: { turnstile?: Falso; resend?: Falso } = {}) {
+function servicos({ turnstile = HttpResponse.json({ success: true, hostname: 'somma.thearkgroup.com.br' }), resend = HttpResponse.json({ id: 'email-1' }) }: { turnstile?: Falso; resend?: Falso } = {}) {
   const chamadas: Chamadas = { turnstile: [], resend: [] };
-  const entregar = (resposta: Falso) => (resposta instanceof Error ? Promise.reject(resposta) : Promise.resolve(resposta));
+  const entregar = (resposta: Falso) => (resposta instanceof Error ? Promise.reject(resposta) : Promise.resolve(resposta.clone()));
   // Pedido para endereço desconhecido falha o teste: nunca sai para a rede de verdade.
   vi.stubGlobal('fetch', (entrada: string, init: RequestInit) => {
     if (entrada === VERIFICAR_TURNSTILE) {
@@ -81,6 +83,7 @@ const chamar = (corpo: unknown, env: Env = ENV, cabecalhos?: Record<string, stri
 
 let log: ReturnType<typeof vi.spyOn>;
 beforeEach(() => {
+  zerarLimite();
   log = vi.spyOn(console, 'error').mockImplementation(() => {});
 });
 afterEach(() => {
@@ -310,10 +313,143 @@ describe('campos novos do formulário único', () => {
   });
 
   it('sem escolha configurada, o e-mail não pergunta nada a mais', () => {
-    const { montarEmail: semEscolha } = criarFuncaoDeContato({ produto: 'Zenno', assunto: 'Zenno: contato' });
+    const { montarEmail: semEscolha } = criarFuncaoDeContato({ produto: 'Zenno', assunto: 'Zenno: contato' }, PROTECAO);
     const email = semEscolha({ nome: 'Ana', email: 'ana@x.com', aceite: true }, 'de@x.com', 'para@x.com');
     expect(email.text).not.toContain('Usa a Íris');
     expect(email.text).toContain('Nova mensagem pelo site Zenno.');
     expect(email.subject).toBe('Zenno: contato');
   });
 });
+
+describe('proteções do IRIS-285', () => {
+  it('campo armadilha preenchido: responde ok, mas nada sai (nem Turnstile nem Resend)', async () => {
+    const chamadas = servicos();
+    for (const campo of ['confirmar_site', 'website']) {
+      const resposta = await chamar({ ...VALIDO, [campo]: 'http://spam.exemplo' });
+      expect(resposta.status).toBe(200);
+      expect(await resposta.json()).toEqual({ ok: true });
+    }
+    expect(chamadas.turnstile).toHaveLength(0);
+    expect(chamadas.resend).toHaveLength(0);
+  });
+
+  it('armadilha só com espaços ou que não é texto não conta', async () => {
+    const chamadas = servicos();
+    expect((await chamar({ ...VALIDO, confirmar_site: '   ', website: 5 })).status).toBe(200);
+    expect(chamadas.resend).toHaveLength(1);
+  });
+
+  it('Turnstile de outro hostname é recusado (403) e nada é enviado', async () => {
+    const chamadas = servicos({ turnstile: HttpResponse.json({ success: true, hostname: 'outro-site.exemplo' }) });
+    const resposta = await chamar(VALIDO);
+    expect(resposta.status).toBe(403);
+    expect(await resposta.json()).toEqual({ erro: 'verificacao' });
+    expect(chamadas.resend).toHaveLength(0);
+  });
+
+  it('Turnstile sem hostname na resposta é recusado', async () => {
+    servicos({ turnstile: HttpResponse.json({ success: true }) });
+    expect((await chamar(VALIDO)).status).toBe(403);
+  });
+
+  it('aceita o hostname do Pages do projeto, inclusive o de uma prévia', async () => {
+    for (const hostname of ['somma-landing-page.pages.dev', 'abc123.somma-landing-page.pages.dev']) {
+      servicos({ turnstile: HttpResponse.json({ success: true, hostname }) });
+      expect((await chamar(VALIDO)).status, hostname).toBe(200);
+    }
+  });
+
+  it('o sexto envio do mesmo IP na janela leva 429 com Retry-After; outro IP segue', async () => {
+    const chamadas = servicos();
+    for (let i = 0; i < 5; i += 1) expect((await chamar(VALIDO)).status).toBe(200);
+    const barrado = await chamar(VALIDO);
+    expect(barrado.status).toBe(429);
+    expect(await barrado.json()).toEqual({ erro: 'muitas-tentativas' });
+    expect(Number(barrado.headers.get('Retry-After'))).toBeGreaterThan(0);
+    expect(chamadas.resend).toHaveLength(5);
+    expect((await chamar(VALIDO, ENV, { 'CF-Connecting-IP': '198.51.100.9' })).status).toBe(200);
+  });
+
+  it('o limite conta mesmo o pedido inválido, para não servir de sonda', async () => {
+    servicos();
+    for (let i = 0; i < 5; i += 1) expect((await chamar({ ...VALIDO, nome: '' })).status).toBe(422);
+    expect((await chamar(VALIDO)).status).toBe(429);
+  });
+
+  it('configuração incompleta responde 503 sem gastar o limite', async () => {
+    servicos();
+    for (let i = 0; i < 6; i += 1) expect((await chamar(VALIDO, { ...ENV, RESEND_API_KEY: undefined })).status).toBe(503);
+    expect((await chamar(VALIDO)).status).toBe(200);
+  });
+
+  it('com o D1 ligado, o contador é o do banco (vale entre isolates) e guarda só o resumo do IP', async () => {
+    servicos();
+    const banco = bancoFalso();
+    const env = { ...ENV, CONTATO_LIMITE: banco };
+    for (let i = 0; i < 5; i += 1) expect((await chamar(VALIDO, env)).status).toBe(200);
+    // Outro isolate (outra função, memória vazia) enxerga as mesmas 5 tentativas.
+    const outroIsolate = criarFuncaoDeContato(CONFIG, PROTECAO);
+    const barrado = await outroIsolate.onRequestPost({ request: pedido(VALIDO), env });
+    expect(barrado.status).toBe(429);
+    expect(Number(barrado.headers.get('Retry-After'))).toBeLessThanOrEqual(600);
+    expect(banco.chaves.size).toBe(1);
+    expect([...banco.chaves][0]).toMatch(/^[0-9a-f]{32}$/);
+    expect(JSON.stringify(banco.sqls)).not.toContain('203.0.113.7');
+    // A tabela é criada uma vez por isolate (aqui, dois), não a cada pedido.
+    expect(banco.criacoes).toBe(2);
+  });
+
+  it('se o D1 falhar, o limite cai para a memória do isolate e o erro vai para o log sem dado pessoal', async () => {
+    servicos();
+    const env = { ...ENV, CONTATO_LIMITE: bancoFalso({ falha: true }) };
+    for (let i = 0; i < 5; i += 1) expect((await chamar(VALIDO, env)).status).toBe(200);
+    expect((await chamar(VALIDO, env)).status).toBe(429);
+    expect(log.mock.calls.flat().join('\n')).toContain('limite-sem-banco');
+  });
+
+  it('o D1 que responde sem contador também cai para a memória', async () => {
+    servicos();
+    const env = { ...ENV, CONTATO_LIMITE: bancoFalso({ semLinha: true }) };
+    expect((await chamar(VALIDO, env)).status).toBe(200);
+  });
+
+  it('o limite configurado no site vale no lugar do padrão', async () => {
+    servicos();
+    const { onRequestPost: curto } = criarFuncaoDeContato(CONFIG, { ...PROTECAO, limite: { maximo: 1, janelaMs: 60_000 } });
+    expect((await curto({ request: pedido(VALIDO), env: ENV })).status).toBe(200);
+    expect((await curto({ request: pedido(VALIDO), env: ENV })).status).toBe(429);
+  });
+});
+
+/** D1 de mentira: guarda os contadores na memória e conta o que foi executado. */
+function bancoFalso({ falha = false, semLinha = false }: { falha?: boolean; semLinha?: boolean } = {}) {
+  const contadores = new Map<string, number>();
+  const estado = { chaves: new Set<string>(), sqls: [] as string[], criacoes: 0 };
+  const banco: BancoD1 & typeof estado = Object.assign(estado, {
+    prepare(sql: string) {
+      estado.sqls.push(sql);
+      const executar = async () => {
+        if (falha) throw new Error('D1 fora do ar');
+        if (sql.startsWith('CREATE TABLE')) estado.criacoes += 1;
+      };
+      return {
+        run: executar,
+        bind(...valores: unknown[]) {
+          return {
+            run: executar,
+            async first<T>() {
+              await executar();
+              if (semLinha) return null;
+              const [chave, janela] = valores as [string, number];
+              estado.chaves.add(chave);
+              const total = (contadores.get(`${chave}:${janela}`) ?? 0) + 1;
+              contadores.set(`${chave}:${janela}`, total);
+              return { total } as T;
+            },
+          };
+        },
+      };
+    },
+  });
+  return banco;
+}

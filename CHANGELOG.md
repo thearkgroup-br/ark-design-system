@@ -2,6 +2,18 @@
 
 Mudanças de cada versão do `ark-design-system`. Os apps instalam pela tag (`#vX.Y.Z`), criada na `main` depois do merge.
 
+## 0.8.0
+
+### Adicionado
+- **Limite por IP na Function de contato** (IRIS-285): 5 envios a cada 10 minutos por IP, o sexto leva 429 com `Retry-After`. Com o binding opcional `CONTATO_LIMITE` (D1, plano grátis) o contador vale para todos os isolates; sem ele, ou se ele falhar, vale a memória do isolate. O D1 guarda só o resumo do IP.
+- **Conferência do hostname do Turnstile**: o token resolvido em outro site passa a ser recusado (403).
+- **Campo armadilha tratado na Function**: corpo com `confirmar_site` (ou `website`) preenchido recebe 200 e nada é enviado. O input do formulário usa o nome `CAMPO_ARMADILHA` (`confirmar_site`) e ganhou `data-1p-ignore` e `data-lpignore` para gerenciadores de senha não o preencherem.
+- Exports `CAMPO_ARMADILHA`, `hostnameValido` e os tipos `ProtecaoContato` e `BancoD1` (nos dois pontos de entrada).
+
+### Quebra de API
+- `criarFuncaoDeContato(config)` agora é `criarFuncaoDeContato(config, protecao)`; `protecao` leva `dominios` e `projetosPages` (e, se quiser, `limite`). É obrigatório de propósito: sem a lista de hostnames não há como conferir o Turnstile. Quem tinha a guarda própria em `functions/_lib/protecao-contato.ts` pode apagá-la.
+- Na 0.x a quebra sobe o número do meio.
+
 ## 0.7.0
 
 ### Adicionado
