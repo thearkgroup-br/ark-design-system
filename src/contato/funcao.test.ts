@@ -453,3 +453,10 @@ function bancoFalso({ falha = false, semLinha = false }: { falha?: boolean; semL
   });
   return banco;
 }
+
+describe('entrada ark-design-system/contato', () => {
+  it('exporta as peças das proteções para a Function própria de um site', async () => {
+    const entrada = await import('../contato');
+    expect(Object.keys(entrada).sort()).toEqual(['CAMPO_ARMADILHA', 'LIMITE_PADRAO', 'criarFuncaoDeContato', 'criarLimitador', 'hostnameValido', 'preencheuAArmadilha']);
+  });
+});
