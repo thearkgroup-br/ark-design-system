@@ -2,10 +2,13 @@
 
 Cabeçalho fixo do site: logo, links, botão de modo claro/escuro e o botão principal.
 
+- **Celular (abaixo de 860 px):** logo à esquerda; à direita, o botão de tema (só ícone, 44 px, `aria-label` "Ativar modo escuro" ou "Ativar modo claro") e depois o botão do menu. O menu aberto não tem botão de tema.
+- **Computador:** o `ThemeToggle` com texto continua entre os links e o botão principal.
+
 - Fica preso no topo ao rolar (`sticky`), com fundo `surface` e linha embaixo.
 - Até 5 links de 1 a 3 palavras, que levam a seções da página.
 - Um botão principal no máximo ("Fale com a gente"). A Íris pode não ter.
-- Abaixo de 860 px os links vão para o menu (botão "Abrir menu"); abaixo de 420 px o botão principal sai do topo e fica no menu e na página.
+- Abaixo de 860 px os links vão para o menu (botão "Abrir menu"); abaixo de 560 px o botão principal sai do topo e fica no menu e na página.
 
 ## API
 
@@ -20,7 +23,7 @@ Cabeçalho fixo do site: logo, links, botão de modo claro/escuro e o botão pri
 | `sticky` | `boolean` | `true` |
 | `data-testid` | `string` | |
 
-O menu fecha no X, na tecla Esc e ao escolher um link (nos dois casos o foco volta ao botão do menu). Abaixo de 420 px o botão principal sai do topo e aparece no menu. O link do logo se chama "{marca}: início".
+O menu fecha no X, na tecla Esc e ao escolher um link (nos dois casos o foco volta ao botão do menu). Abaixo de 560 px o botão principal sai do topo e aparece no menu. O link do logo se chama "{marca}: início".
 
 ## data-testid
 
@@ -32,8 +35,9 @@ O cabeçalho é região (skill `padrao-data-testid` 0.3.2): o id recebido fica i
 | Link do logo | `ark-landing-header-logo-link` |
 | Link com `id: 'plans'` | `ark-landing-header-plans-link` (no menu: `ark-landing-header-menu-plans-link`) |
 | Link sem `id` | `ark-landing-header-nav-link` (no menu: `ark-landing-header-menu-nav-link`) |
-| Botão principal | `ark-landing-header-cta-link` (faixa do celular: `ark-landing-header-mobile-cta-link`; no menu, abaixo de 420 px: `ark-landing-header-menu-cta-link`) |
-| Tema | `ark-landing-header-theme-button` (no menu: `ark-landing-header-menu-theme-button`) |
+| Botão principal | `ark-landing-header-cta-link` (faixa do celular: `ark-landing-header-mobile-cta-link`; no menu, abaixo de 560 px: `ark-landing-header-menu-cta-link`) |
+| Tema (computador) | `ark-landing-header-theme-button` |
+| Tema (celular, ao lado do menu) | `ark-landing-header-mobile-theme-button` (o `menu-theme-button` deixou de existir) |
 | Abrir/fechar menu | `ark-landing-header-menu-button` |
 | Menu aberto | `ark-landing-header-menu` |
 

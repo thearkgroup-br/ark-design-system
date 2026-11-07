@@ -1,6 +1,6 @@
 # SideNav
 
-Menu lateral do painel no computador (Íris, sistemas do Arca Dev).
+Menu lateral do painel no computador (Íris, sistemas do Mastro).
 
 - Mesmos destinos da TabBar do celular, mais os que só fazem sentido no computador.
 - Item atual com fundo `brand-soft`, peso e `aria-current`.

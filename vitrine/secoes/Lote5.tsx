@@ -29,7 +29,7 @@ export function CardsELista() {
         <div className="vt-grade">
           <Card icon="calendar" title="Íris" text="Agenda online para pequenos negócios." href="#card" data-testid="ark-showcase-card-iris-card" />
           <Card number="01" title="Comece grátis" text="30 dias para testar, sem cartão." badge="Novo" tone="sunken" />
-          <Card icon="code" title="Arca Dev" text="Sites, apps e sistemas sob medida." tone="brand" footer="Fale com a gente" />
+          <Card icon="code" title="Mastro" text="Sob medida, sem surpresa." tone="brand" footer="Fale com a gente" />
           <Card title="Pequeno" text="size sm, outline." size="sm" tone="outline" />
         </div>
       </Exemplo>
@@ -37,6 +37,14 @@ export function CardsELista() {
         <div className="vt-moldura">
           <ListItem title="Corte masculino" subtitle="Qua, 21 out · 10:00 · com Rafa" avatar="Maria Souza" trailing={<Badge status="ativo" />} href="#card" data-testid="ark-showcase-listitem-appointment-item" />
           <ListItem title="Lembretes" subtitle="1 dia antes" icon="clock" trailing={<Switch id="vt-li-switch" label="Lembretes" />} />
+          <ListItem
+            title="Seg, 12 out · 09:30"
+            subtitle="Barbearia Exemplo · Corte e barba com Diego · R$ 70,00"
+            avatar="Barbearia Exemplo"
+            trailing={<Badge status="falta" />}
+            href="#card"
+            data-testid="ark-showcase-listitem-missed-item"
+          />
           <ListItem title="Sair" icon="logout" onClick={() => {}} />
         </div>
       </Exemplo>

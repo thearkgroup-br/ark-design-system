@@ -11,7 +11,7 @@
 
 | Prop | Tipo | Observação |
 | --- | --- | --- |
-| `name` | nome da lista (`ICON_NAMES`, 35 ícones) | obrigatório |
+| `name` | nome da lista (`ICON_NAMES`, 36 ícones) | obrigatório |
 | `size` | `number` | padrão 20 |
 | `filled` | `boolean` | preenche `heart` e `star` |
 | `color` | `string` | só token: `var(--star)`. Sem ela, herda a cor do texto |

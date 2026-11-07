@@ -1,10 +1,12 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { render, screen } from '@testing-library/react';
 import { Footer } from './Footer';
 import { SiteHeader } from '../SiteHeader/SiteHeader';
 
 const ID = 'ark-landing-footer';
 const COLUNAS = [
-  { title: 'Empresas', items: [{ label: 'Íris', href: '/iris' }, { label: 'Arca Dev', href: '/arca', id: 'arca' }] },
+  { title: 'Empresas', items: [{ label: 'Íris', href: '/iris' }, { label: 'Mastro', href: '/arca', id: 'arca' }] },
   { title: 'Contato', items: ['Seg a sex, 9h às 18h', '(11) 91234-5678'] },
 ];
 const BAIXO = [{ label: 'Política de privacidade', href: '/privacidade' }, { label: 'Termos de uso', href: '/termos', id: 'terms' }];
@@ -49,5 +51,21 @@ describe('Footer', () => {
     render(<Footer data-testid={ID} />);
     expect(screen.getByTestId(ID)).toBeInTheDocument();
     expect(screen.queryAllByRole('link')).toHaveLength(0);
+  });
+
+  describe('ARK-19 e-mail em tela estreita', () => {
+    const css = readFileSync(resolve(__dirname, 'Footer.css'), 'utf8');
+
+    it('a coluna com e-mail ocupa a linha toda e não quebra o endereço no meio da palavra', () => {
+      const regra = css.match(/@container \(max-width: 720px\)\s*\{\s*\.ak-footer-col:has\(a\[href\^="mailto:"\]\)\s*\{([^}]*)\}/);
+      expect(regra, 'regra da coluna com mailto: no container estreito').not.toBeNull();
+      expect(regra![1]).toMatch(/grid-column:\s*1\s*\/\s*-1/);
+      expect(regra![1]).toMatch(/overflow-wrap:\s*normal/);
+    });
+
+    it('o link de e-mail sai como link mailto: dentro da coluna', () => {
+      render(<Footer columns={[{ title: 'Contato', items: [{ label: 'contato@thearkgroup.com.br', href: 'mailto:contato@thearkgroup.com.br' }] }]} data-testid={ID} />);
+      expect(screen.getByRole('link', { name: 'contato@thearkgroup.com.br' }).closest('.ak-footer-col')).not.toBeNull();
+    });
   });
 });

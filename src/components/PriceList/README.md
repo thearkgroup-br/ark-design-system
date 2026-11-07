@@ -1,6 +1,6 @@
 # PriceList
 
-Lista de serviços com descrição e preço (Arca Dev).
+Lista de serviços com descrição e preço (Mastro).
 
 - "a partir de R$ …" quando o preço depende do escopo; "sob orçamento" quando não dá para estimar.
 - Descrição em uma frase do que a pessoa recebe.

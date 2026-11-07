@@ -1,0 +1,8 @@
+.ak-contact { display: flex; flex-direction: column; gap: var(--space-4); font-family: var(--font-sans); }
+.ak-contact-title { margin: 0; font: var(--text-title); letter-spacing: var(--tracking-title); color: var(--ink); }
+.ak-contact a { color: var(--brand-ink, var(--brand)); }
+.ak-contact-notice:focus { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: var(--radius-md); }
+.ak-contact-verification:empty { display: none; }
+/* Anti-spam: fora da tela (não display:none, que alguns robôs ignoram) */
+.ak-contact-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.ak-contact-box { padding: var(--space-6); border: 1px solid var(--line); border-radius: var(--radius-xl); background: var(--bg); min-width: 0; }

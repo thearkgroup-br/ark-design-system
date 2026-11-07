@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Switch } from '../Switch/Switch';
@@ -46,5 +48,30 @@ describe('ListItem', () => {
     render(<ListItem title="Lembretes" subtitle="1 dia antes" trailing={<Switch id="l" label="Lembretes" />} />);
     expect(screen.getByText('1 dia antes')).toHaveClass('ak-li-sub');
     expect(screen.getByRole('switch')).toBeInTheDocument();
+  });
+
+  describe('IRIS-128 selo em tela estreita', () => {
+    const css = readFileSync(resolve(__dirname, 'ListItem.css'), 'utf8');
+
+    it('o texto e o trailing ficam juntos num grupo, com o texto antes', () => {
+      const { container } = render(<ListItem title="Qua, 21 out · 10:00" subtitle="Corte" avatar="Maria" trailing={<span>Não compareceu</span>} onClick={() => {}} />);
+      const grupo = container.querySelector('.ak-li-main')!;
+      expect([...grupo.children].map((filho) => filho.className)).toEqual(['ak-li-text', 'ak-li-trailing']);
+      // A seta fica fora do grupo: continua na primeira linha, à direita.
+      expect(container.querySelector('.ak-li > .ak-chev')).not.toBeNull();
+    });
+
+    it('sem trailing, não sobra caixa vazia do trailing', () => {
+      const { container } = render(<ListItem title="Corte" />);
+      expect(container.querySelector('.ak-li-trailing')).toBeNull();
+    });
+
+    it('quando falta espaço para o texto, o trailing desce para baixo dele (flex-wrap no grupo)', () => {
+      expect(css).toMatch(/\.ak-li-main \{[^}]*flex-wrap: wrap;/);
+      expect(css).toMatch(/\.ak-li-main \{[^}]*min-width: 0/);
+      // Abaixo dessa largura, o texto não divide a linha com o selo.
+      expect(css).toMatch(/\.ak-li-main > \.ak-li-text \{[^}]*flex: 1 1 8rem/);
+      expect(css).toMatch(/\.ak-li-trailing \{[^}]*flex: none/);
+    });
   });
 });

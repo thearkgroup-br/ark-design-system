@@ -42,10 +42,16 @@ describe('Rating (exibição)', () => {
 describe('Rating (entrada)', () => {
   const ID = 'iris-review-score-group';
 
-  it('é um grupo de radios com nome e o data-testid; cada estrela ganha {base}-star', () => {
+  it('é um grupo de radios com nome e o data-testid; cada estrela ganha {base}-star-button', () => {
     render(<Rating editable data-testid={ID} />);
     expect(screen.getByRole('radiogroup', { name: 'Sua nota' })).toBe(screen.getByTestId(ID));
-    expect(screen.getAllByTestId('iris-review-score-group-star')).toHaveLength(5);
+    expect(screen.getAllByTestId('iris-review-score-group-star-button')).toHaveLength(5);
+  });
+
+  it('com um id sem sufixo de tipo, a estrela é {base}-star-button', () => {
+    render(<Rating editable data-testid="iris-review-rating" />);
+    expect(screen.getByTestId('iris-review-rating')).toHaveAttribute('role', 'radiogroup');
+    expect(screen.getAllByTestId('iris-review-rating-star-button')).toHaveLength(5);
   });
 
   it('cada estrela tem 44 px e nome falado ("4 estrelas, Bom")', () => {

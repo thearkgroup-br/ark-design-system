@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { cx, testIdParte, useControllable, useIdDoDom, type TestIdProps } from '../../utils';
 import { Button } from '../Button/Button';
 import { IconButton } from '../IconButton/IconButton';
@@ -15,6 +15,8 @@ export interface SiteLink {
 export interface SiteHeaderProps extends TestIdProps {
   brand?: Marca;
   brandName?: string;
+  /** Logo da marca desenhado fora do design system (marca que o Logo ainda não conhece). */
+  logo?: ReactNode;
   homeHref?: string;
   /** Até 5 links de 1 a 3 palavras. */
   links?: SiteLink[];
@@ -30,15 +32,17 @@ export interface SiteHeaderProps extends TestIdProps {
   sticky?: boolean;
 }
 
-const NOME_DA_MARCA: Record<Marca, string> = { ark: 'The Ark Group', iris: 'Íris', pulse: 'Pulse' };
+const NOME_DA_MARCA: Record<Marca, string> = { ark: 'The Ark Group', iris: 'Íris', pulse: 'Pulse', zenno: 'Zenno', somma: 'Somma', mastro: 'Mastro' };
 
 /**
  * Cabeçalho fixo do site. O data-testid vai no header. Abaixo de 860 px (largura do próprio cabeçalho)
- * os links vão para o menu; abaixo de 420 px o botão principal sai do topo.
+ * os links vão para o menu e o botão de tema vira um ícone ao lado do botão do menu (o menu aberto não tem tema);
+ * abaixo de 560 px o botão principal sai do topo.
  */
 export function SiteHeader({
   brand = 'ark',
   brandName,
+  logo,
   homeHref = '#',
   links = [],
   cta,
@@ -77,8 +81,9 @@ export function SiteHeader({
     botaoMenu.current?.focus();
   };
   const idLink = (prefixo: string, l: SiteLink) => testIdParte(testId, l.id ? `${prefixo}${l.id}-link` : `${prefixo}nav-link`);
-  const tema = (parte: string) =>
-    themeToggle ? <ThemeToggle dark={escuro} onChange={definirEscuro} data-testid={testIdParte(testId, parte)} /> : null;
+  const tema = themeToggle ? (
+    <ThemeToggle dark={escuro} onChange={definirEscuro} data-testid={testIdParte(testId, 'theme-button')} />
+  ) : null;
   const botao = (parte: string) =>
     cta ? (
       <Button href={cta.href || '#'} pill={pill} data-testid={testIdParte(testId, parte)}>
@@ -90,7 +95,7 @@ export function SiteHeader({
     <header ref={cabecalho} className={cx('ak-siteheader', sticky && 'ak-sticky')} data-testid={testId}>
       <div className="ak-siteheader-in">
         <a href={homeHref} className="ak-siteheader-logo" aria-label={`${brandName ?? NOME_DA_MARCA[brand]}: início`} data-testid={testIdParte(testId, 'logo-link')}>
-          <Logo brand={brand} size={brand === 'iris' ? 30 : 34} name={brandName} />
+          {logo ?? <Logo brand={brand} size={brand === 'iris' ? 30 : 34} name={brandName} />}
         </a>
         <nav className="ak-siteheader-nav" aria-label="Menu">
           {links.map((l, i) => (
@@ -98,11 +103,19 @@ export function SiteHeader({
               {l.label}
             </a>
           ))}
-          {tema('theme-button')}
+          {tema}
           {botao('cta-link')}
         </nav>
         <div className="ak-siteheader-mobile">
           {botao('mobile-cta-link')}
+          {themeToggle && (
+            <IconButton
+              icon={escuro ? 'sun' : 'moon'}
+              label={escuro ? 'Ativar modo claro' : 'Ativar modo escuro'}
+              onClick={() => definirEscuro(!escuro)}
+              data-testid={testIdParte(testId, 'mobile-theme-button')}
+            />
+          )}
           <IconButton
             ref={botaoMenu}
             icon={aberto ? 'close' : 'menu'}
@@ -121,8 +134,7 @@ export function SiteHeader({
               {l.label}
             </a>
           ))}
-          {tema('menu-theme-button')}
-          {/* Abaixo de 420 px o botão principal sai do topo e fica aqui (CSS). */}
+          {/* Abaixo de 560 px o botão principal sai do topo e fica aqui (CSS). */}
           {botao('menu-cta-link')}
         </nav>
       )}

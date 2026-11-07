@@ -9,9 +9,12 @@ export default defineConfig({
   publicDir: resolve(import.meta.dirname, 'src/publico'),
   build: {
     lib: {
-      entry: resolve(import.meta.dirname, 'src/index.ts'),
+      entry: {
+        index: resolve(import.meta.dirname, 'src/index.ts'),
+        contato: resolve(import.meta.dirname, 'src/contato.ts'),
+      },
       formats: ['es'],
-      fileName: 'index',
+      fileName: (_formato, nome) => `${nome}.js`,
       cssFileName: 'estilos',
     },
     cssCodeSplit: false,

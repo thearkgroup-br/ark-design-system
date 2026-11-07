@@ -23,9 +23,9 @@ describe('tokens', () => {
     expect(semFimDeLinhaWindows(readFileSync(CAMINHO_CSS, 'utf8'))).toBe(gerarCss(tokens));
   });
 
-  it('gera um bloco para cada um dos 6 temas, com ark como padrão', () => {
+  it('gera um bloco para cada um dos 12 temas, com ark como padrão', () => {
     const css = readFileSync(CAMINHO_CSS, 'utf8');
-    for (const tema of ['ark', 'ark-escuro', 'iris', 'iris-escuro', 'pulse', 'pulse-escuro']) {
+    for (const tema of ['ark', 'ark-escuro', 'iris', 'iris-escuro', 'pulse', 'pulse-escuro', 'zenno', 'zenno-escuro', 'somma', 'somma-escuro', 'mastro', 'mastro-escuro']) {
       expect(css).toContain(`[data-theme="${tema}"]`);
     }
     expect(css).toMatch(/:root,\s*\[data-theme="ark"\]/);

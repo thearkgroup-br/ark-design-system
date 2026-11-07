@@ -1,0 +1,15 @@
+/* Faixa da página: mesmo respiro, container e alternância de fundo em todos os sites. */
+.ak-section { font-family: var(--font-sans); color: var(--ink); }
+.ak-section-bg { background: var(--bg); }
+.ak-section-surface { background: var(--surface); border-block: 1px solid var(--line); }
+.ak-section-in { max-width: var(--size-container); margin: 0 auto; padding: var(--space-16) max(var(--space-4), env(safe-area-inset-right, 0px)) var(--space-16) max(var(--space-4), env(safe-area-inset-left, 0px)); min-width: 0; }
+.ak-section-in > * { min-width: 0; }
+.ak-section-stack { display: flex; flex-direction: column; gap: var(--space-8); }
+.ak-section-split { display: grid; gap: var(--space-12); align-items: center; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
+.ak-section-grid { display: grid; gap: var(--space-4); align-items: stretch; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
+.ak-section-dense { padding-block: var(--space-8); }
+@media (min-width: 860px) {
+  .ak-section-in { padding-block: var(--space-22); }
+  .ak-section-dense { padding-block: var(--space-12); }
+  .ak-section-split { gap: var(--space-12) var(--space-22); }
+}
