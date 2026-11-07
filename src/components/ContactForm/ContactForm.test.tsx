@@ -1,3 +1,4 @@
+import { CAMPO_ARMADILHA } from '../../contato/protecao';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
@@ -105,6 +106,16 @@ describe('ContactForm', () => {
     const { usuario } = montar();
     await usuario.type(screen.getByTestId(id('whatsapp-input')), '11912345678');
     expect(screen.getByTestId(id('whatsapp-input'))).toHaveValue('(11) 91234-5678');
+  });
+
+  it('o campo armadilha não é visto, lido nem alcançado pelo Tab, e leva o nome que a Function recusa', () => {
+    montar();
+    const campo = screen.getByTestId(id('website-input'));
+    expect(campo).toHaveAttribute('name', CAMPO_ARMADILHA);
+    expect(campo).toHaveAttribute('tabindex', '-1');
+    expect(campo).toHaveAttribute('autocomplete', 'off');
+    expect(campo.closest('[aria-hidden="true"]')).not.toBeNull();
+    expect(campo.closest('.ak-contact-trap')).not.toBeNull();
   });
 
   it('campo escondido preenchido é robô: finge sucesso e não envia', async () => {

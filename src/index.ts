@@ -103,6 +103,8 @@ export type { ContactFormProps, ContactFormTexts } from './components/ContactFor
 export { criarFuncaoDeContato } from './contato/funcao';
 export { enviarContato, ErroDeValidacao, ENDERECO_DO_ENVIO } from './contato/enviar';
 export type { EnviarContato } from './contato/enviar';
+export { CAMPO_ARMADILHA, hostnameValido } from './contato/protecao';
+export type { BancoD1, ProtecaoContato } from './contato/protecao';
 export type { ConfigContato, DadosDoContato, Escolha, OpcaoDeEscolha } from './contato/validacao';
 
 export { ICON_NAMES } from './icons/icons';

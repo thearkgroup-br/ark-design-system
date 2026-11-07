@@ -118,3 +118,9 @@ Decisões tomadas sem aprovação durante a noite de 25/10/2026. Em caso de dúv
     - O `Switch` em `trailing` sempre mostra o rótulo (~140 px), então também desce a 360 px. Antes, apertava o título para ~60 px.
     - Conferido na vitrine (seção Card, ListItem e Avatar, com um exemplo novo "Não compareceu"): a 328 px de lista, o selo desce e a data fica em uma linha; a 600 px, fica ao lado.
 
+## Proteções do contato (versão 0.8.0)
+
+63. **O limite por IP do contato usa D1, com a memória do isolate como reserva (IRIS-285).** As opções do plano grátis eram KV e D1. O KV é eventualmente consistente (dois pontos de presença leem o mesmo contador velho e deixam passar) e o grátis grava só 1.000 vezes por dia, o que um robô esgota sozinho e derruba o formulário para todo mundo. O D1 é consistente, grava 100 mil vezes por dia e aceita um upsert com `RETURNING` (uma ida ao banco por envio). O binding `CONTATO_LIMITE` é opcional: sem ele, ou se o D1 falhar, o limite não some, cai para a memória do isolate (que segura rajada, mas cada isolate conta sozinho) e a falha vai para o log. Janela fixa no D1 (permite até 2x o máximo na virada da janela, aceitável para 5 por 10 minutos); janela deslizante na memória.
+    - O D1 guarda um resumo do IP (SHA-256 com o segredo do Turnstile como sal), nunca o endereço. A tabela se cria sozinha no primeiro envio de cada isolate.
+    - **`protecao` é obrigatório** em `criarFuncaoDeContato`: a conferência do hostname precisa da lista de domínios do site, e esquecer de passá-la deixaria a checagem desligada sem ninguém notar.
+    - O campo armadilha já existia na tela e só fingia sucesso. Agora a Function também recusa (com falso 200) o corpo que o traga preenchido, para quem posta direto aproveitando o nome do campo no HTML.

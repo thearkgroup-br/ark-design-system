@@ -1,5 +1,6 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { enviarContato, type EnviarContato } from '../../contato/enviar';
+import { CAMPO_ARMADILHA } from '../../contato/protecao';
 import { formatarWhatsapp } from '../../contato/mascara';
 import { ID_DO_CAMPO, useContato } from '../../contato/useContato';
 import { EMAIL_MAXIMO, EMPRESA_MAXIMO, MENSAGEM_MAXIMO, NOME_MAXIMO, type ConfigContato } from '../../contato/validacao';
@@ -161,10 +162,12 @@ export function ContactForm({ config, texts, enviar = enviarContato, turnstileSi
         <label htmlFor="contato-site">Seu site</label>
         <input
           id="contato-site"
-          name="confirmar_site"
+          name={CAMPO_ARMADILHA}
           type="text"
           tabIndex={-1}
           autoComplete="off"
+          data-1p-ignore
+          data-lpignore="true"
           value={armadilha}
           onChange={(e) => setArmadilha(e.target.value)}
           data-testid={id('website-input')}
