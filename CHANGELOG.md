@@ -2,6 +2,16 @@
 
 Mudanças de cada versão do `ark-design-system`. Os apps instalam pela tag (`#vX.Y.Z`), criada na `main` depois do merge.
 
+## 0.9.0
+
+Base do zenno-app (GES-57).
+
+### Mantido
+- Os temas `zenno` e `zenno-escuro` são os da marca, que já estão no pacote desde a 0.3.0. A versão provisória da branch `feature/GES-10-tema-zenno` foi integrada ao histórico sem trocar nenhuma cor.
+
+### Adicionado
+- Teste de contraste dos dois temas do Zenno: 4,5:1 nos pares de texto e 3:1 na borda de campo e no foco.
+
 ## 0.8.0
 
 ### Adicionado
