@@ -31,6 +31,33 @@ describe('tokens', () => {
     expect(css).toMatch(/:root,\s*\[data-theme="ark"\]/);
   });
 
+  it.each(['zenno', 'zenno-escuro'])('o tema %s tem contraste de texto de 4.5:1 nos pares de uso', (tema) => {
+    const tokens = JSON.parse(readFileSync(CAMINHO_JSON, 'utf8'));
+    const cor = (nome: string): string => tokens.color.tokens.find((t: { name: string }) => t.name === nome).value[tema];
+    const luz = (hex: string): number => {
+      const [r, g, b] = [1, 3, 5].map((i) => {
+        const c = parseInt(hex.slice(i, i + 2), 16) / 255;
+        return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+      });
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    };
+    const contraste = (a: string, b: string): number => {
+      const [claro, escuro] = [luz(a), luz(b)].sort((x, y) => y - x);
+      return (claro + 0.05) / (escuro + 0.05);
+    };
+    const pares: [string, string][] = [
+      ['ink', 'bg'], ['ink', 'surface'], ['ink-muted', 'bg'], ['ink-muted', 'surface'], ['ink-muted', 'surface-sunken'],
+      ['on-brand', 'brand'], ['brand-ink', 'brand-soft'], ['brand', 'surface'], ['brand', 'bg'],
+      ['success-ink', 'success-soft'], ['warning-ink', 'warning-soft'], ['danger-ink', 'danger-soft'], ['info-ink', 'info-soft'],
+    ];
+    for (const [texto, fundo] of pares) {
+      expect(contraste(cor(texto), cor(fundo)), `${texto} sobre ${fundo}`).toBeGreaterThanOrEqual(4.5);
+    }
+    // Borda de campo e foco: 3:1 (WCAG 1.4.11).
+    expect(contraste(cor('line-control'), cor('surface'))).toBeGreaterThanOrEqual(3);
+    expect(contraste(cor('focus'), cor('bg'))).toBeGreaterThanOrEqual(3);
+  });
+
   it('falha quando um token não tem valor para todos os temas', () => {
     const tokens = JSON.parse(readFileSync(CAMINHO_JSON, 'utf8'));
     delete tokens.color.tokens[0].value['pulse-escuro'];
